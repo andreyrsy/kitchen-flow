@@ -12,7 +12,7 @@ Kitchen Flow é uma API REST simples para gerenciar itens de uma cozinha ou desp
 
 2.  **Clone o repositório:**
     ```bash
-    git clone <(https://github.com/andreyrsy/kitchen-flow.git)>
+    git clone https://github.com/andreyrsy/kitchen-flow.git
     cd <NOME_DO_SEU_PROJETO>
     ```
 
