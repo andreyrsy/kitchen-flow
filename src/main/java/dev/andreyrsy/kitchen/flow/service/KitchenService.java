@@ -4,7 +4,6 @@ import dev.andreyrsy.kitchen.flow.dto.KitchenResponseDTO;
 import dev.andreyrsy.kitchen.flow.model.KitchenModel;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.KitchenRepository;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,22 +24,18 @@ public class KitchenService {
         long diasRestantes = ChronoUnit.DAYS.between(dataAtual, dataValidade);
 
         if (diasRestantes < 0) {
-            System.out.println(StatusValidade.VENCIDO);
             return StatusValidade.VENCIDO;
         } else if (diasRestantes <= 1) {
-            System.out.println(StatusValidade.URGENTE);
             return StatusValidade.URGENTE;
         } else if (diasRestantes <= 3) {
-            System.out.println(StatusValidade.ATENCAO);
             return StatusValidade.ATENCAO;
         } else {
-            System.out.println(StatusValidade.NORMAL);
             return StatusValidade.NORMAL;
         }
     }
 
     public KitchenModel adicionarAlimento(KitchenModel kitchenModel) {
-        return kitchenRepository.saveAndFlush(kitchenModel);
+        return kitchenRepository.save(kitchenModel);
     }
 
     public List<KitchenResponseDTO> listarAlimentos() {
@@ -70,7 +65,7 @@ public class KitchenService {
         } else {
             throw new Exception("Quantidade insuficiente no estoque.");
         }
-        kitchenRepository.saveAndFlush(idUsuario);
+        kitchenRepository.save(idUsuario);
     }
 
     public void deletarAlimento(Long id) {
