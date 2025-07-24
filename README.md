@@ -66,7 +66,7 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
 
 2.  **Configure o Banco de Dados:**
     * Crie um banco de dados no PostgreSQL (ex: `kitchen_db`).
-    * No arquivo `src/main/resources/application.properties`, atualize as credenciais do seu banco de dados:
+    * No arquivo `src/main/resources/application.properties`
         ```properties
         spring.datasource.url=jdbc:postgresql://localhost:5432/kitchen_db
         spring.datasource.username=seu_usuario
