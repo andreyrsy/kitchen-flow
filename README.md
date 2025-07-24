@@ -10,6 +10,7 @@
 O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento de estoque de restaurantes. O principal objetivo é combater o desperdício de comida com um monitoramento proativo de datas de validade, permitindo que o estabelecimento saiba exatamente o que precisa ser consumido com urgência.
 
 Este projeto demonstra a aplicação de desenvolvimento backend com o SpringBoot, criação de uma API REST, lógica de negócio, persistência de dados e boas práticas.
+
 ---
 
 ## ✨ Principais Funcionalidades
