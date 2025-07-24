@@ -60,7 +60,7 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/andreyrsy/kitchen-flow.git](https://github.com/andreyrsy/kitchen-flow.git) # Substitua se for outro repo
+    git clone https://github.com/andreyrsy/kitchen-flow.git
     cd kitchen-flow
     ```
 
@@ -115,3 +115,47 @@ A API estará disponível em `http://localhost:8080/api`.
   "quantidade": 4,
   "data_validade": "30-07-2025"
 }
+
+Success Response (201 CREATED):
+{
+    "id": 1,
+    "alimento": "Iogurte Natural",
+    "quantidade": 4,
+    "data_validade": "30-07-2025"
+}
+
+2. Listar Alimentos
+GET /api
+
+Success Response (200 OK):
+[
+  {
+    "id": 1,
+    "alimento": "Iogurte Natural",
+    "quantidade": 4,
+    "dataValidade": "2025-07-30",
+    "status": "ATENCAO" 
+  }
+]
+(O status ATENCAO foi calculado com base na data de hoje, 23/07/2025).
+
+
+🔮 Próximos Passos e Melhorias
+Este projeto tem potencial para evoluir. Algumas ideias para o futuro incluem:
+
+[ ] Segurança: Implementar Spring Security com autenticação JWT para permitir múltiplos usuários com inventários separados.
+
+[ ] Containerização: Criar Dockerfile e docker-compose.yml para facilitar o deploy da aplicação e do banco de dados.
+
+[ ] CI/CD: Configurar um pipeline de Integração e Entrega Contínua com GitHub Actions para automatizar testes e builds.
+
+[ ] Tratamento de Erros: Implementar um Global Exception Handler (@ControllerAdvice) para padronizar as respostas de erro da API.
+
+[ ] Notificações: Criar um serviço que envie notificações (por e-mail ou outro meio) quando um produto estiver próximo de vencer.
+
+[ ] Testes: Aumentar a cobertura de testes unitários e de integração.
+
+👨‍💻 Andreyrsy
+
+LinkedIn: https://linkedin.com/in/andreyrsy
+GitHub: https://github.com/andreyrsy
