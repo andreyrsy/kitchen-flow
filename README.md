@@ -47,6 +47,11 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
 
 ---
 
+
+## 📚 API Documentada -> http://localhost:8080/swagger-ui/index.html
+
+<img width="1345" height="836" alt="image" src="https://github.com/user-attachments/assets/b610c772-6d82-4151-92d4-1c9f7ea01ee1" />
+
 ## 🚀 Como Executar
 
 ### Pré-requisitos
@@ -157,11 +162,6 @@ Lista todos os itens do estoque, incluindo um campo `status` calculado com base 
 
 [ ] Testes: Aumentar a cobertura de testes unitários e de integração.
 ```
-
-API Documentada -> http://localhost:8080/swagger-ui/index.html
-
-<img width="1345" height="836" alt="image" src="https://github.com/user-attachments/assets/b610c772-6d82-4151-92d4-1c9f7ea01ee1" />
-
 
 ## 👨‍💻 Andreyrsy
 - LinkedIn: https://linkedin.com/in/andreyrsy
