@@ -35,7 +35,7 @@ public class KitchenService {
     }
 
     public KitchenModel adicionarAlimento(KitchenModel kitchenModel) {
-        return kitchenRepository.save(kitchenModel);
+        return kitchenRepository.saveAndFlush(kitchenModel);
     }
 
     public List<KitchenResponseDTO> listarAlimentos() {
@@ -65,7 +65,7 @@ public class KitchenService {
         } else {
             throw new Exception("Quantidade insuficiente no estoque.");
         }
-        kitchenRepository.save(idUsuario);
+        kitchenRepository.saveAndFlush(idUsuario);
     }
 
     public void deletarAlimento(Long id) {
