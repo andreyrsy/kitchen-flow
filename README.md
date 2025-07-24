@@ -60,7 +60,7 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/andreyrsy/kitchen-flow.git](https://github.com/andreyrsy/kitchen-flow.git) # Substitua se for outro repo
+    git clone https://github.com/andreyrsy/kitchen-flow.git
     cd kitchen-flow
     ```
 
