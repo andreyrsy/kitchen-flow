@@ -7,10 +7,9 @@
 
 ## 🎯 Sobre o Projeto
 
-O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento eficiente de inventário de alimentos domésticos. O principal objetivo é combater o desperdício de comida através do monitoramento proativo de datas de validade, permitindo que o usuário saiba exatamente o que precisa ser consumido com urgência.
+O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento de estoque de restaurantes. O principal objetivo é combater o desperdício de comida com um monitoramento proativo de datas de validade, permitindo que o estabelecimento saiba exatamente o que precisa ser consumido com urgência.
 
-Este projeto demonstra a aplicação de conceitos de desenvolvimento backend com o ecossistema Spring, incluindo a criação de uma API REST, lógica de negócio, persistência de dados e boas práticas de programação.
-
+Este projeto demonstra a aplicação de desenvolvimento backend com o SpringBoot, criação de uma API REST, lógica de negócio, persistência de dados e boas práticas.
 ---
 
 ## ✨ Principais Funcionalidades
@@ -18,7 +17,7 @@ Este projeto demonstra a aplicação de conceitos de desenvolvimento backend com
 * **CRUD de Alimentos:** Adicionar, listar, atualizar e remover itens do inventário.
 * **Controle de Quantidade:** Atualização inteligente do estoque ao consumir um item.
 * **Cálculo de Status de Validade:** Classificação automática dos alimentos com base na proximidade da data de validade (`NORMAL`, `ATENÇÃO`, `URGENTE`, `VENCIDO`).
-* **API RESTful:** Endpoints claros e bem definidos seguindo as melhores práticas do mercado.
+* **API RESTful:** Endpoints claros e bem definidos seguindo boas práticas.
 
 ---
 
@@ -28,7 +27,7 @@ Este projeto demonstra a aplicação de conceitos de desenvolvimento backend com
 * **Framework:** Spring Boot 3
 * **Módulos Spring:** Spring Web, Spring Data JPA
 * **Persistência:** Hibernate
-* **Banco de Dados:** PostgreSQL (ou H2 para ambiente de teste)
+* **Banco de Dados:** PostgreSQL (Utilizei o Postgresql da Azure)
 * **Gerenciador de Dependências:** Maven
 * **Annotations:** Lombok para redução de código boilerplate.
 
@@ -39,7 +38,7 @@ Este projeto demonstra a aplicação de conceitos de desenvolvimento backend com
 O projeto segue uma arquitetura em camadas para garantir a separação de responsabilidades e a manutenibilidade do código:
 
 `Cliente (Postman/Frontend) → Controller (API Layer) → Service (Business Logic) → Repository (Data Access) → Banco de Dados`
-
+* MVC ->
 * **Controller (`KitchenController`):** Responsável por expor os endpoints da API, receber as requisições HTTP e retornar as respostas.
 * **Service (`KitchenService`):** Onde reside a lógica de negócio principal, como o cálculo do status de validade e as regras de consumo.
 * **Repository (`KitchenRepository`):** Interface que abstrai o acesso aos dados, utilizando o Spring Data JPA para interagir com o banco de dados.
