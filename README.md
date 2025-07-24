@@ -133,6 +133,14 @@ Success Response (200 OK):
 }
 ```
 #### (O status ATENCAO foi calculado com base na data de 23/07/2025).
+Lista todos os itens do estoque, incluindo um campo `status` calculado com base na data de validade.
+
+* **Status de Validade:**
+    * `VENCIDO`: A data de validade já passou.
+    * `URGENTE`: Vence hoje ou amanhã.
+    * `ATENCAO`: Vence em até 3 dias.
+    * `NORMAL`: Validade superior a 3 dias.
+
 
 ## 🔮 Próximos Passos e Melhorias
 ### Este projeto tem potencial para evoluir. Algumas ideias para o futuro incluem:
