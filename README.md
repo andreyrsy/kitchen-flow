@@ -1,125 +1,117 @@
 # Kitchen Flow API 🍳
 
-Kitchen Flow é uma API REST simples para gerenciar itens de uma cozinha ou despensa. Ela permite adicionar, listar, consumir e remover alimentos, além de calcular automaticamente o status de validade de cada item.
+![Status](https://img.shields.io/badge/status-ativo-success.svg)
+![Java](https://img.shields.io/badge/Java-17-blue.svg)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+## 🎯 Sobre o Projeto
+
+O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento eficiente de inventário de alimentos domésticos. O principal objetivo é combater o desperdício de comida através do monitoramento proativo de datas de validade, permitindo que o usuário saiba exatamente o que precisa ser consumido com urgência.
+
+Este projeto demonstra a aplicação de conceitos de desenvolvimento backend com o ecossistema Spring, incluindo a criação de uma API REST, lógica de negócio, persistência de dados e boas práticas de programação.
 
 ---
 
-## Como Executar o Projeto 🚀
+## ✨ Principais Funcionalidades
 
-1.  **Pré-requisitos:**
-    * Java 17 ou superior
-    * Maven 3.x
+* **CRUD de Alimentos:** Adicionar, listar, atualizar e remover itens do inventário.
+* **Controle de Quantidade:** Atualização inteligente do estoque ao consumir um item.
+* **Cálculo de Status de Validade:** Classificação automática dos alimentos com base na proximidade da data de validade (`NORMAL`, `ATENÇÃO`, `URGENTE`, `VENCIDO`).
+* **API RESTful:** Endpoints claros e bem definidos seguindo as melhores práticas do mercado.
 
-2.  **Clone o repositório:**
+---
+
+## 🛠️ Tecnologias e Ferramentas
+
+* **Linguagem:** Java 17
+* **Framework:** Spring Boot 3
+* **Módulos Spring:** Spring Web, Spring Data JPA
+* **Persistência:** Hibernate
+* **Banco de Dados:** PostgreSQL (ou H2 para ambiente de teste)
+* **Gerenciador de Dependências:** Maven
+* **Annotations:** Lombok para redução de código boilerplate.
+
+---
+
+## 🏗️ Arquitetura
+
+O projeto segue uma arquitetura em camadas para garantir a separação de responsabilidades e a manutenibilidade do código:
+
+`Cliente (Postman/Frontend) → Controller (API Layer) → Service (Business Logic) → Repository (Data Access) → Banco de Dados`
+
+* **Controller (`KitchenController`):** Responsável por expor os endpoints da API, receber as requisições HTTP e retornar as respostas.
+* **Service (`KitchenService`):** Onde reside a lógica de negócio principal, como o cálculo do status de validade e as regras de consumo.
+* **Repository (`KitchenRepository`):** Interface que abstrai o acesso aos dados, utilizando o Spring Data JPA para interagir com o banco de dados.
+* **Model/DTOs (`KitchenModel`, `KitchenResponseDTO`):** Representam as entidades de dados e os objetos de transferência de dados para a API.
+
+---
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+
+* Java 17+
+* Maven 3.x+
+* PostgreSQL (ou outro banco de dados relacional)
+* Uma IDE (IntelliJ, VS Code, Eclipse)
+
+### Passos
+
+1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/andreyrsy/kitchen-flow.git
-    cd <NOME_DO_SEU_PROJETO>
+    git clone [https://github.com/andreyrsy/kitchen-flow.git](https://github.com/andreyrsy/kitchen-flow.git) # Substitua se for outro repo
+    cd kitchen-flow
     ```
 
-3.  **Configure o banco de dados:**
-    * Abra o arquivo `src/main/resources/application.properties`.
-    * Configure as propriedades do seu banco de dados (URL, username, password). Exemplo para PostgreSQL:
+2.  **Configure o Banco de Dados:**
+    * Crie um banco de dados no PostgreSQL (ex: `kitchen_db`).
+    * No arquivo `src/main/resources/application.properties`, atualize as credenciais do seu banco de dados:
         ```properties
         spring.datasource.url=jdbc:postgresql://localhost:5432/kitchen_db
-        spring.datasource.username=postgres
-        spring.datasource.password=your_password
+        spring.datasource.username=seu_usuario
+        spring.datasource.password=sua_senha
         spring.jpa.hibernate.ddl-auto=update
         ```
+
+3.  **Instale as dependências e compile o projeto:**
+    ```bash
+    mvn clean install
+    ```
 
 4.  **Execute a aplicação:**
     ```bash
     mvn spring-boot:run
     ```
-    A API estará disponível em `http://localhost:8080`.
+
+5.  **Teste (Opcional, mas recomendado):**
+    Para rodar os testes unitários e de integração (se houver):
+    ```bash
+    mvn test
+    ```
+
+A API estará disponível em `http://localhost:8080/api`.
 
 ---
 
-## Endpoints da API 📖
+## API Endpoints 📖
 
-A URL base para todos os endpoints é `/api`.
+| Funcionalidade | Método HTTP | Endpoint | Descrição |
+| :--- | :--- | :--- | :--- |
+| **Adicionar Alimento** | `POST` | `/api` | Adiciona um novo item ao estoque. |
+| **Listar Alimentos** | `GET` | `/api` | Lista todos os itens e seu status de validade. |
+| **Consumir Alimento** | `PUT` | `/api/produto/{id}/qtd/{qtd}` | Atualiza a quantidade de um item. |
+| **Remover Alimento**| `DELETE` | `/api/deletar/{id}` | Remove um item do estoque pelo ID. |
 
-### 1. Adicionar Alimento
+### Exemplo de Uso:
 
-Adiciona um novo item ao estoque.
+#### 1. Adicionar Alimento
+`POST /api`
 
-* **Método:** `POST`
-* **Endpoint:** `/api`
-* **Body (JSON):**
-    ```json
-    {
-      "alimento": "Leite Integral",
-      "quantidade": 2,
-      "data_validade": "30-07-2025"
-    }
-    ```
-* **Resposta de Sucesso (201 CREATED):**
-    ```json
-    {
-        "id": 1,
-        "alimento": "Leite Integral",
-        "quantidade": 2,
-        "data_validade": "30-07-2025"
-    }
-    ```
-
-***
-
-### 2. Listar todos os Alimentos
-
-Lista todos os itens do estoque, incluindo um campo `status` calculado com base na data de validade.
-
-* **Status de Validade:**
-    * `VENCIDO`: A data de validade já passou.
-    * `URGENTE`: Vence hoje ou amanhã.
-    * `ATENCAO`: Vence em até 3 dias.
-    * `NORMAL`: Validade superior a 3 dias.
-
-* **Método:** `GET`
-* **Endpoint:** `/api`
-* **Resposta de Sucesso (200 OK):**
-    ```json
-    [
-      {
-        "id": 1,
-        "alimento": "Leite Integral",
-        "quantidade": 2,
-        "dataValidade": "2025-07-30",
-        "status": "ATENCAO"
-      },
-      {
-        "id": 2,
-        "alimento": "Ovos",
-        "quantidade": 12,
-        "dataValidade": "2025-08-15",
-        "status": "NORMAL"
-      }
-    ]
-    ```
-
-***
-
-### 3. Consumir Alimento
-
-Atualiza a quantidade de um item no estoque após o consumo.
-
-* **Método:** `PUT`
-* **Endpoint:** `/api/produto/{id}/qtd/{qtd_consumida}`
-* **Parâmetros de URL:**
-    * `id`: O ID do alimento.
-    * `qtd_consumida`: A quantidade a ser subtraída do estoque.
-* **Exemplo de Uso:** `PUT /api/produto/1/qtd/1`
-* **Resposta de Sucesso:** `200 OK` (corpo vazio).
-* **Resposta de Erro:** Retorna um erro se o item não for encontrado ou se a quantidade a ser consumida for maior que o estoque.
-
-***
-
-### 4. Deletar Alimento
-
-Remove um item do estoque pelo seu ID.
-
-* **Método:** `DELETE`
-* **Endpoint:** `/api/deletar/{id}`
-* **Parâmetro de URL:**
-    * `id`: O ID do alimento a ser deletado.
-* **Exemplo de Uso:** `DELETE /api/deletar/1`
-* **Resposta de Sucesso:** `200 OK` (corpo vazio).
+**Request Body:**
+```json
+{
+  "alimento": "Iogurte Natural",
+  "quantidade": 4,
+  "data_validade": "30-07-2025"
+}
