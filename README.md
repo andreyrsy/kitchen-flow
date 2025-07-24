@@ -84,12 +84,6 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
     mvn spring-boot:run
     ```
 
-5.  **Teste (Opcional, mas recomendado):**
-    Para rodar os testes unitários e de integração (se houver):
-    ```bash
-    mvn test
-    ```
-
 A API estará disponível em `http://localhost:8080/api`.
 
 ---
