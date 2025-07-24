@@ -60,13 +60,13 @@ O projeto segue uma arquitetura em camadas para garantir a separação de respon
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/andreyrsy/kitchen-flow.git
+    git clone [https://github.com/andreyrsy/kitchen-flow.git](https://github.com/andreyrsy/kitchen-flow.git) # Substitua se for outro repo
     cd kitchen-flow
     ```
 
 2.  **Configure o Banco de Dados:**
     * Crie um banco de dados no PostgreSQL (ex: `kitchen_db`).
-    * No arquivo `src/main/resources/application.properties`
+    * No arquivo `src/main/resources/application.properties`, atualize as credenciais do seu banco de dados:
         ```properties
         spring.datasource.url=jdbc:postgresql://localhost:5432/kitchen_db
         spring.datasource.username=seu_usuario
@@ -115,34 +115,34 @@ A API estará disponível em `http://localhost:8080/api`.
   "quantidade": 4,
   "data_validade": "30-07-2025"
 }
-
-Success Response (201 CREATED):
+```
+#### Success Response (201 CREATED):
+```json
 {
     "id": 1,
     "alimento": "Iogurte Natural",
     "quantidade": 4,
     "data_validade": "30-07-2025"
 }
-
-2. Listar Alimentos
-GET /api
+```
+#### 2. Listar Alimentos
+`GET /api`
 
 Success Response (200 OK):
-[
-  {
-    "id": 1,
-    "alimento": "Iogurte Natural",
-    "quantidade": 4,
-    "dataValidade": "2025-07-30",
-    "status": "ATENCAO" 
-  }
-]
-(O status ATENCAO foi calculado com base na data de hoje, 23/07/2025).
+```json
+{
+  "id": 1,
+  "alimento": "Iogurte Natural",
+  "quantidade": 4,
+  "dataValidade": "2025-07-30",
+  "status": "ATENCAO" 
+}
+```
+#### (O status ATENCAO foi calculado com base na data de 23/07/2025).
 
-
-🔮 Próximos Passos e Melhorias
-Este projeto tem potencial para evoluir. Algumas ideias para o futuro incluem:
-
+## 🔮 Próximos Passos e Melhorias
+### Este projeto tem potencial para evoluir. Algumas ideias para o futuro incluem:
+```json
 [ ] Segurança: Implementar Spring Security com autenticação JWT para permitir múltiplos usuários com inventários separados.
 
 [ ] Containerização: Criar Dockerfile e docker-compose.yml para facilitar o deploy da aplicação e do banco de dados.
@@ -154,8 +154,8 @@ Este projeto tem potencial para evoluir. Algumas ideias para o futuro incluem:
 [ ] Notificações: Criar um serviço que envie notificações (por e-mail ou outro meio) quando um produto estiver próximo de vencer.
 
 [ ] Testes: Aumentar a cobertura de testes unitários e de integração.
+```
 
-👨‍💻 Andreyrsy
-
-LinkedIn: https://linkedin.com/in/andreyrsy
-GitHub: https://github.com/andreyrsy
+## 👨‍💻 Andreyrsy
+- LinkedIn: https://linkedin.com/in/andreyrsy
+- GitHub: https://github.com/andreyrsy
