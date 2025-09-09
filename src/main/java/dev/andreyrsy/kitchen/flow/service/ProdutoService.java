@@ -1,9 +1,9 @@
 package dev.andreyrsy.kitchen.flow.service;
 
-import dev.andreyrsy.kitchen.flow.dto.KitchenResponseDTO;
-import dev.andreyrsy.kitchen.flow.model.KitchenModel;
+import dev.andreyrsy.kitchen.flow.dto.ProdutoDto;
+import dev.andreyrsy.kitchen.flow.model.ProdutoModel;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
-import dev.andreyrsy.kitchen.flow.repository.KitchenRepository;
+import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class KitchenService {
-    private final KitchenRepository kitchenRepository;
+public class ProdutoService {
+    private final ProdutoRepository produtoRepository;
 
-    public KitchenService(KitchenRepository kitchenRepository) {
-        this.kitchenRepository = kitchenRepository;
+    public ProdutoService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
     }
 
     public StatusValidade calcularStatus(LocalDate dataValidade) {
@@ -34,18 +34,18 @@ public class KitchenService {
         }
     }
 
-    public KitchenModel adicionarAlimento(KitchenModel kitchenModel) {
-        return kitchenRepository.saveAndFlush(kitchenModel);
+    public ProdutoModel adicionarAlimento(ProdutoModel produtoModel) {
+        return produtoRepository.saveAndFlush(produtoModel);
     }
 
-    public List<KitchenResponseDTO> listarAlimentos() {
-        List<KitchenModel> alimentosDoBanco = kitchenRepository.findAll();
-        List<KitchenResponseDTO> dtosParaEnviar = new ArrayList<>();
+    public List<ProdutoDto> listarAlimentos() {
+        List<ProdutoModel> alimentosDoBanco = produtoRepository.findAll();
+        List<ProdutoDto> dtosParaEnviar = new ArrayList<>();
 
-        for(KitchenModel alimento : alimentosDoBanco){
+        for(ProdutoModel alimento : alimentosDoBanco){
             StatusValidade statusValidade = calcularStatus(alimento.getDataValidade());
 
-            KitchenResponseDTO dto = new KitchenResponseDTO();
+            ProdutoDto dto = new ProdutoDto();
 
             dto.setId(alimento.getId());
             dto.setAlimento(alimento.getAlimento());
@@ -59,16 +59,16 @@ public class KitchenService {
     }
 
     public void consumirAlimento(Long id, Integer quantidadeConsumida) throws Exception {
-        KitchenModel idUsuario = kitchenRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario nao encontrado."));
+        ProdutoModel idUsuario = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario nao encontrado."));
         if (idUsuario.getQuantidade() >= quantidadeConsumida) {
             idUsuario.setQuantidade(idUsuario.getQuantidade() - quantidadeConsumida);
         } else {
             throw new Exception("Quantidade insuficiente no estoque.");
         }
-        kitchenRepository.saveAndFlush(idUsuario);
+        produtoRepository.saveAndFlush(idUsuario);
     }
 
     public void deletarAlimento(Long id) {
-        kitchenRepository.deleteById(id);
+        produtoRepository.deleteById(id);
     }
 }
