@@ -20,7 +20,7 @@ public class Produto {
     @Column(name = "nome")
     private String nome;
     @Column(name = "unidade_medida")
-    private Integer unidadeMedida;
+    private String unidadeMedida;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
