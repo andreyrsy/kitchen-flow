@@ -1,7 +1,7 @@
 package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoDto;
-import dev.andreyrsy.kitchen.flow.model.ProdutoModel;
+import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
 
-    public ProdutoService(ProdutoRepository produtoRepository) {
+    public ProdutoService(ProdutoRepository produtoRepository){
         this.produtoRepository = produtoRepository;
     }
 
@@ -34,15 +34,15 @@ public class ProdutoService {
         }
     }
 
-    public ProdutoModel adicionarAlimento(ProdutoModel produtoModel) {
-        return produtoRepository.saveAndFlush(produtoModel);
+    public Produto adicionarAlimento(Produto produto) {
+        return produtoRepository.saveAndFlush(produto);
     }
 
     public List<ProdutoDto> listarAlimentos() {
-        List<ProdutoModel> alimentosDoBanco = produtoRepository.findAll();
+        List<Produto> alimentosDoBanco = produtoRepository.findAll();
         List<ProdutoDto> dtosParaEnviar = new ArrayList<>();
 
-        for(ProdutoModel alimento : alimentosDoBanco){
+        for(Produto alimento : alimentosDoBanco){
             StatusValidade statusValidade = calcularStatus(alimento.getDataValidade());
 
             ProdutoDto dto = new ProdutoDto();
@@ -59,7 +59,7 @@ public class ProdutoService {
     }
 
     public void consumirAlimento(Long id, Integer quantidadeConsumida) throws Exception {
-        ProdutoModel idUsuario = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario nao encontrado."));
+        Produto idUsuario = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario nao encontrado."));
         if (idUsuario.getQuantidade() >= quantidadeConsumida) {
             idUsuario.setQuantidade(idUsuario.getQuantidade() - quantidadeConsumida);
         } else {
