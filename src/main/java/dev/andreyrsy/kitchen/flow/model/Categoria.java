@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,5 @@ public class Categoria {
     private String nome;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<Produto> produtos;
+    private List<Produto> produto;
 }

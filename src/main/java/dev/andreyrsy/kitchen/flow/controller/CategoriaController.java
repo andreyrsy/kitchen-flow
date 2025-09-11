@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categoria")
-@RequiredArgsConstructor
+@RequestMapping("/api/v1/categoria")
 public class CategoriaController {
-    @Autowired
     private final CategoriaService categoriaService;
+
+    public CategoriaController(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
 
     @PostMapping
     public ResponseEntity<Categoria> criarCategoria(@RequestBody Categoria categoria){
@@ -26,5 +28,11 @@ public class CategoriaController {
     public ResponseEntity<List<Categoria>> listarCategorias(){
         List<Categoria> todasCategorias = categoriaService.findAll();
         return ResponseEntity.ok().body(todasCategorias);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletarCategoria(@PathVariable(name = "id") Long id){
+        categoriaService.deletarPorId(id);
+        return ResponseEntity.ok().build();
     }
 }
