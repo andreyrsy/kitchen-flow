@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "produto")
@@ -24,13 +25,11 @@ public class Produto {
     @Column(name = "unidade_medida")
     private String unidadeMedida;
 
+    @JsonIgnoreProperties({"produto"})
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"produto"})
     private Categoria categoria;
 
-//    @JsonProperty("data_validade")
-//    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-//    @Column(name = "data_validade")
-//    private LocalDate dataValidade;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<Lotes> lotes;
 }
