@@ -1,6 +1,7 @@
 package dev.andreyrsy.kitchen.flow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Table(name = "lotes")
 @Entity
@@ -31,6 +30,7 @@ public class Lotes {
     @Column(name = "data_entrada")
     private LocalDate data_entrada;
 
+    @JsonIgnoreProperties({"lotes"})
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
