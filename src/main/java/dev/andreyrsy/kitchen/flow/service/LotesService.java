@@ -26,4 +26,18 @@ public class LotesService {
     public void deletarPorId(Long id){
         lotesRepository.deleteById(id);
     }
+
+    public Lotes findById(Long id){
+        return lotesRepository.findById(id).get();
+    }
+
+    public void usarProduto(Long id, Integer quantidadeConsumida) throws Exception {
+        Lotes idProduto = lotesRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        if (idProduto.getQuantidade() >= quantidadeConsumida) {
+            idProduto.setQuantidade(idProduto.getQuantidade() - quantidadeConsumida);
+        } else {
+            throw new Exception("Quantidade insuficiente no estoque.");
+        }
+        lotesRepository.saveAndFlush(idProduto);
+    }
 }

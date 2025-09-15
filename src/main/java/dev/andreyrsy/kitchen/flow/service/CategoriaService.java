@@ -2,11 +2,8 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service

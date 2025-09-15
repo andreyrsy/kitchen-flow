@@ -46,19 +46,12 @@ public class ProdutoService {
         return produtoRepository.saveAndFlush(produto);
     }
 
-    public void deletarAlimento(Long id) {
+    public void deletarProduto(Long id) {
         produtoRepository.deleteById(id);
     }
 
-//    public void consumirAlimento(Long id, Integer quantidadeConsumida) throws Exception {
-//        Produto idUsuario = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario nao encontrado."));
-//        if (idUsuario.getQuantidade() >= quantidadeConsumida) {
-//            idUsuario.setQuantidade(idUsuario.getQuantidade() - quantidadeConsumida);
-//        } else {
-//            throw new Exception("Quantidade insuficiente no estoque.");
-//        }
-//        produtoRepository.saveAndFlush(idUsuario);
-//    }
-//
+    public Produto findById(Long id) {
+        return produtoRepository.findById(id).get();
+    }
 
 }

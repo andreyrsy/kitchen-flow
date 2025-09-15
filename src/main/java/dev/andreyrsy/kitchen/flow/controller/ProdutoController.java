@@ -56,7 +56,7 @@ public class ProdutoController {
 //
     @DeleteMapping("/deletar/{id}")
     public void removerAlimento(@PathVariable("id") Long id){
-        produtoService.deletarAlimento(id);
+        produtoService.deletarProduto(id);
         ResponseEntity.status(HttpStatus.NO_CONTENT).body(id.toString());
     }
 }

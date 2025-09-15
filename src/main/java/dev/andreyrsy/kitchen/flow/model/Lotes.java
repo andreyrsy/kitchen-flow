@@ -20,7 +20,7 @@ public class Lotes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal quantidade;
+    private Integer quantidade;
     @JsonProperty("data_validade")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     @Column(name = "data_validade")
