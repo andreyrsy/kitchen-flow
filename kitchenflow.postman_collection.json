@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "df07f005-1f3a-41b3-a2ad-11c9b078a5dd",
+		"name": "kitchenflow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46408836",
+		"_collection_link": "https://andreyrsy.postman.co/workspace/andreyrsy's-Workspace~927089b2-33be-42cb-8cf8-11946aea5a2a/collection/46408836-df07f005-1f3a-41b3-a2ad-11c9b078a5dd?action=share&source=collection_link&creator=46408836"
+	},
+	"item": [
+		{
+			"name": "Produto",
+			"item": [
+				{
+					"name": "produto[get] ListarProdutos",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/produto",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "produto[post] - AdicionarProduto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"Feijão Namorado\",\r\n    \"unidadeMedida\":\"UNIDADE\",\r\n    \"categoriaId\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/produto",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "produto[delete] - DeletarProduto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/produto/deletar/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"produto",
+								"deletar",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "categorias[get] ListarCategorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/categoria",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias[post] AdicionarCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Frutos do mar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/categoria",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias[delete] - ListarCategoria",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/categoria/deletar/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categoria",
+								"deletar",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lote",
+			"item": [
+				{
+					"name": "lote[get] - ListarLotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/lotes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"lotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lote[post] AdicionarLote",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantidade\": 6,\r\n    \"dataValidade\":\"21-09-2025\",\r\n    \"dataEntrada\":\"16-09-2025\",\r\n    \"produtoId\":5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/lotes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"lotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lote[delete] DeletarLote",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/lotes/7",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"lotes",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lote[put] - ConsumirProduto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/lotes/2/consumir/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"lotes",
+								"2",
+								"consumir",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
