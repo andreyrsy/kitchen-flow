@@ -20,7 +20,6 @@ public class LotesController {
         this.produtoService = produtoService;
     }
 
-    // Entidades @PostMapping, @GetMapping e @DeleteMapping...
     @GetMapping
     public ResponseEntity<List<Lotes>> listarLotes(){
         List<Lotes> todosLotes = lotesService.listarLotes();
@@ -33,8 +32,8 @@ public class LotesController {
 
         Lotes lote = new Lotes();
         lote.setQuantidade(dto.getQuantidade());
-        lote.setData_validade(dto.getData_validade());
-        lote.setData_entrada(dto.getData_entrada());
+        lote.setData_validade(dto.getDataValidade());
+        lote.setData_entrada(dto.getDataEntrada());
         lote.setProduto(produtoSelecionado);
 
         Lotes salvarLote = lotesService.criarLote(lote);

@@ -10,10 +10,10 @@ public class LotesRequestDto {
     private Integer quantidade;
 
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate data_validade;
+    private LocalDate dataValidade;
 
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate data_entrada;
+    private LocalDate dataEntrada;
 
     private Long produtoId;
 }
