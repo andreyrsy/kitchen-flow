@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.service;
 
+import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,9 +23,19 @@ public class ProdutoService {
     }
 
 
-    public List<Produto> listarProdutos() {
+    public List<ProdutoResponseDto> listarProdutos() {
         List<Produto> produtosBanco = produtoRepository.findAll();
-        return produtosBanco;
+        List<ProdutoResponseDto> produtos = new ArrayList<>();
+
+        for (Produto produto : produtosBanco) {
+            ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto();
+            produtoResponseDto.setId(produto.getId());
+            produtoResponseDto.setNome(produto.getNome());
+            produtoResponseDto.setUnidade_medida(produto.getUnidadeMedida());
+            produtoResponseDto.setCategoria(produto.getCategoria());
+            produtos.add(produtoResponseDto);
+        }
+        return produtos;
     }
 
     public StatusValidade calcularStatus(LocalDate dataValidade) {

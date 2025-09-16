@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
+import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,9 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> listarCategorias(){
-        List<Categoria> todasCategorias = categoriaService.findAll();
-        return ResponseEntity.ok().body(todasCategorias);
+    public ResponseEntity<List<CategoriaResponseDto>> listarCategorias(){
+        List<CategoriaResponseDto> df = categoriaService.findAll();
+        return ResponseEntity.ok().body(df);
     }
 
     @DeleteMapping("/delete/{id}")

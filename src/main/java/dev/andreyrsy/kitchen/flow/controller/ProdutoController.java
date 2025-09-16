@@ -1,6 +1,7 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
@@ -22,7 +23,7 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listarAlimentos(){
+    public List<ProdutoResponseDto> listarAlimentos(){
         return produtoService.listarProdutos();
     }
 

@@ -38,6 +38,7 @@ public class LotesController {
         lote.setProduto(produtoSelecionado);
 
         Lotes salvarLote = lotesService.criarLote(lote);
+
         return ResponseEntity.ok().body(salvarLote);
     }
 
