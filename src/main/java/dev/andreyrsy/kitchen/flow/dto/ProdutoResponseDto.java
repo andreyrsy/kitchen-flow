@@ -7,5 +7,4 @@ public class ProdutoResponseDto {
     private String nome;
     private String unidade_medida;
     private CategoriaResponseDto categoriaDto;
-//    private List<Lotes> lotes;
 }

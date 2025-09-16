@@ -14,8 +14,10 @@ public class LotesService {
         this.lotesRepository = lotesRepository;
     }
 
-    // Lógica do Lotes service para adicionar produtos, listar etc...
-    public Lotes criarLote(Lotes lotes){
+    public Lotes criarLote(Lotes lotes) throws Exception {
+        if(lotes.getData_validade().isBefore(lotes.getData_entrada())){
+            throw new Exception("Insira uma data de validade correta!");
+        }
         return lotesRepository.save(lotes);
     }
 
