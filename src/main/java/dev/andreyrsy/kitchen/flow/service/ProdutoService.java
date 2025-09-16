@@ -5,6 +5,7 @@ import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -70,7 +71,8 @@ public class ProdutoService {
     }
 
     public Produto findById(Long id) {
-        return produtoRepository.findById(id).get();
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
     }
 
 }

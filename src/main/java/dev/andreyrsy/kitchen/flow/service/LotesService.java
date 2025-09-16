@@ -2,6 +2,7 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class LotesService {
     }
 
     public Lotes findById(Long id){
-        return lotesRepository.findById(id).get();
+        return lotesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Lote não encontrado!"));
     }
 
     public void usarProduto(Long id, Integer quantidadeConsumida) throws Exception {
