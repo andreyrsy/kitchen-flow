@@ -25,8 +25,8 @@ public class CategoriaController {
 
     @GetMapping
     public ResponseEntity<List<CategoriaResponseDto>> listarCategorias(){
-        List<CategoriaResponseDto> df = categoriaService.findAll();
-        return ResponseEntity.ok().body(df);
+        List<CategoriaResponseDto> lisatDto = categoriaService.findAll();
+        return ResponseEntity.ok().body(lisatDto);
     }
 
     @DeleteMapping("/delete/{id}")

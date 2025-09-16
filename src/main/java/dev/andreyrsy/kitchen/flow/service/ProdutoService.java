@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.service;
 
+import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
@@ -24,15 +25,21 @@ public class ProdutoService {
 
 
     public List<ProdutoResponseDto> listarProdutos() {
-        List<Produto> produtosBanco = produtoRepository.findAll();
         List<ProdutoResponseDto> produtos = new ArrayList<>();
 
-        for (Produto produto : produtosBanco) {
+        for (Produto produto : produtoRepository.findAll()) {
             ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto();
+            CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
+            List<CategoriaResponseDto> categorias = new ArrayList<>();
+            categoriaDto.setId(produto.getCategoria().getId());
+            categoriaDto.setNome(produto.getCategoria().getNome());
+            categorias.add(categoriaDto);
+
             produtoResponseDto.setId(produto.getId());
             produtoResponseDto.setNome(produto.getNome());
             produtoResponseDto.setUnidade_medida(produto.getUnidadeMedida());
-            produtoResponseDto.setCategoria(produto.getCategoria());
+            produtoResponseDto.setCategoriaDto(categorias.get(0));
+
             produtos.add(produtoResponseDto);
         }
         return produtos;

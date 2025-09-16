@@ -23,6 +23,7 @@ public class CategoriaService {
 
     public List<CategoriaResponseDto> findAll(){
         List<CategoriaResponseDto> dtos = new ArrayList<>();
+
         for(Categoria categoria : categoriaRepository.findAll()){
             CategoriaResponseDto dto = new CategoriaResponseDto();
             dto.setId(categoria.getId());
