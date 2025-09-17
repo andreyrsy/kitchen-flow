@@ -8,7 +8,7 @@
 
 ## 🎯 Sobre o Projeto
 
-O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento de estoque de restaurantes. O principal objetivo é combater o desperdício de comida com um monitoramento proativo de datas de validade, permitindo que o estabelecimento saiba exatamente o que precisa ser consumido com urgência.
+O **Kitchen Flow** é uma API RESTful desenvolvida para o gerenciamento de estoque de restaurantes. O principal objetivo é evitar o desperdício de comida com um monitoramento proativo das datas de validade, permitindo que o estabelecimento saiba exatamente o que precisa ser consumido com urgência.
 
 Este projeto demonstra a aplicação de desenvolvimento backend com Spring Boot, criação de uma API REST, lógica de negócio, persistência de dados e boas práticas de arquitetura em camadas.
 
@@ -374,9 +374,9 @@ O projeto utiliza Flyway para controle de versão do banco de dados:
 
 ---
 
-## 👨‍💻 Desenvolvedor
+## 👨‍💻 **Andreyrsy**
 
-**Andreyrsy**
+
 - 💼 LinkedIn: [andreyrsy](https://linkedin.com/in/andreyrsy)
 - 🐙 GitHub: [andreyrsy](https://github.com/andreyrsy)
 
@@ -387,5 +387,3 @@ O projeto utiliza Flyway para controle de versão do banco de dados:
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
-
-*Desenvolvido com ❤️ para combater o desperdício de alimentos em restaurantes*
