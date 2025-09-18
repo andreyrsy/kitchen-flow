@@ -29,7 +29,6 @@ public class Lotes {
     @Column(name = "data_entrada")
     private LocalDate data_entrada;
 
-    @JsonIgnoreProperties({"lotes"})
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;

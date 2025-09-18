@@ -21,7 +21,6 @@ public class Produto {
     @Column(name = "unidade_medida")
     private String unidadeMedida;
 
-    @JsonIgnoreProperties({"produto"})
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;

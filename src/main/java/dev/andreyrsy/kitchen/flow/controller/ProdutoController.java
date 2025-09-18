@@ -6,6 +6,7 @@ import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@RequestBody ProdutoRequestDto dto) {
+    public ResponseEntity<Produto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
         Categoria categoriaSelecionada = categoriaService.findById(dto.getCategoriaId());
 
         Produto produto = new Produto();

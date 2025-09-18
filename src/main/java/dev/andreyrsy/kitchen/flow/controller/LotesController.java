@@ -5,6 +5,7 @@ import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
     import dev.andreyrsy.kitchen.flow.service.LotesService;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class LotesController {
     }
 
     @PostMapping
-    public ResponseEntity<Lotes> salvarLotes(@RequestBody LotesRequestDto dto) throws Exception {
+    public ResponseEntity<Lotes> salvarLotes(@Valid @RequestBody LotesRequestDto dto) throws Exception {
         Produto produtoSelecionado = produtoService.findById(dto.getProdutoId());
 
         Lotes lote = new Lotes();
@@ -47,7 +48,7 @@ public class LotesController {
     }
 
     @PutMapping("/{id}/consumir/{qtdConsumida}")
-        public void usarProdutoController(@PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
+        public void usarProdutoController(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
         lotesService.usarProduto(id, qtdConsumida);
     }
 }

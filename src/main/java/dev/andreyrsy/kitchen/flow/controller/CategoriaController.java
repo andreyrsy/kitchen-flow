@@ -3,6 +3,7 @@ package dev.andreyrsy.kitchen.flow.controller;
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criarCategoria(@RequestBody Categoria categoria){
+    public ResponseEntity<Categoria> criarCategoria(@Valid @RequestBody Categoria categoria){
         Categoria service = categoriaService.criarCategoria(categoria);
         return ResponseEntity.ok().body(service);
     }
