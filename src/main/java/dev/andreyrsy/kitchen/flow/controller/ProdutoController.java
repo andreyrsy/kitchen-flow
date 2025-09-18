@@ -9,6 +9,7 @@ import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -23,12 +24,13 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<ProdutoResponseDto> listarAlimentos(){
-        return produtoService.listarProdutos();
+    public ResponseEntity<List<ProdutoResponseDto>> listarAlimentos() {
+        List<ProdutoResponseDto> listaProdutosx = produtoService.listarProdutos();
+        return ResponseEntity.ok().body(listaProdutosx);
     }
 
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@RequestBody ProdutoRequestDto dto){
+    public ResponseEntity<Produto> adicionarProduto(@RequestBody ProdutoRequestDto dto) {
         Categoria categoriaSelecionada = categoriaService.findById(dto.getCategoriaId());
 
         Produto produto = new Produto();
@@ -42,22 +44,9 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoAdicionado);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Produto> adicionarAlimento(@RequestBody Produto produto) {
-//        Produto kitchen = produtoService.adicionarProduto(produto);
-//        return new ResponseEntity<>(kitchen, HttpStatus.CREATED);
-//    }
-//
-//
-//    @PutMapping("/produto/{id}/qtd/{qtd_consumida}")
-//    public ResponseEntity<Produto> consumirAlimento(@PathVariable("id") Long id, @PathVariable("qtd_consumida") Integer qtd_consumida) throws Exception {
-//        produtoService.consumirAlimento(id, qtd_consumida);
-//        return ResponseEntity.ok().build();
-//    }
-//
     @DeleteMapping("/deletar/{id}")
-    public void removerAlimento(@PathVariable("id") Long id){
+    public void removerAlimento(@PathVariable("id") Long id) {
         produtoService.deletarProduto(id);
-        ResponseEntity.status(HttpStatus.NO_CONTENT).body(id.toString());
+        ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

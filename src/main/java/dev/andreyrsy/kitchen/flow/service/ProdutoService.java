@@ -2,6 +2,7 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
@@ -62,7 +63,9 @@ public class ProdutoService {
     }
 
     public Produto adicionarProduto(Produto produto) {
-        produto.setCategoria(categoriaService.findById(produto.getCategoria().getId()));
+        Categoria categoriaSelecionada = categoriaService.findById(produto.getCategoria().getId());
+        produto.setCategoria(categoriaSelecionada);
+
         return produtoRepository.saveAndFlush(produto);
     }
 
