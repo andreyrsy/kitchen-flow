@@ -40,7 +40,7 @@ public class ProdutoController {
         produto.setUnidadeMedida(dto.getUnidadeMedida());
         produto.setCategoria(categoriaSelecionada);
 
-        Produto produtoAdicionado = produtoService.adicionarProduto(produto);
+        Produto produtoAdicionado = produtoService.criarProduto(produto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoAdicionado);
     }
