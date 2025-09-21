@@ -1,45 +1,119 @@
 package dev.andreyrsy.kitchen.flow.service;
 
+import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
+import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
+import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class LotesService {
     private final LotesRepository lotesRepository;
+    private final ProdutoRepository produtoRepository;
 
-    public LotesService(LotesRepository lotesRepository) {
+    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository) {
         this.lotesRepository = lotesRepository;
+        this.produtoRepository = produtoRepository;
     }
 
-    public Lotes criarLote(Lotes lotes) throws Exception {
-        log.info("Criando lote produto={} quantidade={} dataEntrada={} dataValidade={}",
-                lotes.getProduto().getNome(), lotes.getQuantidade(),
-                lotes.getData_entrada(), lotes.getData_validade());
+    public LotesResponseDto criarLote(LotesRequestDto dto) throws Exception {
+        log.info("Criando lote produtoId={} quantidade={} dataEntrada={} dataValidade={}",
+                dto.getProdutoId(), dto.getQuantidade(), dto.getDataEntrada(), dto.getDataValidade());
 
-        if (lotes.getData_validade().isBefore(lotes.getData_entrada())) {
-            log.error("Data de validade inválida dataValidade={} dataEntrada={}",
-                    lotes.getData_validade(), lotes.getData_entrada());
-            throw new Exception("Insira uma data de validade correta!");
+        Produto produtoSelecionado = produtoRepository.findById(dto.getProdutoId())
+                .orElseThrow(() -> new EntityNotFoundException("Produto com o id " + dto.getProdutoId() + " não encontrado"));
+
+        Categoria categoriaSelecionada = produtoSelecionado.getCategoria();
+
+        try {
+            if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
+                log.error("Data de validade inválida dataValidade={} dataEntrada={}", dto.getDataValidade(), dto.getDataEntrada());
+                throw new Exception("Insira uma data de validade correta!");
+            }
+
+            Lotes entity = new Lotes();
+            entity.setQuantidade(dto.getQuantidade());
+            entity.setData_validade(dto.getDataValidade());
+            entity.setData_entrada(dto.getDataEntrada());
+            entity.setProduto(produtoSelecionado);
+
+            Lotes loteSalvo = lotesRepository.save(entity);
+            log.debug("Lote salvo no banco id={}", loteSalvo.getId());
+
+            CategoriaResponseDto categoria = new CategoriaResponseDto();
+            categoria.setId(categoriaSelecionada.getId());
+            categoria.setNome(categoriaSelecionada.getNome());
+
+            ProdutoResponseDto produtoDto = new ProdutoResponseDto();
+            produtoDto.setId(produtoSelecionado.getId());
+            produtoDto.setNome(produtoSelecionado.getNome());
+            produtoDto.setUnidade_medida(produtoSelecionado.getUnidadeMedida());
+            produtoDto.setCategoriaDto(categoria);
+
+            LotesResponseDto lotesDto = new LotesResponseDto();
+            lotesDto.setId(loteSalvo.getId());
+            lotesDto.setQuantidade(dto.getQuantidade());
+            lotesDto.setDataValidade(dto.getDataValidade());
+            lotesDto.setDataEntrada(dto.getDataEntrada());
+            lotesDto.setProdutoDto(produtoDto);
+
+            log.info("Lote criado com sucesso id={} produto={}",
+                    loteSalvo.getId(), loteSalvo.getProduto().getNome());
+            return lotesDto;
+
+        } catch (Exception ex) {
+            log.error("Falha ao criar lote produtoId={} quantidade={}", dto.getProdutoId(), dto.getQuantidade(), ex);
+            throw new Exception("Erro ao criar lote!", ex);
         }
-
-        Lotes loteSalvo = lotesRepository.save(lotes);
-
-        log.info("Lote criado com sucesso id={} produto={}",
-                loteSalvo.getId(), loteSalvo.getProduto().getNome());
-        return loteSalvo;
     }
 
-    public List<Lotes> listarLotes() {
+    public List<LotesResponseDto> listarLotes() {
         log.info("Listando todos os lotes");
         List<Lotes> lotesList = lotesRepository.findAll();
-        log.info("Encontrados {} lotes", lotesList.size());
-        return lotesList;
+
+        List<LotesResponseDto> lotesResponseDtos = new ArrayList<>();
+
+        try {
+            for (Lotes lote : lotesList) {
+                LotesResponseDto loteDto = new LotesResponseDto();
+                loteDto.setId(lote.getId());
+                loteDto.setQuantidade(lote.getQuantidade());
+                loteDto.setDataValidade(lote.getData_validade());
+                loteDto.setDataEntrada(lote.getData_entrada());
+
+                ProdutoResponseDto produtoDto = new ProdutoResponseDto();
+                produtoDto.setId(lote.getProduto().getId());
+                produtoDto.setNome(lote.getProduto().getNome());
+                produtoDto.setUnidade_medida(lote.getProduto().getUnidadeMedida());
+
+                CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
+                categoriaDto.setId(lote.getProduto().getCategoria().getId());
+                categoriaDto.setNome(lote.getProduto().getCategoria().getNome());
+
+                produtoDto.setCategoriaDto(categoriaDto);
+                loteDto.setProdutoDto(produtoDto);
+
+                lotesResponseDtos.add(loteDto);
+            }
+
+        } catch (Exception ex) {
+            log.error("Falha ao converter lotes para DTOs", ex);
+            throw new RuntimeException("Falha ao listar lotes");
+        }
+
+        log.info("Encontrados {} lotes", lotesResponseDtos.size());
+        return lotesResponseDtos;
     }
 
     public Lotes findById(Long id) {
@@ -62,7 +136,7 @@ public class LotesService {
         }
         lotesRepository.saveAndFlush(idProduto);
     }
-    
+
     public void deletarPorId(Long id) {
         log.info("Iniciando deleção do lote id={}", id);
         lotesRepository.deleteById(id);

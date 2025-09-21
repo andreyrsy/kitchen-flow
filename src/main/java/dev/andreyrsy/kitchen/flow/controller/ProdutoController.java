@@ -31,18 +31,9 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
-        Categoria categoriaSelecionada = categoriaService.findById(dto.getCategoriaId());
-
-        Produto produto = new Produto();
-
-        produto.setNome(dto.getNome());
-        produto.setUnidadeMedida(dto.getUnidadeMedida());
-        produto.setCategoria(categoriaSelecionada);
-
-        Produto produtoAdicionado = produtoService.criarProduto(produto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(produtoAdicionado);
+    public ResponseEntity<ProdutoResponseDto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
+        ProdutoResponseDto responseDto = produtoService.criarProduto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @DeleteMapping("/deletar/{id}")

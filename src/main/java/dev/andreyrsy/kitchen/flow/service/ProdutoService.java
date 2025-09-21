@@ -1,6 +1,7 @@
 package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
@@ -27,16 +28,32 @@ public class ProdutoService {
         this.categoriaService = categoriaService;
     }
 
-    public Produto criarProduto(Produto produto) {
-        log.info("Criando produto nome={} categoriaId={}", produto.getNome(), produto.getCategoria().getId());
+    public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
+        log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), categoriaService.findById(dtoRequest.getCategoriaId()));
 
         try {
-            Categoria categoriaSelecionada = categoriaService.findById(produto.getCategoria().getId());
-            produto.setCategoria(categoriaSelecionada);
-            log.debug("Produto processado nome={}", produto.getNome());
-            return produtoRepository.saveAndFlush(produto);
+            Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
+
+            Produto entity = new Produto();
+            entity.setNome(dtoRequest.getNome());
+            entity.setUnidadeMedida(dtoRequest.getUnidadeMedida());
+            entity.setCategoria(categoriaSelecionada);
+            Produto produtoSalvo = produtoRepository.save(entity);
+
+            CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
+            categoriaDto.setId(produtoSalvo.getCategoria().getId());
+            categoriaDto.setNome(produtoSalvo.getCategoria().getNome());
+
+            ProdutoResponseDto responseDto = new ProdutoResponseDto();
+            responseDto.setId(produtoSalvo.getId());
+            responseDto.setNome(produtoSalvo.getNome());
+            responseDto.setUnidade_medida(produtoSalvo.getUnidadeMedida());
+            responseDto.setCategoriaDto(categoriaDto);
+
+            log.debug("Produto processado nome={}", dtoRequest.getNome());
+            return responseDto;
         } catch (Exception ex) {
-            log.error("LOG: Falha ao criar produto com nome: {}", produto.getNome());
+            log.error("Falha ao criar produto com nome: {}", dtoRequest.getNome());
             throw new RuntimeException("Falha ao criar produto", ex);
         }
     }
@@ -62,7 +79,7 @@ public class ProdutoService {
                 produtos.add(produtoResponseDto);
             }
         } catch (Exception ex) {
-            log.error("LOG: Falha ao tentar listar produtos", ex);
+            log.error("Falha ao tentar listar produtos", ex);
             throw new RuntimeException("Falha ao listar produtos");
         }
         log.info("Encontrados {} produtos", produtos.size());
