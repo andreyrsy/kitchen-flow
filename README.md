@@ -6,13 +6,13 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## 🎯 **Minha Jornada com Este Projeto**
+## 🎯 **Projeto Kitchenflow**
 
-Olá! Sou o **Andreyrsy** e este é meu primeiro projeto Spring Boot "de verdade". Quando comecei, mal sabia o que era um DTO ou como fazer relacionamentos entre entidades. Hoje, olhando para trás, vejo o quanto aprendi e cresci como desenvolvedor.
+Olá! Sou o **Andrey** e este é meu primeiro projeto Spring Boot "de verdade". Quando comecei, eu entendia o que era um DTO, como fazer relacionamentos entre entidades, mas agora nesse projeto utilizando eles na prática ficou muito mais claro o funcionamento.
 
-Este projeto nasceu de uma necessidade real: **combater o desperdício de comida em restaurantes**. Quantas vezes você já viu comida estragando na geladeira porque ninguém sabia que estava próxima do vencimento? Pois é, eu também! 
+Este projeto nasceu de uma necessidade real e pessoal, que ocorreu quando trabalhei em um restaurante: **combater o desperdício de comida em restaurantes e comidas estragadas**.
 
-O **Kitchen Flow** é minha tentativa de resolver esse problema com tecnologia, criando uma API que monitora proativamente as datas de validade e ajuda restaurantes a saberem exatamente o que precisa ser consumido com urgência.
+O **Kitchen Flow** é minha tentativa de resolver esse problema com tecnologia, criando uma API que monitora com proatividade as datas de validade e ajuda a saber o que precisa ser consumido com urgência.
 
 ---
 
@@ -24,13 +24,17 @@ O **Kitchen Flow** é minha tentativa de resolver esse problema com tecnologia, 
 - Aprendi que separar Controller → Service → Repository não é só "boa prática", é **essencial** para manter código limpo
 - Descobri que cada camada tem sua responsabilidade específica e não deve "invadir" a outra
 
-**2. Relacionamentos JPA (O Desafio!)**
+**2. Relacionamentos JPA**
 - Confesso: no começo, `@OneToMany` e `@ManyToOne` me confundiam muito
 - Mas quando entendi que `Categoria (1) → Produto (N) → Lotes (N)`, tudo fez sentido!
 - Aprendi que relacionamentos são sobre **como os dados se conectam no mundo real**
 
-**3. DTOs - A Grande Descoberta**
-- No início, retornava entidades direto do banco (erro clássico de iniciante!)
+**3. DTOs**
+- No início, retornava entidades direto do banco (erro que me fez aprender os Dto's)
+- Enfrentei o problema da recursão infinita na serialização de entidades, que gerava respostas
+  com milhares de linhas devido aos relacionamentos bidirecionais. A ficha caiu quando entendi que
+  precisava usar DTOs para criar um "contrato" e parar de expor o banco inteiro. E foi aqui onde os
+  Dto's me ajudou a resolver para finalmente ditar o que a API devolve e quebrar o ciclo.
 - Descobri que DTOs são como "traduções" entre o que está no banco e o que o cliente precisa
 - A conversão manual de entidade para DTO me ensinou muito sobre estrutura de dados
 
@@ -39,30 +43,30 @@ O **Kitchen Flow** é minha tentativa de resolver esse problema com tecnologia, 
 - Aprendi que validar na entrada é melhor que descobrir o erro depois
 
 **5. Tratamento de Exceções**
-- Meu `GlobalExceptionHandler` foi um marco! 
-- Antes, erros apareciam como stack traces gigantes
-- Agora, retorno mensagens bonitas e estruturadas
+- O `GlobalExceptionHandler` foi essencial.
+- Antes os erros apareciam como stack traces gigantes
+- Agora retorno mensagens estruturadas
 
 **6. Logs Estruturados**
 - Descobri que logs não são só `System.out.println()`
 - SLF4J me ensinou a diferença entre `log.info()`, `log.error()` e `log.debug()`
-- Agora consigo debugar problemas muito mais rápido
+- Agora consigo debugar os problemas mais rápido
 
 ---
 
 ## 🛠️ **Tecnologias que Dominei**
 
 ### **Backend Stack:**
-- **Java 21** - A linguagem que escolhi para minha carreira
-- **Spring Boot 3.5.3** - O framework que me fez amar desenvolvimento web
-- **Spring Data JPA** - Para persistência de dados (Hibernate por baixo)
-- **PostgreSQL** - Banco relacional robusto para dados estruturados
-- **Flyway** - Controle de versão do banco (migrações são vida!)
+- **Java 21**
+- **Spring Boot 3.5.3**
+- **Spring Data JPA**
+- **PostgreSQL**
+- **Flyway**
 
-### **Ferramentas que Me Ajudaram:**
-- **Lombok** - Menos código boilerplate = mais tempo para lógica de negócio
-- **Bean Validation** - Validações automáticas e consistentes
-- **Maven** - Gerenciamento de dependências (ainda estou aprendendo)
+### **Ferramentas**
+- **Lombok**
+- **Bean Validation**
+- **Maven**
 
 ---
 
@@ -121,26 +125,26 @@ Categoria (1) ←→ (N) Produto (1) ←→ (N) Lotes
 
 ---
 
-## 🎓 **Desafios que Superei**
+## 🎓 **Desafios que enfrentei**
 
-### **1. O Problema dos Relacionamentos**
+### **1. O problema dos relacionamentos**
 **Desafio:** Entender como conectar Categoria → Produto → Lotes
-**Solução:** Muitos testes, leitura da documentação do Hibernate, e principalmente: **prática!**
+**Solução:** Muitos testes, leitura da documentação do Hibernate, e principalmente: **prática**
 
-### **2. A Conversão Entidade → DTO**
+### **2. Conversão de entidade → DTO**
 **Desafio:** No início, retornava entidades direto do banco
 **Solução:** Aprendi que DTOs são "traduções" e implementei conversão manual completa
 
-### **3. Tratamento de Exceções**
+### **3. Tratamento de exceções**
 **Desafio:** Stack traces gigantes e mensagens confusas
 **Solução:** Implementei `GlobalExceptionHandler` com respostas estruturadas
 
-### **4. Validação de Dados**
-**Desafio:** Como garantir que dados válidos entrem no sistema?
+### **4. Validação de dados**
+**Desafio:** Como garantir que dados válidos entrem no sistema
 **Solução:** Bean Validation com `@NotBlank`, `@NotNull` e mensagens personalizadas
 
 ### **5. Logs Estruturados**
-**Desafio:** Debugging era um pesadelo
+**Desafio:** Debugging sem mensagens claras
 **Solução:** SLF4J com logs informativos e contexto rico
 
 ---
@@ -148,10 +152,10 @@ Categoria (1) ←→ (N) Produto (1) ←→ (N) Lotes
 ## 🚀 **Como Executar o Projeto**
 
 ### **Pré-requisitos:**
-- Java 21+ (recomendo usar SDKMan para gerenciar versões)
+- Java 21+
 - Maven 3.x+
 - PostgreSQL 15+
-- IDE (uso IntelliJ IDEA, mas VS Code também funciona)
+- IDE (IntelliJ IDEA)
 
 ### **Passo a Passo:**
 
@@ -237,7 +241,7 @@ PUT /api/v1/lotes/1/consumir/10
 
 ### **Application Properties:**
 ```properties
-# Logs personalizados (minha configuração favorita!)
+# Log personalizado
 logging.pattern.console=%d{HH:mm} %-5level %F.%M:%L >>> %cyan(%msg%n)
 
 # Banco de dados
@@ -254,31 +258,23 @@ spring.flyway.baseline-on-migrate=true
 
 ---
 
-## 🎯 **O Que Aprendi Sobre Desenvolvimento**
+## 🎯 **O que aprendi com o projeto**
 
-### **1. Persistência é Tudo**
-- Não desista quando algo não funcionar na primeira tentativa
-- Cada erro é uma oportunidade de aprender algo novo
-
-### **2. Documentação é Sua Amiga**
-- Spring Boot tem documentação excelente
-- Quando em dúvida, leia a documentação oficial
-
-### **3. Testes São Essenciais**
-- Sempre teste suas APIs com Postman/Insomnia
+### **1. Testes São Essenciais**
+- Sempre testando as APIs com Postman/Insomnia
 - Um endpoint que funciona no código pode falhar na prática
 
-### **4. Logs Salvam Vidas**
-- Implementei logs estruturados e agora debugging é muito mais fácil
+### **2. Logs Salvam Vidas**
+- Implementei logs estruturados e o debugging ficou mais fácil
 - `log.info()`, `log.error()`, `log.debug()` - cada um tem seu propósito
 
-### **5. Validação Previne Problemas**
-- Valide dados na entrada, não na saída
+### **3. Validação Previne Problemas**
+- Validar dados na entrada, não na saída
 - Bean Validation é mais poderoso do que parece
 
 ---
 
-## 🔮 **Próximos Passos (Minha Roadmap)**
+## 🔮 **Próximos passos do projeto**
 
 ### **Curto Prazo:**
 - [ ] Implementar testes unitários (ainda não sei como fazer direito)
@@ -294,38 +290,13 @@ spring.flyway.baseline-on-migrate=true
 - [ ] Containerizar com Docker
 - [ ] Implementar CI/CD com GitHub Actions
 - [ ] Criar frontend em React para consumir a API
-
 ---
 
-## 📊 **Estatísticas do Projeto**
-
-- **Linhas de Código:** ~800 linhas
-- **Tempo de Desenvolvimento:** 2 meses (com muito estudo paralelo)
-- **Commits:** 47 commits (cada um representando uma pequena vitória!)
-- **Bugs Corrigidos:** Incontáveis (mas cada um me ensinou algo)
-
----
-
-## 🎉 **Conclusão**
-
-Este projeto representa muito mais que código - representa minha evolução como desenvolvedor. Cada erro, cada dúvida, cada linha de código escrita foi um passo em direção ao meu objetivo: **conseguir um estágio em desenvolvimento**.
-
-Se você está começando como eu estava, meu conselho é: **não tenha medo de errar**. Cada erro é uma lição. Cada dúvida é uma oportunidade de crescer. E cada linha de código é um passo em direção ao seu objetivo.
-
-O Spring Boot pode parecer complexo no início, mas com persistência e prática, você consegue dominar. Eu consegui, e você também consegue!
-
----
-
-## 👨‍💻 **Sobre Mim**
-
-**Andreyrsy** - Desenvolvedor Java em formação
+**Andreyrsy**
 
 - 💼 **LinkedIn:** [andreyrsy](https://linkedin.com/in/andreyrsy)
 - 🐙 **GitHub:** [andreyrsy](https://github.com/andreyrsy)
-- 📧 **Email:** [seu-email@exemplo.com]
-
-*"Cada linha de código é um passo em direção ao meu sonho de trabalhar com tecnologia."*
-
+- 📧 **Email:** [andreyrsy@gmail.com]
 ---
 
 ## 📄 **Licença**
@@ -334,4 +305,3 @@ Este projeto está sob a licença MIT. Sinta-se livre para usar, modificar e dis
 
 ---
 
-*Desenvolvido com ❤️, muito ☕ e algumas 😅 durante o processo de aprendizado*
