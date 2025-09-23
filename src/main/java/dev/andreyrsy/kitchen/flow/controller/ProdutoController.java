@@ -2,14 +2,14 @@ package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
-import dev.andreyrsy.kitchen.flow.model.Categoria;
-import dev.andreyrsy.kitchen.flow.model.Produto;
+import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ import java.util.List;
 @RequestMapping("/api/v1/produto")
 public class ProdutoController {
     private final ProdutoService produtoService;
-    private final CategoriaService categoriaService;
+    private final ProdutoRepository produtoRepository;
 
-    public ProdutoController(ProdutoService produtoService, CategoriaService categoriaService) {
+    public ProdutoController(ProdutoService produtoService, ProdutoRepository produtoRepository) {
         this.produtoService = produtoService;
-        this.categoriaService = categoriaService;
+        this.produtoRepository = produtoRepository;
     }
 
     @GetMapping
@@ -37,8 +37,10 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public void removerAlimento(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        produtoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         produtoService.deletarProduto(id);
-        ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.noContent().build();
     }
 }
