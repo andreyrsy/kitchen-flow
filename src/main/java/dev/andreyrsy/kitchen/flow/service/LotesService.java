@@ -7,12 +7,15 @@ import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
+import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +94,7 @@ public class LotesService {
                 loteDto.setQuantidade(lote.getQuantidade());
                 loteDto.setDataValidade(lote.getData_validade());
                 loteDto.setDataEntrada(lote.getData_entrada());
+                loteDto.setStatusValidade(calcularStatus(lote.getData_entrada(), lote.getData_validade()));
 
                 ProdutoResponseDto produtoDto = new ProdutoResponseDto();
                 produtoDto.setId(lote.getProduto().getId());
@@ -103,6 +107,7 @@ public class LotesService {
 
                 produtoDto.setCategoriaDto(categoriaDto);
                 loteDto.setProdutoDto(produtoDto);
+
 
                 lotesResponseDtos.add(loteDto);
             }
@@ -135,6 +140,24 @@ public class LotesService {
             throw new Exception("Quantidade insuficiente no estoque.");
         }
         lotesRepository.saveAndFlush(idProduto);
+    }
+
+    public StatusValidade calcularStatus(LocalDate dataEntrada, LocalDate dataValidade) {
+        log.debug("Calculando status de validade para data={}", dataValidade);
+        long diasRestantes = ChronoUnit.DAYS.between(dataEntrada, dataValidade);
+
+        StatusValidade status;
+        if (diasRestantes < 0) {
+            status = StatusValidade.VENCIDO;
+        } else if (diasRestantes <= 1) {
+            status = StatusValidade.URGENTE;
+        } else if (diasRestantes <= 3) {
+            status = StatusValidade.ATENCAO;
+        } else {
+            status = StatusValidade.NORMAL;
+        }
+        log.debug("Status calculado: {} para {} dias restantes", status, diasRestantes);
+        return status;
     }
 
     public void deletarPorId(Long id) {

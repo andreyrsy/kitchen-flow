@@ -96,25 +96,6 @@ public class ProdutoService {
         return produto;
     }
 
-    public StatusValidade calcularStatus(LocalDate dataValidade) {
-        log.debug("Calculando status de validade para data={}", dataValidade);
-        LocalDate dataAtual = LocalDate.now();
-        long diasRestantes = ChronoUnit.DAYS.between(dataAtual, dataValidade);
-
-        StatusValidade status;
-        if (diasRestantes < 0) {
-            status = StatusValidade.VENCIDO;
-        } else if (diasRestantes <= 1) {
-            status = StatusValidade.URGENTE;
-        } else if (diasRestantes <= 3) {
-            status = StatusValidade.ATENCAO;
-        } else {
-            status = StatusValidade.NORMAL;
-        }
-        log.debug("Status calculado: {} para {} dias restantes", status, diasRestantes);
-        return status;
-    }
-
     public void deletarProduto(Long id) {
         log.info("Iniciando deleção do produto id={}", id);
         produtoRepository.deleteById(id);
