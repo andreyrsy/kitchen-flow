@@ -1,8 +1,10 @@
 package dev.andreyrsy.kitchen.flow.service;
 
+import dev.andreyrsy.kitchen.flow.dto.CategoriaRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +20,18 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Categoria criarCategoria(Categoria categoria) {
-        log.info("Criando nova categoria nome={}", categoria.getNome());
-        Categoria categoriaCriada = categoriaRepository.save(categoria);
+    public CategoriaResponseDto criarCategoria(CategoriaRequestDto dto) {
+        log.info("Criando nova categoria nome={}", dto.getNome());
+        Categoria categoria = new Categoria();
+        categoria.setNome(dto.getNome());
+        categoriaRepository.save(categoria);
 
-        log.info("Categoria criada com sucesso id={} nome={}", categoriaCriada.getId(), categoriaCriada.getNome());
-        return categoriaCriada;
+        CategoriaResponseDto categoriaResponseDto = new CategoriaResponseDto();
+        categoriaResponseDto.setId(categoria.getId());
+        categoriaResponseDto.setNome(categoria.getNome());
+
+        log.info("Categoria criada com sucesso id={} nome={}", categoriaResponseDto.getId(), categoriaResponseDto.getNome());
+        return categoriaResponseDto;
     }
 
     public List<CategoriaResponseDto> findAll() {
@@ -43,7 +51,9 @@ public class CategoriaService {
 
     public Categoria findById(Long id) {
         log.debug("Buscando categoria por id={}", id);
-        Categoria categoriaId = categoriaRepository.findById(id).get();
+        Categoria categoriaId = categoriaRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Categoria não encontrada!"));
+        
         log.debug("Categoria encontrada id={} nome={}", categoriaId.getId(), categoriaId.getNome());
         return categoriaId;
     }

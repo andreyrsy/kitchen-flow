@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
+import dev.andreyrsy.kitchen.flow.dto.CategoriaRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
@@ -19,9 +20,9 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criarCategoria(@Valid @RequestBody Categoria categoria){
-        Categoria service = categoriaService.criarCategoria(categoria);
-        return ResponseEntity.ok().body(service);
+    public ResponseEntity<CategoriaResponseDto> criarCategoria(@Valid @RequestBody CategoriaRequestDto categoria){
+        CategoriaResponseDto categoriaResponseDto = categoriaService.criarCategoria(categoria);
+        return ResponseEntity.ok().body(categoriaResponseDto);
     }
 
     @GetMapping
