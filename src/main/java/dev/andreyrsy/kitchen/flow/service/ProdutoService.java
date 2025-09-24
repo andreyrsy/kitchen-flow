@@ -29,7 +29,7 @@ public class ProdutoService {
     }
 
     public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
-        log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), categoriaService.findById(dtoRequest.getCategoriaId()));
+        log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), dtoRequest.getCategoriaId());
 
         try {
             Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
