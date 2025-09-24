@@ -32,6 +32,10 @@ public class ProdutoService {
         log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), dtoRequest.getCategoriaId());
 
         try {
+            if(produtoRepository.existsByNome(dtoRequest.getNome())) {
+                log.error("Tentativa de criar produto duplicado nome={}", dtoRequest.getNome());
+                throw new RuntimeException("Produto existente!");
+            }
             Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
 
             Produto entity = new Produto();

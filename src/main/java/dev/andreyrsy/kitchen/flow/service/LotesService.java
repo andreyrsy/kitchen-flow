@@ -94,7 +94,7 @@ public class LotesService {
                 loteDto.setQuantidade(lote.getQuantidade());
                 loteDto.setDataValidade(lote.getData_validade());
                 loteDto.setDataEntrada(lote.getData_entrada());
-                loteDto.setStatusValidade(calcularStatus(lote.getData_entrada(), lote.getData_validade()));
+                loteDto.setStatusValidade(calcularStatus(lote.getData_validade()));
 
                 ProdutoResponseDto produtoDto = new ProdutoResponseDto();
                 produtoDto.setId(lote.getProduto().getId());
@@ -142,9 +142,9 @@ public class LotesService {
         lotesRepository.saveAndFlush(idProduto);
     }
 
-    public StatusValidade calcularStatus(LocalDate dataEntrada, LocalDate dataValidade) {
+    public StatusValidade calcularStatus(LocalDate dataValidade) {
         log.debug("Calculando status de validade para data={}", dataValidade);
-        long diasRestantes = ChronoUnit.DAYS.between(dataEntrada, dataValidade);
+        long diasRestantes = ChronoUnit.DAYS.between(LocalDate.now(), dataValidade);
 
         StatusValidade status;
         if (diasRestantes < 0) {

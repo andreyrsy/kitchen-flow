@@ -43,7 +43,8 @@ public class LotesController {
     }
 
     @PutMapping("/{id}/consumir/{qtdConsumida}")
-    public void usarProdutoController(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
+    public ResponseEntity<Void> usarProdutoController(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
         lotesService.usarProduto(id, qtdConsumida);
+        return ResponseEntity.ok().build();
     }
 }

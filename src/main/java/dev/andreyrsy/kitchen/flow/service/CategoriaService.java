@@ -70,7 +70,7 @@ public class CategoriaService {
         log.info("Iniciando deleção da categoria id={}", id);
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
 
-        if(categoria.getProduto() != null && categoria.getProduto().isEmpty()){
+        if(categoria.getProduto() != null && !categoria.getProduto().isEmpty()){
             log.error("Tentativa de deletar categoria com produtos associados id={}", id);
             throw new RuntimeException("Não é possível deletar categoria que possui produtos associados!");
         }
