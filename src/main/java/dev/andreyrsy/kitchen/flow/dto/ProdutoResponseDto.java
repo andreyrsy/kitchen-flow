@@ -5,6 +5,6 @@ import lombok.Data;
 public class ProdutoResponseDto {
     private Long id;
     private String nome;
-    private String unidade_medida;
+    private String unidadeMedida;
     private CategoriaResponseDto categoriaDto;
 }

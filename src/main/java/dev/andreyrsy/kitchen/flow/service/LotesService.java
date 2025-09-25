@@ -61,7 +61,7 @@ public class LotesService {
             ProdutoResponseDto produtoDto = new ProdutoResponseDto();
             produtoDto.setId(produtoSelecionado.getId());
             produtoDto.setNome(produtoSelecionado.getNome());
-            produtoDto.setUnidade_medida(produtoSelecionado.getUnidadeMedida());
+            produtoDto.setUnidadeMedida(produtoSelecionado.getUnidadeMedida());
             produtoDto.setCategoriaDto(categoria);
 
             LotesResponseDto lotesDto = new LotesResponseDto();
@@ -99,7 +99,7 @@ public class LotesService {
                 ProdutoResponseDto produtoDto = new ProdutoResponseDto();
                 produtoDto.setId(lote.getProduto().getId());
                 produtoDto.setNome(lote.getProduto().getNome());
-                produtoDto.setUnidade_medida(lote.getProduto().getUnidadeMedida());
+                produtoDto.setUnidadeMedida(lote.getProduto().getUnidadeMedida());
 
                 CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
                 categoriaDto.setId(lote.getProduto().getCategoria().getId());

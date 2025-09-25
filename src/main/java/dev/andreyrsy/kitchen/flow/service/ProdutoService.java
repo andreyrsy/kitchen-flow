@@ -5,14 +5,11 @@ import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
-import dev.andreyrsy.kitchen.flow.model.StatusValidade;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +48,10 @@ public class ProdutoService {
             ProdutoResponseDto responseDto = new ProdutoResponseDto();
             responseDto.setId(produtoSalvo.getId());
             responseDto.setNome(produtoSalvo.getNome());
-            responseDto.setUnidade_medida(produtoSalvo.getUnidadeMedida());
+            responseDto.setUnidadeMedida(produtoSalvo.getUnidadeMedida());
             responseDto.setCategoriaDto(categoriaDto);
 
-            log.debug("Produto processado nome={}", dtoRequest.getNome());
+            log.info("Produto processado nome={}", dtoRequest.getNome());
             return responseDto;
         } catch (Exception ex) {
             log.error("Falha ao criar produto com nome: {}", dtoRequest.getNome());
@@ -77,7 +74,7 @@ public class ProdutoService {
 
                 produtoResponseDto.setId(produto.getId());
                 produtoResponseDto.setNome(produto.getNome());
-                produtoResponseDto.setUnidade_medida(produto.getUnidadeMedida());
+                produtoResponseDto.setUnidadeMedida(produto.getUnidadeMedida());
                 produtoResponseDto.setCategoriaDto(categorias.getFirst());
 
                 produtos.add(produtoResponseDto);

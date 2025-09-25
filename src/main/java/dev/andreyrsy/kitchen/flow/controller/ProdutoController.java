@@ -3,7 +3,6 @@ package dev.andreyrsy.kitchen.flow.controller;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
-import dev.andreyrsy.kitchen.flow.service.CategoriaService;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
