@@ -36,4 +36,14 @@ public class ProdutoMapper {
 
         return responseDto;
     }
+
+    public List<ProdutoResponseDto> toDtoList(List<Produto> produtos) {
+        if (produtos == null) {
+            return Collections.emptyList();
+        }
+
+        return produtos.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 }

@@ -55,17 +55,16 @@ public class ProdutoService {
 
     public List<ProdutoResponseDto> listarProdutos() {
         log.info("Buscando todos os produtos do banco de dados");
-        List<ProdutoResponseDto> produtos = new ArrayList<>();
+        List<Produto> produtosList = produtoRepository.findAll();
         try {
-            for (Produto produto : produtoRepository.findAll()) {
-                produtos.add(mapper.toDto(produto));
-            }
+            List<ProdutoResponseDto> produtos = mapper.toDtoList(produtosList);
+
+            log.info("Encontrados {} produtos", produtos.size());
+            return produtos;
         } catch (Exception ex) {
             log.error("Falha ao tentar listar produtos", ex);
             throw new RuntimeException("Falha ao listar produtos");
         }
-        log.info("Encontrados {} produtos", produtos.size());
-        return produtos;
     }
 
     public Produto findById(Long id) {
