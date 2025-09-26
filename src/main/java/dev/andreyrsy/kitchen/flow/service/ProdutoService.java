@@ -3,6 +3,7 @@ package dev.andreyrsy.kitchen.flow.service;
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
@@ -18,38 +19,31 @@ import java.util.List;
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final CategoriaService categoriaService;
+    private final ProdutoMapper mapper;
 
 
-    public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService) {
+    public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService, ProdutoMapper mapper) {
         this.produtoRepository = produtoRepository;
         this.categoriaService = categoriaService;
+        this.mapper = mapper;
     }
 
     public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
         log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), dtoRequest.getCategoriaId());
 
         try {
-            if(produtoRepository.existsByNome(dtoRequest.getNome())) {
+            if (produtoRepository.existsByNome(dtoRequest.getNome())) {
                 log.error("Tentativa de criar produto duplicado nome={}", dtoRequest.getNome());
                 throw new RuntimeException("Produto existente!");
             }
-            Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
 
-            Produto entity = new Produto();
-            entity.setNome(dtoRequest.getNome());
-            entity.setUnidadeMedida(dtoRequest.getUnidadeMedida());
+            Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
+            Produto entity = mapper.toEntity(dtoRequest);
             entity.setCategoria(categoriaSelecionada);
+
             Produto produtoSalvo = produtoRepository.save(entity);
 
-            CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
-            categoriaDto.setId(produtoSalvo.getCategoria().getId());
-            categoriaDto.setNome(produtoSalvo.getCategoria().getNome());
-
-            ProdutoResponseDto responseDto = new ProdutoResponseDto();
-            responseDto.setId(produtoSalvo.getId());
-            responseDto.setNome(produtoSalvo.getNome());
-            responseDto.setUnidadeMedida(produtoSalvo.getUnidadeMedida());
-            responseDto.setCategoriaDto(categoriaDto);
+            ProdutoResponseDto responseDto = mapper.toDto(produtoSalvo);
 
             log.info("Produto processado nome={}", dtoRequest.getNome());
             return responseDto;
@@ -64,20 +58,7 @@ public class ProdutoService {
         List<ProdutoResponseDto> produtos = new ArrayList<>();
         try {
             for (Produto produto : produtoRepository.findAll()) {
-                ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto();
-                CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
-
-                List<CategoriaResponseDto> categorias = new ArrayList<>();
-                categoriaDto.setId(produto.getCategoria().getId());
-                categoriaDto.setNome(produto.getCategoria().getNome());
-                categorias.add(categoriaDto);
-
-                produtoResponseDto.setId(produto.getId());
-                produtoResponseDto.setNome(produto.getNome());
-                produtoResponseDto.setUnidadeMedida(produto.getUnidadeMedida());
-                produtoResponseDto.setCategoriaDto(categorias.getFirst());
-
-                produtos.add(produtoResponseDto);
+                produtos.add(mapper.toDto(produto));
             }
         } catch (Exception ex) {
             log.error("Falha ao tentar listar produtos", ex);
