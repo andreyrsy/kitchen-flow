@@ -11,6 +11,5 @@ public class LotesResponseDto {
     private Integer quantidade;
     private LocalDate dataValidade;
     private LocalDate dataEntrada;
-    private StatusValidade statusValidade;
     private ProdutoResponseDto produtoDto;
 }

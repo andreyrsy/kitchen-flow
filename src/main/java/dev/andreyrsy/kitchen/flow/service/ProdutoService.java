@@ -58,7 +58,6 @@ public class ProdutoService {
         List<Produto> produtosList = produtoRepository.findAll();
         try {
             List<ProdutoResponseDto> produtos = mapper.toDtoList(produtosList);
-
             log.info("Encontrados {} produtos", produtos.size());
             return produtos;
         } catch (Exception ex) {

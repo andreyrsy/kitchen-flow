@@ -25,14 +25,14 @@ public class LotesController {
 
     @GetMapping
     public ResponseEntity<List<LotesResponseDto>> listarTodosLotes() {
-        List<LotesResponseDto> listaLotes = lotesService.listarLotes();
-        return ResponseEntity.ok().body(listaLotes);
+        List<LotesResponseDto> listarLotesResponse = lotesService.listarTodosLotes();
+        return ResponseEntity.ok().body(listarLotesResponse);
     }
 
     @PostMapping
-    public ResponseEntity<LotesResponseDto> salvarLote(@Valid @RequestBody LotesRequestDto dto) throws Exception {
-        LotesResponseDto loteResponse = lotesService.criarLote(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(loteResponse);
+    public ResponseEntity<LotesResponseDto> criarLote(@Valid @RequestBody LotesRequestDto dto) throws Exception {
+        LotesResponseDto criarLoteResponse = lotesService.salvarLote(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criarLoteResponse);
     }
 
     @DeleteMapping("/deletar/{id}")
@@ -43,8 +43,8 @@ public class LotesController {
     }
 
     @PutMapping("/{id}/consumir/{qtdConsumida}")
-    public ResponseEntity<Void> usarProdutoController(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
-        lotesService.usarProduto(id, qtdConsumida);
+    public ResponseEntity<Void> usarProduto(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
+        lotesService.utilizarProduto(id, qtdConsumida);
         return ResponseEntity.ok().build();
     }
 }

@@ -24,21 +24,20 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoResponseDto>> listarAlimentos() {
-        List<ProdutoResponseDto> listaProdutosx = produtoService.listarProdutos();
-        return ResponseEntity.ok().body(listaProdutosx);
+    public ResponseEntity<List<ProdutoResponseDto>> listarTodosProdutos() {
+        List<ProdutoResponseDto> listarProdutos = produtoService.listarProdutos();
+        return ResponseEntity.ok().body(listarProdutos);
     }
 
     @PostMapping
     public ResponseEntity<ProdutoResponseDto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
-        ProdutoResponseDto responseDto = produtoService.criarProduto(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+        ProdutoResponseDto criarProdutoResponse = produtoService.criarProduto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criarProdutoResponse);
     }
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         produtoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
     }
