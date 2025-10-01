@@ -35,7 +35,7 @@ public class CategoriaController {
         return ResponseEntity.ok().body(listaDto);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCategoria(@PathVariable(name = "id") Long id) {
         categoriaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

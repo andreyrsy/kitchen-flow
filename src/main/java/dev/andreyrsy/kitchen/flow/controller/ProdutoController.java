@@ -35,7 +35,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(criarProdutoResponse);
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         produtoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         produtoService.deletarProduto(id);

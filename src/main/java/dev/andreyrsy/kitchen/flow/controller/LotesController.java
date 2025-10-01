@@ -35,16 +35,16 @@ public class LotesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(criarLoteResponse);
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarLotePorId(@PathVariable(name = "id") Long id) {
         lotesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         lotesService.deletarPorId(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/consumir/{qtdConsumida}")
-    public ResponseEntity<Void> usarProduto(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "qtdConsumida") Integer qtdConsumida) throws Exception {
-        lotesService.utilizarProduto(id, qtdConsumida);
+    @PutMapping("/{id}/consumir/{quantidade}")
+    public ResponseEntity<Void> usarProduto(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "quantidade") Integer quantidade) throws Exception {
+        lotesService.utilizarProduto(id, quantidade);
         return ResponseEntity.ok().build();
     }
 }

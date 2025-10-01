@@ -62,13 +62,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/produto/deletar/4",
+							"raw": "{{baseURL}}/produto/4",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"produto",
-								"deletar",
 								"4"
 							]
 						}
@@ -129,13 +128,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/categoria/deletar/3",
+							"raw": "{{baseURL}}/categoria/3",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"categoria",
-								"deletar",
 								"3"
 							]
 						}
@@ -199,12 +197,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/lotes/7",
+							"raw": "{{baseURL}}/7",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"lotes",
 								"7"
 							]
 						}
