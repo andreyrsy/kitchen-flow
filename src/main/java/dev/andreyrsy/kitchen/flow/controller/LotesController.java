@@ -1,5 +1,7 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
+import dev.andreyrsy.kitchen.flow.dto.ConsumoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
@@ -42,9 +44,11 @@ public class LotesController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/consumir/{quantidade}")
-    public ResponseEntity<Void> usarProduto(@Valid @PathVariable(name = "id") Long id, @PathVariable(name = "quantidade") Integer quantidade) throws Exception {
-        lotesService.utilizarProduto(id, quantidade);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{id}/consumos")
+    public ResponseEntity<ConsumoResponseDto> usarProduto(@PathVariable(name = "id") Long id, @RequestBody ConsumoRequestDto dto) throws Exception {
+//        LotesResponseDto atualizado = lotesService.utilizarProduto(id, dto.getQuantidade());
+        ConsumoResponseDto atualizado = lotesService.utilizarProduto(id, dto.getQuantidade());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
 }

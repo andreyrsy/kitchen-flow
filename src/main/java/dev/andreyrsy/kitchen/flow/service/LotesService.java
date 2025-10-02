@@ -1,5 +1,6 @@
 package dev.andreyrsy.kitchen.flow.service;
 
+import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
@@ -75,17 +76,23 @@ public class LotesService {
         return lotes;
     }
 
-    public void utilizarProduto(Long id, Integer quantidadeConsumida) throws Exception {
+    public ConsumoResponseDto utilizarProduto(Long id, Integer quantidadeConsumida) throws Exception {
         log.info("Iniciando consumo do lote id={} quantidadeConsumida={}", id, quantidadeConsumida);
-        Lotes idProduto = lotesRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        if (idProduto.getQuantidade() >= quantidadeConsumida) {
-            idProduto.setQuantidade(idProduto.getQuantidade() - quantidadeConsumida);
-            log.info("Consumo realizado com sucesso loteId={} quantidadeRestante={}", id, idProduto.getQuantidade());
+        Lotes loteId = lotesRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        if (loteId.getQuantidade() >= quantidadeConsumida) {
+            loteId.setQuantidade(loteId.getQuantidade() - quantidadeConsumida);
+            log.info("Consumo realizado com sucesso loteId={} quantidadeRestante={}", id, loteId.getQuantidade());
         } else {
-            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, idProduto.getQuantidade(), quantidadeConsumida);
+            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, loteId.getQuantidade(), quantidadeConsumida);
             throw new Exception("Quantidade insuficiente no estoque.");
         }
-        lotesRepository.saveAndFlush(idProduto);
+        lotesRepository.saveAndFlush(loteId);
+        ConsumoResponseDto novoConsumo = new ConsumoResponseDto();
+
+        novoConsumo.setLoteId(loteId.getId());
+        novoConsumo.setQuantidade(loteId.getQuantidade());
+
+        return novoConsumo;
     }
 
     /*

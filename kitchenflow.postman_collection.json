@@ -11,7 +11,7 @@
 			"name": "Produto",
 			"item": [
 				{
-					"name": "produto[get] ListarProdutos",
+					"name": "produtos[get]",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -19,19 +19,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/produto",
+							"raw": "{{baseURL}}/produtos",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"produto"
+								"produtos"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "produto[post] - AdicionarProduto",
+					"name": "produtos[post]",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -45,29 +45,29 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/produto",
+							"raw": "{{baseURL}}/produtos",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"produto"
+								"produtos"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "produto[delete] - DeletarProduto",
+					"name": "produtos[delete]",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/produto/4",
+							"raw": "{{baseURL}}/produtos/4",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"produto",
+								"produtos",
 								"4"
 							]
 						}
@@ -80,24 +80,24 @@
 			"name": "Categoria",
 			"item": [
 				{
-					"name": "categorias[get] ListarCategorias",
+					"name": "categorias[get]",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/categoria",
+							"raw": "{{baseURL}}/categorias",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"categoria"
+								"categorias"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "categorias[post] AdicionarCategoria",
+					"name": "categorias[post]",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -111,29 +111,29 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/categoria",
+							"raw": "{{baseURL}}/categorias",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"categoria"
+								"categorias"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "categorias[delete] - ListarCategoria",
+					"name": "categorias[delete]",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/categoria/3",
+							"raw": "{{baseURL}}/categorias/3",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"categoria",
+								"categorias",
 								"3"
 							]
 						}
@@ -146,7 +146,7 @@
 			"name": "Lote",
 			"item": [
 				{
-					"name": "lote[get] - ListarLotes",
+					"name": "lotes[get]",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -163,7 +163,7 @@
 					"response": []
 				},
 				{
-					"name": "lote[post] AdicionarLote",
+					"name": "lotes[post]",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -192,16 +192,17 @@
 					"response": []
 				},
 				{
-					"name": "lote[delete] DeletarLote",
+					"name": "lotes[delete]",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/7",
+							"raw": "{{baseURL}}/lotes/7",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
+								"lotes",
 								"7"
 							]
 						}
@@ -209,7 +210,7 @@
 					"response": []
 				},
 				{
-					"name": "lote[put] - ConsumirProduto",
+					"name": "lotes[put]",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -223,6 +224,34 @@
 								"2",
 								"consumir",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lotes[post] - consumir produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantidade\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/lotes/3/consumos",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"lotes",
+								"3",
+								"consumos"
 							]
 						}
 					},

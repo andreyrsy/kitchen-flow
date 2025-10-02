@@ -1,6 +1,5 @@
 package dev.andreyrsy.kitchen.flow.service;
 
-import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
@@ -11,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
