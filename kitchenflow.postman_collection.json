@@ -210,33 +210,13 @@
 					"response": []
 				},
 				{
-					"name": "lotes[put]",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/lotes/2/consumir/1",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"lotes",
-								"2",
-								"consumir",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "lotes[post] - consumir produto",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quantidade\": 2\r\n}",
+							"raw": "{\r\n    \"quantidade\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -244,13 +224,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/lotes/3/consumos",
+							"raw": "{{baseURL}}/lotes/2/consumos",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"lotes",
-								"3",
+								"2",
 								"consumos"
 							]
 						}

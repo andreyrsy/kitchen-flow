@@ -2,6 +2,8 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.exception.business.ProdutoDuplicadoException;
+import dev.andreyrsy.kitchen.flow.exception.business.ProdutoNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
@@ -32,7 +34,7 @@ public class ProdutoService {
         try {
             if (produtoRepository.existsByNome(dtoRequest.getNome())) {
                 log.error("Tentativa de criar produto duplicado nome={}", dtoRequest.getNome());
-                throw new RuntimeException("Produto existente!");
+                throw new ProdutoDuplicadoException(dtoRequest.getNome());
             }
 
             Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
@@ -67,7 +69,7 @@ public class ProdutoService {
     public Produto findById(Long id) {
         log.debug("Buscando produto por id={}", id);
         Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
         log.debug("Produto encontrado id={} nome={}", produto.getId(), produto.getNome());
 

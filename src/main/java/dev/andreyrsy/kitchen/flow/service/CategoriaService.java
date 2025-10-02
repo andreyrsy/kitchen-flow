@@ -2,6 +2,7 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.CategoriaRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
+import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.kitchen.flow.mapper.CategoriaMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
@@ -55,15 +56,14 @@ public class CategoriaService {
     public Categoria findById(Long id) {
         log.debug("Buscando categoria por id={}", id);
         Categoria categoriaId = categoriaRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Categoria não encontrada!"));
-
+                new CategoriaNaoEncontradaException(id));
         log.debug("Categoria encontrada id={} nome={}", categoriaId.getId(), categoriaId.getNome());
         return categoriaId;
     }
 
     public void deletarPorId(Long id) {
         log.info("Iniciando deleção da categoria id={}", id);
-        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new CategoriaNaoEncontradaException(id));
 
         if (categoria.getProduto() != null && !categoria.getProduto().isEmpty()) {
             log.error("Tentativa de deletar categoria com produtos associados id={}", id);

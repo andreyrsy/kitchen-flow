@@ -3,6 +3,9 @@ package dev.andreyrsy.kitchen.flow.service;
 import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.exception.business.DataInvalidaException;
+import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
+import dev.andreyrsy.kitchen.flow.exception.business.QuantidadeInsuficienteException;
 import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
@@ -38,7 +41,7 @@ public class LotesService {
         try {
             if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
                 log.error("Data de validade inválida dataValidade={} dataEntrada={}", dto.getDataValidade(), dto.getDataEntrada());
-                throw new Exception("Insira uma data de validade correta!");
+                throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
             }
 
             Lotes toEntity = mapper.toEntity(dto);
@@ -70,21 +73,22 @@ public class LotesService {
 
     public Lotes findById(Long id) {
         log.debug("Buscando lote por id={}", id);
-        Lotes lotes = lotesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Lote não encontrado!"));
+        Lotes lotes = lotesRepository.findById(id).orElseThrow(() -> new LoteNaoEncontradoException(id));
         log.debug("Lote encontrado id={} produto={} quantidade={}",
                 lotes.getId(), lotes.getProduto().getNome(), lotes.getQuantidade());
         return lotes;
     }
 
-    public ConsumoResponseDto utilizarProduto(Long id, Integer quantidadeConsumida) throws Exception {
-        log.info("Iniciando consumo do lote id={} quantidadeConsumida={}", id, quantidadeConsumida);
-        Lotes loteId = lotesRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        if (loteId.getQuantidade() >= quantidadeConsumida) {
-            loteId.setQuantidade(loteId.getQuantidade() - quantidadeConsumida);
+    public ConsumoResponseDto utilizarProduto(Long id, Integer quantidadeSolicitada) throws Exception {
+        log.info("Iniciando consumo do lote id={} quantidadeSolicitada={}", id, quantidadeSolicitada);
+        Lotes loteId = lotesRepository.findById(id).orElseThrow(() -> new LoteNaoEncontradoException(id));
+
+        if (loteId.getQuantidade() >= quantidadeSolicitada) {
+            loteId.setQuantidade(loteId.getQuantidade() - quantidadeSolicitada);
             log.info("Consumo realizado com sucesso loteId={} quantidadeRestante={}", id, loteId.getQuantidade());
         } else {
-            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, loteId.getQuantidade(), quantidadeConsumida);
-            throw new Exception("Quantidade insuficiente no estoque.");
+            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, loteId.getQuantidade(), quantidadeSolicitada);
+            throw new QuantidadeInsuficienteException(loteId.getId(), loteId.getQuantidade(), quantidadeSolicitada);
         }
         lotesRepository.saveAndFlush(loteId);
         ConsumoResponseDto novoConsumo = new ConsumoResponseDto();
