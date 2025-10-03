@@ -118,9 +118,15 @@ public class LotesService {
             return status;
         }
      */
-    public void deletarPorId(Long id) {
+    public void deleteById(Long id) {
         log.info("Iniciando deleção do lote id={}", id);
-        lotesRepository.deleteById(id);
+        try {
+            lotesRepository.deleteById(id);
+            log.info("Lote apagado com sucesso id={}", id);
+        } catch (Exception ex) {
+            log.error("Falha ao deletar lote id={}!", id, ex);
+            throw new LoteNaoEncontradoException(id);
+        }
         log.info("Lote deletado com sucesso id={}", id);
     }
 }

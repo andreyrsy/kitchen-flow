@@ -54,10 +54,11 @@ public class CategoriaService {
     }
 
     public Categoria findById(Long id) {
-        log.debug("Buscando categoria por id={}", id);
+        log.info("Buscando categoria por id={}", id);
         Categoria categoriaId = categoriaRepository.findById(id).orElseThrow(() ->
                 new CategoriaNaoEncontradaException(id));
-        log.debug("Categoria encontrada id={} nome={}", categoriaId.getId(), categoriaId.getNome());
+
+        log.info("Categoria encontrada id={} nome={}", categoriaId.getId(), categoriaId.getNome());
         return categoriaId;
     }
 
@@ -67,9 +68,8 @@ public class CategoriaService {
 
         if (categoria.getProduto() != null && !categoria.getProduto().isEmpty()) {
             log.error("Tentativa de deletar categoria com produtos associados id={}", id);
-            throw new RuntimeException("Não é possível deletar categoria que possui produtos associados!");
+            throw new RuntimeException("Não é possível deletar categoria que possui produtos associados.");
         }
-
         categoriaRepository.deleteById(id);
         log.info("Categoria deletada com sucesso id={}", id);
     }

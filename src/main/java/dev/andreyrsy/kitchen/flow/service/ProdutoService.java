@@ -2,11 +2,14 @@ package dev.andreyrsy.kitchen.flow.service;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
+import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoDuplicadoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
+import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +21,13 @@ import java.util.List;
 @Slf4j
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
-    private final CategoriaService categoriaService;
+    private final CategoriaRepository categoriaRepository;
     private final ProdutoMapper mapper;
 
 
-    public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService, ProdutoMapper mapper) {
+    public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository, ProdutoMapper mapper) {
         this.produtoRepository = produtoRepository;
-        this.categoriaService = categoriaService;
+        this.categoriaRepository = categoriaRepository;
         this.mapper = mapper;
     }
 
@@ -37,7 +40,7 @@ public class ProdutoService {
                 throw new ProdutoDuplicadoException(dtoRequest.getNome());
             }
 
-            Categoria categoriaSelecionada = categoriaService.findById(dtoRequest.getCategoriaId());
+            Categoria categoriaSelecionada = categoriaRepository.findById(dtoRequest.getCategoriaId()).orElseThrow(() -> new CategoriaNaoEncontradaException(dtoRequest.getCategoriaId()));
             Produto entity = mapper.toEntity(dtoRequest);
             entity.setCategoria(categoriaSelecionada);
 
@@ -77,8 +80,14 @@ public class ProdutoService {
     }
 
     public void deletarProduto(Long id) {
-        log.info("Iniciando deleção do produto id={}", id);
-        produtoRepository.deleteById(id);
-        log.info("Produto deletado com sucesso id={}", id);
+        log.info("Iniciando deleção do lote id={}", id);
+        try {
+            produtoRepository.deleteById(id);
+            log.info("Lote apagado com sucesso id={}", id);
+        } catch (Exception ex) {
+            log.error("Falha ao deletar lote id={}!", id, ex);
+            throw new ProdutoNaoEncontradoException(id);
+        }
+        log.info("Lote deletado com sucesso id={}", id);
     }
 }

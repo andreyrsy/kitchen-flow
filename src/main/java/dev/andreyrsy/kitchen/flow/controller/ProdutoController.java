@@ -2,13 +2,14 @@ package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
+import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,11 +17,11 @@ import java.util.List;
 @RequestMapping("/api/v1/produtos")
 public class ProdutoController {
     private final ProdutoService produtoService;
-    private final ProdutoRepository produtoRepository;
+    private final ProdutoMapper mapper;
 
-    public ProdutoController(ProdutoService produtoService, ProdutoRepository produtoRepository) {
+    public ProdutoController(ProdutoService produtoService, ProdutoRepository produtoRepository, ProdutoMapper mapper) {
         this.produtoService = produtoService;
-        this.produtoRepository = produtoRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping
@@ -29,16 +30,22 @@ public class ProdutoController {
         return ResponseEntity.ok().body(listarProdutos);
     }
 
-    @PostMapping
-    public ResponseEntity<ProdutoResponseDto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
-        ProdutoResponseDto criarProdutoResponse = produtoService.criarProduto(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(criarProdutoResponse);
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable(name = "id") Long id) {
+        Produto produtoSelecionado = produtoService.findById(id);
+        ProdutoResponseDto toResponseDto = mapper.toDto(produtoSelecionado);
+        return ResponseEntity.ok().body(toResponseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-        produtoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<ProdutoResponseDto> adicionarProduto(@RequestBody @Valid ProdutoRequestDto dto) {
+        ProdutoResponseDto toResponseDto = produtoService.criarProduto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
     }
 }
