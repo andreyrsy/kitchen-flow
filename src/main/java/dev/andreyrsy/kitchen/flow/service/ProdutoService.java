@@ -70,11 +70,11 @@ public class ProdutoService {
     }
 
     public Produto findById(Long id) {
-        log.debug("Buscando produto por id={}", id);
+        log.info("Buscando produto por id={}", id);
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
-        log.debug("Produto encontrado id={} nome={}", produto.getId(), produto.getNome());
+        log.info("Produto encontrado id={} nome={}", produto.getId(), produto.getNome());
 
         return produto;
     }

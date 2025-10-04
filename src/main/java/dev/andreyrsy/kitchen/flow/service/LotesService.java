@@ -45,7 +45,7 @@ public class LotesService {
             }
 
             Lotes toEntity = mapper.toEntity(dto);
-            log.debug("Lote salvo no banco id={}", toEntity.getId());
+            log.info("Lote salvo no banco id={}", toEntity.getId());
 
             LotesResponseDto toResponseDto = mapper.toDto(toEntity, produtoSelecionado);
 
@@ -66,15 +66,15 @@ public class LotesService {
         List<LotesResponseDto> toResposneDto = findAll.stream()
                 .map(lote -> mapper.toDto(lote, lote.getProduto()))
                 .collect(Collectors.toList());
-        log.info("Listados {} produtos com sucesso", toResposneDto.size());
+        log.info("Encontrados {} lotes", toResposneDto.size());
 
         return toResposneDto;
     }
 
     public Lotes findById(Long id) {
-        log.debug("Buscando lote por id={}", id);
+        log.info("Buscando lote por id={}", id);
         Lotes lotes = lotesRepository.findById(id).orElseThrow(() -> new LoteNaoEncontradoException(id));
-        log.debug("Lote encontrado id={} produto={} quantidade={}",
+        log.info("Lote encontrado id={} produto={} quantidade={}",
                 lotes.getId(), lotes.getProduto().getNome(), lotes.getQuantidade());
         return lotes;
     }
@@ -85,7 +85,6 @@ public class LotesService {
 
         if (loteId.getQuantidade() >= quantidadeSolicitada) {
             loteId.setQuantidade(loteId.getQuantidade() - quantidadeSolicitada);
-            log.info("Consumo realizado com sucesso loteId={} quantidadeRestante={}", id, loteId.getQuantidade());
         } else {
             log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, loteId.getQuantidade(), quantidadeSolicitada);
             throw new QuantidadeInsuficienteException(loteId.getId(), loteId.getQuantidade(), quantidadeSolicitada);
@@ -95,6 +94,8 @@ public class LotesService {
 
         novoConsumo.setLoteId(loteId.getId());
         novoConsumo.setQuantidade(loteId.getQuantidade());
+
+        log.info("Consumo realizado com sucesso loteId={} quantidadeRestante={}", id, loteId.getQuantidade());
 
         return novoConsumo;
     }
