@@ -13,7 +13,7 @@ O desperdício de alimentos é um problema sério em restaurantes, resultando em
 - Impacto ambiental negativo
 - Gestão ineficiente de recursos
 
-**Kitchen Flow** é uma solução tecnológica para monitorar proativamente datas de validade e gerenciar o estoque de forma inteligente, ajudando restaurantes a:
+**Kitchen Flow** é uma solução para monitorar proativamente datas de validade e gerenciar o estoque de forma inteligente, ajudando restaurantes a:
 - Reduzir o desperdício de alimentos
 - Economizar recursos financeiros
 - Melhorar a eficiência operacional
