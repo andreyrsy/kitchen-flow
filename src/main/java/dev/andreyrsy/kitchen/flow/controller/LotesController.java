@@ -8,7 +8,6 @@ import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,15 +44,15 @@ public class LotesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarLotePorId(@PathVariable(name = "id") Long id) {
-        lotesService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping("/{id}/consumos")
     public ResponseEntity<ConsumoResponseDto> usarProdutoDoLote(@PathVariable(name = "id") Long id, @RequestBody @Valid ConsumoRequestDto dto) throws Exception {
         ConsumoResponseDto toConsumoResponseDto = lotesService.utilizarProduto(id, dto.getQuantidade());
         return ResponseEntity.status(HttpStatus.CREATED).body(toConsumoResponseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarLotePorId(@PathVariable(name = "id") Long id) {
+        lotesService.deleteById(id);
+        return ResponseEntity.ok().body("Lote de ID=" + id + " removido com sucesso");
     }
 }

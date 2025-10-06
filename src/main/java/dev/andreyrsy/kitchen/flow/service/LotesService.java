@@ -100,25 +100,6 @@ public class LotesService {
         return novoConsumo;
     }
 
-    /*
-        public StatusValidade calcularStatus(LocalDate dataValidade) {
-            log.debug("Calculando status de validade para data={}", dataValidade);
-            long diasRestantes = ChronoUnit.DAYS.between(LocalDate.now(), dataValidade);
-
-            StatusValidade status;
-            if (diasRestantes < 0) {
-                status = StatusValidade.VENCIDO;
-            } else if (diasRestantes <= 1) {
-                status = StatusValidade.URGENTE;
-            } else if (diasRestantes <= 3) {
-                status = StatusValidade.ATENCAO;
-            } else {
-                status = StatusValidade.NORMAL;
-            }
-            log.debug("Status calculado: {} para {} dias restantes", status, diasRestantes);
-            return status;
-        }
-     */
     public void deleteById(Long id) {
         log.info("Iniciando deleção do lote id={}", id);
         try {

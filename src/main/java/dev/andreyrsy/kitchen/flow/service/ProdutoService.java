@@ -3,7 +3,6 @@ package dev.andreyrsy.kitchen.flow.service;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
-import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoDuplicadoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
@@ -11,7 +10,6 @@ import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

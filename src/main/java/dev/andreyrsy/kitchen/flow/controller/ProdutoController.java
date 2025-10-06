@@ -37,15 +37,15 @@ public class ProdutoController {
         return ResponseEntity.ok().body(toResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-        produtoService.deletarProduto(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping
     public ResponseEntity<ProdutoResponseDto> adicionarProduto(@RequestBody @Valid ProdutoRequestDto dto) {
         ProdutoResponseDto toResponseDto = produtoService.criarProduto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletar(@PathVariable("id") Long id) {
+        produtoService.deletarProduto(id);
+        return ResponseEntity.ok().body("Produto de ID=" + id + " removido com sucesso");
     }
 }

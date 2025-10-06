@@ -6,198 +6,99 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## 🎯 **Projeto Kitchenflow**
+## 🎯 O Problema
 
-Olá! Sou o **Andrey** e este é meu primeiro projeto Spring Boot "de verdade". Quando comecei, eu entendia o que era um DTO, como fazer relacionamentos entre entidades, mas agora nesse projeto utilizando eles na prática ficou muito mais claro o funcionamento.
+O desperdício de alimentos é um problema sério em restaurantes, resultando em:
+- Perdas financeiras significativas
+- Impacto ambiental negativo
+- Gestão ineficiente de recursos
 
-Este projeto nasceu de uma necessidade real e pessoal, que ocorreu quando trabalhei em um restaurante: **combater o desperdício de comida em restaurantes e comidas estragadas**.
+**Kitchen Flow** é uma solução tecnológica para monitorar proativamente datas de validade e gerenciar o estoque de forma inteligente, ajudando restaurantes a:
+- Reduzir o desperdício de alimentos
+- Economizar recursos financeiros
+- Melhorar a eficiência operacional
+- Tomar decisões baseadas em dados
 
-O **Kitchen Flow** é minha tentativa de resolver esse problema com tecnologia, criando uma API que monitora com proatividade as datas de validade e ajuda a saber o que precisa ser consumido com urgência.
+## ✨ Funcionalidades Principais
 
----
+### 🏷️ Gestão Completa de Categorias, Produtos e Lotes
+- Cadastro, listagem e exclusão de categorias de alimentos
+- CRUD completo de produtos com associação a categorias
+- Controle detalhado de lotes com datas de entrada e validade
 
-## 🚀 **O Que Este Projeto Me Ensinou**
+### 🔍 Sistema Inteligente de Status de Validade
+- Monitoramento automático de datas de validade
+- Alertas por status: `NORMAL`, `ATENCAO`, `URGENTE`, `VENCIDO`
+- Priorização inteligente de consumo baseada na validade
 
-### **📚 Conceitos que Dominei:**
+### 📦 Controle de Estoque Eficiente
+- Registro de entrada de novos lotes
+- Consumo inteligente priorizando lotes mais próximos ao vencimento
+- Rastreabilidade completa do fluxo de produtos
 
-**1. Arquitetura em Camadas**
-- Aprendi que separar Controller → Service → Repository não é só "boa prática", é **essencial** para manter código limpo
-- Descobri que cada camada tem sua responsabilidade específica e não deve "invadir" a outra
+## 🛠️ Tecnologias Utilizadas
 
-**2. Relacionamentos JPA**
-- Confesso: no começo, `@OneToMany` e `@ManyToOne` me confundiam muito
-- Mas quando entendi que `Categoria (1) → Produto (N) → Lotes (N)`, tudo fez sentido!
-- Aprendi que relacionamentos são sobre **como os dados se conectam no mundo real**
+### Backend
+- **Java 21**: Linguagem de programação moderna e robusta
+- **Spring Boot 3.5.3**: Framework para desenvolvimento rápido e eficiente
+- **Spring Data JPA**: Simplificação do acesso a dados
+- **PostgreSQL 15**: Banco de dados relacional confiável
+- **Flyway**: Controle de versão para banco de dados
+- **Lombok**: Redução de código boilerplate
+- **Bean Validation**: Validação declarativa de dados
 
-**3. DTOs**
-- No início, retornava entidades direto do banco (erro que me fez aprender os Dto's)
-- Enfrentei o problema da recursão infinita na serialização de entidades, que gerava respostas
-  com milhares de linhas devido aos relacionamentos bidirecionais. A ficha caiu quando entendi que
-  precisava usar DTOs para criar um "contrato" e parar de expor o banco inteiro. E foi aqui onde os
-  Dto's me ajudou a resolver para finalmente ditar o que a API devolve e quebrar o ciclo.
-- Descobri que DTOs são como "traduções" entre o que está no banco e o que o cliente precisa
-- A conversão manual de entidade para DTO me ensinou muito sobre estrutura de dados
+### Ferramentas de Desenvolvimento
+- **Maven**: Gerenciamento de dependências e build
+- **Spring DevTools**: Produtividade no desenvolvimento
+- **Postman**: Testes de API
 
-**4. Validação de Dados**
-- `@NotBlank`, `@NotNull` - essas anotações pequenas fazem uma diferença ENORME
-- Aprendi que validar na entrada é melhor que descobrir o erro depois
+## 🚀 Como Executar o Projeto
 
-**5. Tratamento de Exceções**
-- O `GlobalExceptionHandler` foi essencial.
-- Antes os erros apareciam como stack traces gigantes
-- Agora retorno mensagens estruturadas
-
-**6. Logs Estruturados**
-- Descobri que logs não são só `System.out.println()`
-- SLF4J me ensinou a diferença entre `log.info()`, `log.error()` e `log.debug()`
-- Agora consigo debugar os problemas mais rápido
-
----
-
-## 🛠️ **Tecnologias que Dominei**
-
-### **Backend Stack:**
-- **Java 21**
-- **Spring Boot 3.5.3**
-- **Spring Data JPA**
-- **PostgreSQL**
-- **Flyway**
-
-### **Ferramentas**
-- **Lombok**
-- **Bean Validation**
-- **Maven**
-
----
-
-## 🏗️ **Arquitetura do Projeto**
-
-```
-Cliente → Controller → Service → Repository → Banco de Dados
-```
-
-### **Minha Estrutura de Pacotes:**
-```
-dev.andreyrsy.kitchen.flow/
-├── controller/     # Endpoints da API
-├── service/       # Lógica de negócio
-├── repository/    # Acesso aos dados
-├── model/        # Entidades JPA
-├── dto/          # Objetos de transferência
-└── exception/    # Tratamento global de erros
-```
-
-### **Relacionamentos que Implementei:**
-```
-Categoria (1) ←→ (N) Produto (1) ←→ (N) Lotes
-```
-
-**Por que essa estrutura?**
-- Uma categoria pode ter vários produtos (ex: "Laticínios" tem leite, queijo, iogurte)
-- Um produto pode ter vários lotes (ex: "Leite" pode ter lotes de datas diferentes)
-- Isso reflete a realidade de um restaurante!
-
----
-
-## ✨ **Funcionalidades Implementadas**
-
-### **🏷️ Gestão de Categorias**
-- ✅ Criar, listar e deletar categorias
-- ✅ Validação de dados obrigatórios
-- ✅ Tratamento de exceções personalizado
-
-### **📦 Gestão de Produtos**
-- ✅ CRUD completo com DTOs
-- ✅ Associação automática com categorias
-- ✅ Validação de campos obrigatórios
-- ✅ Logs estruturados para debugging
-
-### **📋 Gestão de Lotes**
-- ✅ Controle de quantidade por lote
-- ✅ Validação de datas (entrada vs validade)
-- ✅ Consumo inteligente de estoque
-- ✅ Conversão completa de entidade para DTO
-
-### **🔍 Sistema de Status de Validade**
-- ✅ Cálculo automático baseado em dias restantes
-- ✅ Status: `NORMAL`, `ATENCAO`, `URGENTE`, `VENCIDO`
-- ✅ Lógica de negócio centralizada no service
-
----
-
-## 🎓 **Desafios que enfrentei**
-
-### **1. O problema dos relacionamentos**
-**Desafio:** Entender como conectar Categoria → Produto → Lotes
-**Solução:** Muitos testes, leitura da documentação do Hibernate, e principalmente: **prática**
-
-### **2. Conversão de entidade → DTO**
-**Desafio:** No início, retornava entidades direto do banco
-**Solução:** Aprendi que DTOs são "traduções" e implementei conversão manual completa
-
-### **3. Tratamento de exceções**
-**Desafio:** Stack traces gigantes e mensagens confusas
-**Solução:** Implementei `GlobalExceptionHandler` com respostas estruturadas
-
-### **4. Validação de dados**
-**Desafio:** Como garantir que dados válidos entrem no sistema
-**Solução:** Bean Validation com `@NotBlank`, `@NotNull` e mensagens personalizadas
-
-### **5. Logs Estruturados**
-**Desafio:** Debugging sem mensagens claras
-**Solução:** SLF4J com logs informativos e contexto rico
-
----
-
-## 🚀 **Como Executar o Projeto**
-
-### **Pré-requisitos:**
+### Pré-requisitos
 - Java 21+
 - Maven 3.x+
 - PostgreSQL 15+
-- IDE (IntelliJ IDEA)
+- IDE (recomendado: IntelliJ IDEA)
 
-### **Passo a Passo:**
+### Passo a Passo
 
-1. **Clone o repositório:**
+1. **Clone o repositório**
    ```bash
    git clone https://github.com/andreyrsy/kitchen-flow.git
    cd kitchen-flow
    ```
 
-2. **Configure o banco:**
+2. **Configure o banco de dados**
    - Crie um banco PostgreSQL chamado `db_kitchen`
    - Atualize as credenciais em `application.properties` se necessário
 
-3. **Execute:**
+3. **Execute a aplicação**
    ```bash
    mvn clean install
    mvn spring-boot:run
    ```
 
-4. **Teste a API:**
-   - Acesse `http://localhost:8080/api/v1/`
+4. **Acesse a API**
+   - A API estará disponível em `http://localhost:8080/api/v1/`
    - Use Postman ou Insomnia para testar os endpoints
 
----
+## 📖 Documentação da API
 
-## 📖 **API Endpoints**
-
-### **🏷️ Categorias** (`/api/v1/categoria`)
+### 🏷️ Categorias
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `POST` | `/api/v1/categoria` | Criar categoria |
 | `GET` | `/api/v1/categoria` | Listar categorias |
 | `DELETE` | `/api/v1/categoria/delete/{id}` | Deletar categoria |
 
-### **📦 Produtos** (`/api/v1/produto`)
+### 📦 Produtos
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `GET` | `/api/v1/produto` | Listar produtos |
 | `POST` | `/api/v1/produto` | Criar produto |
 | `DELETE` | `/api/v1/produto/deletar/{id}` | Deletar produto |
 
-### **📋 Lotes** (`/api/v1/lotes`)
+### 📋 Lotes
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `GET` | `/api/v1/lotes` | Listar lotes |
@@ -205,11 +106,9 @@ Categoria (1) ←→ (N) Produto (1) ←→ (N) Lotes
 | `PUT` | `/api/v1/lotes/{id}/consumir/{qtd}` | Consumir produto |
 | `DELETE` | `/api/v1/lotes/deletar/{id}` | Deletar lote |
 
----
+## 💡 Exemplos de Uso
 
-## 💡 **Exemplos de Uso**
-
-### **Criar um Produto:**
+### Criar um Produto
 ```bash
 POST /api/v1/produto
 {
@@ -219,7 +118,7 @@ POST /api/v1/produto
 }
 ```
 
-### **Criar um Lote:**
+### Criar um Lote
 ```bash
 POST /api/v1/lotes
 {
@@ -230,78 +129,33 @@ POST /api/v1/lotes
 }
 ```
 
-### **Consumir Produto:**
+### Consumir Produto
 ```bash
 PUT /api/v1/lotes/1/consumir/10
 ```
 
----
+## 🔮 Roadmap do Projeto
 
-## 🔧 **Configurações Importantes**
+### Próximas Implementações
+- [ ] Documentação interativa com Swagger/OpenAPI
+- [ ] Testes unitários e de integração
+- [ ] Autenticação e autorização com Spring Security
+- [ ] Cache para consultas frequentes
+- [ ] Paginação nas listagens
+- [ ] Sistema de notificações para produtos próximos ao vencimento
+- [ ] Relatórios e estatísticas de consumo
+- [ ] Containerização com Docker
+- [ ] CI/CD com GitHub Actions
+- [ ] Frontend para consumir a API
 
-### **Application Properties:**
-```properties
-# Log personalizado
-logging.pattern.console=%d{HH:mm} %-5level %F.%M:%L >>> %cyan(%msg%n)
-
-# Banco de dados
-spring.datasource.url=jdbc:postgresql://localhost:5432/db_kitchen
-
-# Formatação de datas
-spring.jackson.date-format=dd-MM-yyyy
-spring.jackson.time-zone=America/Sao_Paulo
-
-# Flyway (migrações)
-spring.flyway.enabled=true
-spring.flyway.baseline-on-migrate=true
-```
-
----
-
-## 🎯 **O que aprendi com o projeto**
-
-### **1. Testes São Essenciais**
-- Sempre testando as APIs com Postman/Insomnia
-- Um endpoint que funciona no código pode falhar na prática
-
-### **2. Logs Salvam Vidas**
-- Implementei logs estruturados e o debugging ficou mais fácil
-- `log.info()`, `log.error()`, `log.debug()` - cada um tem seu propósito
-
-### **3. Validação Previne Problemas**
-- Validar dados na entrada, não na saída
-- Bean Validation é mais poderoso do que parece
-
----
-
-## 🔮 **Próximos passos do projeto**
-
-### **Curto Prazo:**
-- [ ] Implementar testes unitários (ainda não sei como fazer direito)
-- [ ] Adicionar Swagger/OpenAPI para documentação interativa
-- [ ] Melhorar tratamento de exceções específicas
-
-### **Médio Prazo:**
-- [ ] Implementar autenticação com Spring Security
-- [ ] Adicionar cache para consultas frequentes
-- [ ] Implementar paginação nas listagens
-
-### **Longo Prazo:**
-- [ ] Containerizar com Docker
-- [ ] Implementar CI/CD com GitHub Actions
-- [ ] Criar frontend em React para consumir a API
----
+## 👨‍💻 
 
 **Andreyrsy**
 
 - 💼 **LinkedIn:** [andreyrsy](https://linkedin.com/in/andreyrsy)
 - 🐙 **GitHub:** [andreyrsy](https://github.com/andreyrsy)
 - 📧 **Email:** [andreyrsy@gmail.com]
----
 
-## 📄 **Licença**
+## 📄 Licença
 
-Este projeto está sob a licença MIT. Sinta-se livre para usar, modificar e distribuir!
-
----
-
+Este projeto está sob a licença MIT. Sinta-se livre para usar, modificar e contribuir!

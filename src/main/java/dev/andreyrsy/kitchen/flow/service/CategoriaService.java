@@ -6,7 +6,6 @@ import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaExcep
 import dev.andreyrsy.kitchen.flow.mapper.CategoriaMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
