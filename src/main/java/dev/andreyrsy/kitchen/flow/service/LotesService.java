@@ -45,6 +45,8 @@ public class LotesService {
             }
 
             Lotes toEntity = mapper.toEntity(dto);
+            toEntity.setProduto(produtoSelecionado);
+            lotesRepository.saveAndFlush(toEntity);
             log.info("Lote salvo no banco id={}", toEntity.getId());
 
             LotesResponseDto toResponseDto = mapper.toDto(toEntity, produtoSelecionado);
