@@ -90,7 +90,11 @@ Para executar este projeto, seu ambiente deve estar configurado com as seguintes
    *O banco de dados H2 será iniciado automaticamente em memória.*
 
    **Opção B: Rodar com PostgreSQL**
-   Caso queira usar um banco real, certifique-se de que o Postgres está rodando e execute ativando o perfil `postgres`. Isso fará o Spring ler o arquivo `application-postgres.properties`.
+   Caso queira usar um banco real, certifique-se de que o Postgres está rodando e execute ativando o perfil `postgres`.
+
+   > **Importante:** Antes de rodar, você deve criar um banco de dados chamado `db_kitchen` no seu PostgreSQL.
+   > Caso prefira usar outro nome ou alterar usuário/senha, edite o arquivo `src/main/resources/application-postgres.properties`.
+
    ```bash
    mvn spring-boot:run "-Dspring-boot.run.profiles=postgres"
    ```
