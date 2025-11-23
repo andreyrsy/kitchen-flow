@@ -52,9 +52,25 @@ O desperdício de alimentos é um problema sério em restaurantes, resultando em
 O projeto foi configurado para rodar facilmente com **H2 Database** (padrão) ou **PostgreSQL** (perfil opcional).
 
 ### Pré-requisitos
-- Java 21+
-- Maven 3.x+
-- PostgreSQL 15+ (Apenas se desejar rodar com o perfil `postgres`)
+
+Para executar este projeto, seu ambiente deve estar configurado com as seguintes tecnologias:
+
+1.  **Java Development Kit (JDK) 21**
+    -   O projeto utiliza recursos modernos do Java 21.
+    -   [Download JDK 21](https://www.oracle.com/java/technologies/downloads/#java21)
+
+2.  **Apache Maven**
+    -   Gerenciador de dependências necessário para compilar e rodar o projeto.
+    -   **Como instalar:**
+        1.  Acesse a [página de download do Maven](https://maven.apache.org/download.cgi).
+        2.  Baixe o arquivo binário zip (ex: `apache-maven-3.9.x-bin.zip`).
+        3.  Extraia o arquivo em uma pasta de sua preferência.
+        4.  Adicione o caminho da pasta `bin` (dentro da pasta extraída) às Variáveis de Ambiente (PATH) do seu sistema.
+    -   **Verificação:** Abra o terminal e digite `mvn -version` para confirmar a instalação.
+
+3.  **PostgreSQL 15+** (Opcional)
+    -   Necessário apenas se você optar por rodar o projeto com o perfil de produção (`postgres`).
+    -   Para testes rápidos, o projeto já vem configurado com **H2 Database** (banco em memória) que não requer instalação.
 
 ### Passo a Passo
 
