@@ -30,13 +30,13 @@ public class LotesMapper {
         produtoResponseDto.setId(produtoSelecionado.getId());
         produtoResponseDto.setNome(produtoSelecionado.getNome());
         produtoResponseDto.setUnidadeMedida(produtoSelecionado.getUnidadeMedida());
-        produtoResponseDto.setCategoriaDto(categoriaResponseDto);
+        produtoResponseDto.setCategoria(categoriaResponseDto);
 
         loteResponse.setId(lotes.getId());
         loteResponse.setQuantidade(lotes.getQuantidade());
         loteResponse.setDataValidade(lotes.getData_validade());
         loteResponse.setDataEntrada(lotes.getData_entrada());
-        loteResponse.setProdutoDto(produtoResponseDto);
+        loteResponse.setProduto(produtoResponseDto);
 
         return loteResponse;
     }
