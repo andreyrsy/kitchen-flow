@@ -36,11 +36,13 @@ public class LotesService {
                 dto.getProdutoId(), dto.getQuantidade(), dto.getDataEntrada(), dto.getDataValidade());
 
         Produto produtoSelecionado = produtoRepository.findById(dto.getProdutoId())
-                .orElseThrow(() -> new EntityNotFoundException("Produto com o id " + dto.getProdutoId() + " não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Produto com o id " + dto.getProdutoId() + " não encontrado"));
 
         try {
             if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
-                log.error("Data de validade inválida dataValidade={} dataEntrada={}", dto.getDataValidade(), dto.getDataEntrada());
+                log.error("Data de validade inválida dataValidade={} dataEntrada={}", dto.getDataValidade(),
+                        dto.getDataEntrada());
                 throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
             }
 
@@ -88,7 +90,8 @@ public class LotesService {
         if (loteId.getQuantidade() >= quantidadeSolicitada) {
             loteId.setQuantidade(loteId.getQuantidade() - quantidadeSolicitada);
         } else {
-            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}", id, loteId.getQuantidade(), quantidadeSolicitada);
+            log.error("Quantidade insuficiente no estoque loteId={} quantidadeDisponivel={} quantidadeSolicitada={}",
+                    id, loteId.getQuantidade(), quantidadeSolicitada);
             throw new QuantidadeInsuficienteException(loteId.getId(), loteId.getQuantidade(), quantidadeSolicitada);
         }
         lotesRepository.saveAndFlush(loteId);
