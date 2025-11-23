@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class LotesResponseDto {
     private Long id;
     private Integer quantidade;
-    private LocalDate dataValidade;
     private LocalDate dataEntrada;
-    private ProdutoResponseDto produtoDto;
+    private LocalDate dataValidade;
+    private ProdutoResponseDto produto;
 }

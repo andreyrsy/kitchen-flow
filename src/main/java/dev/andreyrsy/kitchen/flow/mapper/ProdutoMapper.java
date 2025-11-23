@@ -31,7 +31,7 @@ public class ProdutoMapper {
             CategoriaResponseDto categoriaDto = new CategoriaResponseDto();
             categoriaDto.setId(entity.getCategoria().getId());
             categoriaDto.setNome(entity.getCategoria().getNome());
-            responseDto.setCategoriaDto(categoriaDto);
+            responseDto.setCategoria(categoriaDto);
         }
 
         return responseDto;
