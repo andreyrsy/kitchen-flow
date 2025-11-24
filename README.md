@@ -10,24 +10,6 @@
 
 ---
 
-## 📑 Índice
-
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Começando](#-começando)
-  - [Pré-requisitos](#pré-requisitos)
-  - [Instalação](#instalação)
-  - [Executando a Aplicação](#executando-a-aplicação)
-- [Documentação da API](#-documentação-da-api)
-- [Exemplos de Uso](#-exemplos-de-uso)
-- [Roadmap](#-roadmap)
-- [Contribuição](#-contribuição)
-- [Autor](#-autor)
-- [Licença](#-licença)
-
----
-
 ## 🎯 Sobre o Projeto
 
 O desperdício de alimentos é um desafio crítico para restaurantes, gerando prejuízos financeiros e impacto ambiental. O **Kitchen Flow** nasce como uma resposta a esse problema.
