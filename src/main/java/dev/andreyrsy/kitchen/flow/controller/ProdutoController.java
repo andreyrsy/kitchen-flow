@@ -6,6 +6,7 @@ import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/produtos")
+@Tag(name = "Produto", description = "Endpoints para gerenciamento dos produtos")
 public class ProdutoController {
     private final ProdutoService produtoService;
     private final ProdutoMapper mapper;

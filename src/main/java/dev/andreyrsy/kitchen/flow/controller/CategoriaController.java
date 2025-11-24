@@ -5,6 +5,7 @@ import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.CategoriaMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categorias")
+@Tag(name = "Categorias", description = "Endpoints para gerenciamento de categorias")
 public class CategoriaController {
     private final CategoriaService categoriaService;
     private final CategoriaMapper mapper;

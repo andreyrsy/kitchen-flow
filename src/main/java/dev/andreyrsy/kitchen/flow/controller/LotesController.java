@@ -7,6 +7,7 @@ import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/lotes")
+@Tag(name = "Lotes", description = "Endpoints para gerenciamento de lotes e consumo de estoque")
 public class LotesController {
     private final LotesService lotesService;
     private final LotesMapper mapper;
@@ -44,7 +46,7 @@ public class LotesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
     }
 
-    @PostMapping("/{id}/consumos")
+    @PostMapping("/{id}/consumir")
     public ResponseEntity<ConsumoResponseDto> usarProdutoDoLote(@PathVariable(name = "id") Long id, @RequestBody @Valid ConsumoRequestDto dto) throws Exception {
         ConsumoResponseDto toConsumoResponseDto = lotesService.utilizarProduto(id, dto.getQuantidade());
         return ResponseEntity.status(HttpStatus.CREATED).body(toConsumoResponseDto);
