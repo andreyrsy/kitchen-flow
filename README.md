@@ -1,4 +1,4 @@
-# Kitchen Flow API 🍳
+# 🍳 Kitchen Flow API
 
 ![Status](https://img.shields.io/badge/status-ativo-success.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue.svg)
@@ -6,233 +6,210 @@
 ![H2 Database](https://img.shields.io/badge/H2-Database-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## 🎯 O Problema
+> **Gerencie seu estoque de forma inteligente e reduza o desperdício.**
 
-O desperdício de alimentos é um problema sério em restaurantes, resultando em:
-- Perdas financeiras significativas
-- Impacto ambiental negativo
-- Gestão ineficiente de recursos
+---
 
-**Kitchen Flow** é uma solução para gerenciar o estoque de forma inteligente, ajudando restaurantes a:
-- Reduzir o desperdício de alimentos
-- Economizar recursos financeiros
-- Melhorar a eficiência operacional
+## 📑 Índice
+
+- [Sobre o Projeto](#-sobre-o-projeto)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Começando](#-começando)
+  - [Pré-requisitos](#pré-requisitos)
+  - [Instalação](#instalação)
+  - [Executando a Aplicação](#executando-a-aplicação)
+- [Documentação da API](#-documentação-da-api)
+- [Exemplos de Uso](#-exemplos-de-uso)
+- [Roadmap](#-roadmap)
+- [Contribuição](#-contribuição)
+- [Autor](#-autor)
+- [Licença](#-licença)
+
+---
+
+## 🎯 Sobre o Projeto
+
+O desperdício de alimentos é um desafio crítico para restaurantes, gerando prejuízos financeiros e impacto ambiental. O **Kitchen Flow** nasce como uma resposta a esse problema.
+
+Nossa missão é oferecer uma ferramenta robusta para o **gerenciamento inteligente de estoque**, permitindo que estabelecimentos:
+*   📉 **Reduzam o desperdício** controlando validades.
+*   💰 **Economizem recursos** evitando compras desnecessárias.
+*   ⚡ **Otimizem a operação** com dados precisos sobre o inventário.
+
+---
 
 ## ✨ Funcionalidades
 
-### 🏷️ Categorias e Produtos
+### 🏷️ Gestão de Produtos
+*   **Categorização**: Organize alimentos em categorias personalizáveis.
+*   **Cadastro Completo**: Gerencie produtos com detalhes e unidades de medida.
 
-- CRUD de categorias de alimentos.
-- CRUD de produtos vinculados a categorias.
-- Associação de unidade de medida por produto.
-
-### 📦 Estoque e Lotes
-
-- Registro de lotes com data de validade e data de entrada.
-- Controle de quantidade por lote.
-- Consumo de produtos a partir de um lote específico.
-- Rastreabilidade de lotes via ID.
-
-### 📊 Base para Evolução
-
-- Documentação interativa da API com Swagger.
-- Estrutura preparada para futuros recursos como:
-  - Paginação.
-  - Segurança (Spring Security).
-  - Relatórios e notificações.
+### 📦 Controle de Estoque (Lotes)
+*   **Rastreabilidade**: Controle total sobre lotes de entrada.
+*   **Validade**: Monitoramento de datas de vencimento para evitar perdas.
+*   **Consumo Inteligente**: Baixa de estoque organizada por lotes.
 
 ---
 
-## 🏗 Arquitetura
+## 🛠️ Tecnologias Utilizadas
 
-A aplicação segue uma arquitetura típica de API REST com camadas bem definidas:
+O projeto foi construído com uma stack moderna e robusta:
 
-- **Controller**: exposição dos endpoints HTTP.
-- **Service**: regras de negócio relacionadas a estoque, produtos e lotes.
-- **Repository**: acesso a dados com Spring Data JPA.
-- **Domain/Entity**: modelos de domínio para categorias, produtos e lotes.
-- **Migrations (Flyway)**: versionamento do schema de banco de dados.
-
-A API é exposta sob o prefixo:
-http://localhost:8080/api/v1/
-
----
-
-## 🛠 Tecnologias
-
-### Backend
-
-- **Java 21**
-- **Spring Boot 3.5.3**
-- **Spring Web** (API REST)
-- **Spring Data JPA**
-- **H2 Database** (dev) / **PostgreSQL** (opcional)
-- **Flyway** (migrações de banco)
-- **Bean Validation**
-- **Lombok**
-
-### Ferramentas de Desenvolvimento
-
-- **Maven**
-- **Spring DevTools**
-- **Postman / Insomnia**
-- **SpringDoc OpenAPI (Swagger)** para documentação da API
+| Categoria | Tecnologia | Descrição |
+|-----------|------------|-----------|
+| **Linguagem** | **Java 21** | Recursos modernos e alta performance. |
+| **Framework** | **Spring Boot 3.5.3** | Desenvolvimento ágil e convenção sobre configuração. |
+| **Dados** | **Spring Data JPA** | Abstração para persistência de dados. |
+| **Banco (Dev)** | **H2 Database** | Banco em memória para testes rápidos e sem configuração. |
+| **Banco (Prod)** | **PostgreSQL** | Banco relacional robusto para produção. |
+| **Migração** | **Flyway** | Versionamento e evolução do esquema do banco. |
+| **Docs** | **SpringDoc (Swagger)** | Documentação automática e interativa da API. |
+| **Utils** | **Lombok** | Redução de código repetitivo (boilerplate). |
 
 ---
 
-## 🚀 Como Executar
+## 🚀 Começando
 
-O projeto pode rodar com **H2 (padrão)** ou **PostgreSQL**.
+Siga os passos abaixo para rodar o projeto em sua máquina local.
 
-### ✅ Pré-requisitos
+### Pré-requisitos
 
-- **JDK 21** instalado e configurado.
-- **Maven** instalado (`mvn -version`).
-- **PostgreSQL 15+** (apenas se for usar o perfil `postgres`).
+Certifique-se de ter instalado:
+1.  **[Java JDK 21](https://www.oracle.com/java/technologies/downloads/#java21)**
+2.  **[Maven](https://maven.apache.org/download.cgi)**
+3.  **Git**
 
-### 1. Clonar o repositório
-git clone https://github.com/andreyrsy/kitchen-flow.git
-cd kitchen-flow
+### Instalação
 
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/andreyrsy/kitchen-flow.git
+    cd kitchen-flow
+    ```
 
-### 2. Rodar com H2 (padrão – recomendado para testes)
+2.  **Compile o projeto:**
+    ```bash
+    mvn clean install
+    ```
+
+### Executando a Aplicação
+
+Você pode rodar a aplicação de duas formas:
+
+#### 🟢 Opção 1: Modo Desenvolvimento (H2) - *Recomendado*
+Ideal para testes rápidos. Não requer instalação de banco de dados externo.
+
+```bash
 mvn spring-boot:run
+```
+*O banco H2 iniciará automaticamente em memória.*
 
+#### 🔵 Opção 2: Modo Produção (PostgreSQL)
+Para persistência real de dados.
 
-- API: `http://localhost:8080/api/v1/`
-- Swagger: `http://localhost:8080/swagger-ui.html`
-- H2 Console: `http://localhost:8080/h2-console`  
-  - JDBC URL: `jdbc:h2:mem:db_kitchen`  
-  - User: `sa`  
-  - Password: *(vazio)*
+1.  Crie um banco de dados chamado `db_kitchen` no seu PostgreSQL.
+2.  (Opcional) Configure usuário/senha em `src/main/resources/application-postgres.properties`.
+3.  Execute com o perfil `postgres`:
 
-### 3. Rodar com PostgreSQL (perfil `postgres`)
-
-1. Criar o banco:
-CREATE DATABASE db_kitchen;
-
-2. Ajustar credenciais em:
-src/main/resources/application-postgres.properties
-
-3. Executar com o profile:
+```bash
 mvn spring-boot:run "-Dspring-boot.run.profiles=postgres"
+```
 
 ---
 
 ## 📖 Documentação da API
 
-### 🏷️ Categorias
+A API possui documentação interativa via Swagger UI.
+Após iniciar a aplicação, acesse:
 
-| Método | Endpoint                 | Descrição              |
-|--------|-------------------------|------------------------|
-| `POST` | `/api/v1/categorias`   | Criar categoria        |
-| `GET`  | `/api/v1/categorias`   | Listar categorias      |
-| `GET`  | `/api/v1/categorias/{id}` | Buscar categoria por ID |
-| `DELETE` | `/api/v1/categorias/{id}` | Deletar categoria   |
+👉 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
 
-### 📦 Produtos
+### Principais Endpoints
 
-| Método | Endpoint               | Descrição              |
-|--------|-----------------------|------------------------|
-| `GET`  | `/api/v1/produtos`   | Listar produtos        |
-| `GET`  | `/api/v1/produtos/{id}` | Buscar produto por ID |
-| `POST` | `/api/v1/produtos`   | Criar produto          |
-| `DELETE` | `/api/v1/produtos/{id}` | Deletar produto     |
-
-### 📋 Lotes
-
-| Método | Endpoint                        | Descrição                    |
-|--------|----------------------------------|------------------------------|
-| `GET`  | `/api/v1/lotes`                | Listar lotes                 |
-| `GET`  | `/api/v1/lotes/{id}`          | Buscar lote por ID           |
-| `POST` | `/api/v1/lotes`               | Criar lote                   |
-| `POST` | `/api/v1/lotes/{id}/consumos` | Consumir produto de um lote  |
-| `DELETE` | `/api/v1/lotes/{id}`        | Deletar lote                 |
+| Recurso | Método | Endpoint | Descrição |
+|---------|--------|----------|-----------|
+| **Categorias** | `POST` | `/api/v1/categorias` | Criar nova categoria |
+| | `GET` | `/api/v1/categorias` | Listar todas |
+| **Produtos** | `POST` | `/api/v1/produtos` | Cadastrar produto |
+| | `GET` | `/api/v1/produtos` | Listar produtos |
+| **Lotes** | `POST` | `/api/v1/lotes` | Registrar entrada de lote |
+| | `POST` | `/api/v1/lotes/{id}/consumos` | Consumir item do estoque |
 
 ---
 
 ## 💡 Exemplos de Uso
 
-### Criar uma categoria
-POST /api/v1/categorias
-Content-Type: application/json
+Abaixo, alguns exemplos de payloads para testar a API (via Postman ou Swagger).
 
+### 1. Criar Categoria
+**POST** `/api/v1/categorias`
+```json
 {
-    "nome": "Laticínios"
+  "nome": "Hortifruti"
 }
+```
 
-### Criar um produto
-POST /api/v1/produtos
-Content-Type: application/json
-
+### 2. Criar Produto
+**POST** `/api/v1/produtos`
+```json
 {
-    "nome": "Leite Integral",
-    "unidadeMedida": "litros",
-    "categoriaId": 1
+  "nome": "Tomate Italiano",
+  "unidadeMedida": "kg",
+  "categoriaId": 1
 }
+```
 
-### Criar um lote
-POST /api/v1/lotes
-Content-Type: application/json
-
+### 3. Registrar Lote (Entrada)
+**POST** `/api/v1/lotes`
+```json
 {
-    "quantidade": 50,
-    "dataValidade": "25-12-2024",
-    "dataEntrada": "20-12-2024",
-    "produtoId": 1
+  "quantidade": 100,
+  "dataValidade": "2024-12-31",
+  "dataEntrada": "2024-11-24",
+  "produtoId": 1
 }
-
-
-### Consumir de um lote
-POST /api/v1/lotes/1/consumos
-Content-Type: application/json
-
-{
-    "quantidade": 10
-}
+```
 
 ---
 
 ## 🔮 Roadmap
 
-- [x] Documentação interativa com Swagger/OpenAPI.
-- [ ] Testes unitários e de integração.
-- [ ] Autenticação e autorização com Spring Security.
-- [ ] Paginação nas listagens.
-- [ ] Notificações para produtos próximos ao vencimento.
-- [ ] Relatórios e estatísticas de consumo.
-- [ ] Containerização com Docker.
-- [ ] Pipeline CI/CD com GitHub Actions.
-- [ ] Frontend para consumir a API.
+- [x] Documentação Swagger/OpenAPI
+- [ ] Testes unitários e de integração
+- [ ] Segurança (Spring Security + JWT)
+- [ ] Cache (Redis)
+- [ ] Paginação e Filtros avançados
+- [ ] Notificações de vencimento
+- [ ] Dockerização completa
 
 ---
 
 ## 🤝 Contribuição
 
-1. Faça um fork do projeto.
-2. Crie uma branch para sua feature:
-git switch -c feature/minha-feature
-
-
-3. Commit suas alterações:
-git commit -m "Adiciona minha-feature"
-
-4. Envie para o repositório remoto:
-
-5. Abra um Pull Request.
+Contribuições são bem-vindas!
+1.  Faça um Fork do projeto
+2.  Crie uma Branch para sua Feature (`git checkout -b feature/MinhaFeature`)
+3.  Faça o Commit (`git commit -m 'Add some feature'`)
+4.  Push para a Branch (`git push origin feature/MinhaFeature`)
+5.  Abra um Pull Request
 
 ---
 
 ## 👨‍💻 Autor
 
+<div align="center">
+
 **Andreyrsy**
 
-- 💼 LinkedIn: [andreyrsy](https://linkedin.com/in/andreyrsy)
-- 🐙 GitHub: [andreyrsy](https://github.com/andreyrsy)
-- 📧 Email: andreyrsy@gmail.com
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/andreyrsy)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/andreyrsy)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:andreyrsy@gmail.com)
+
+</div>
 
 ---
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Sinta-se à vontade para usar, estudar e contribuir.
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
