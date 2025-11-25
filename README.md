@@ -1,197 +1,204 @@
-# 🍳 Kitchen Flow API
+# 🍳 Kitchen Flow
 
 ![Status](https://img.shields.io/badge/status-ativo-success.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg)
 ![H2 Database](https://img.shields.io/badge/H2-Database-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+# Kitchen Flow - Sistema de Gestão de Estoque
 
-> **Gerencie seu estoque de forma inteligente e reduza o desperdício.**
+Kitchen Flow é um sistema robusto para gerenciamento inteligente de estoque em restaurantes, desenvolvido com Spring Boot, focado na redução de desperdício através do controle preciso de validade e lotes de produtos.
 
----
+## � Funcionalidades
 
-## 🎯 Sobre o Projeto
+### Core Features
+- ✅ **Gestão de Produtos**: Cadastro completo com unidades de medida e categorização
+- ✅ **Controle de Lotes**: Rastreabilidade total de entradas com data de validade
+- ✅ **Prevenção de Perdas**: Monitoramento de itens próximos ao vencimento
+- ✅ **Consumo Inteligente**: Baixa de estoque otimizada por lotes (FIFO/FEFO)
+- ✅ **Categorização**: Organização flexível de produtos
+- ✅ **API REST**: Endpoints padronizados e documentados
 
-O desperdício de alimentos é um desafio crítico para restaurantes, gerando prejuízos financeiros e impacto ambiental. O **Kitchen Flow** nasce como uma resposta a esse problema.
+### Recursos Técnicos
+- 🔄 **API RESTful**: Design de API seguindo melhores práticas (Richardson Maturity Model)
+- 📚 **Documentação Viva**: Swagger UI/OpenAPI para exploração interativa
+- 🗄️ **Persistência**: JPA/Hibernate com suporte a H2 (dev) e PostgreSQL (prod)
+- 🔄 **Migração de Dados**: Flyway para versionamento do esquema de banco de dados
+- �️ **Validação**: Bean Validation para integridade dos dados
+- 🏗️ **Arquitetura em Camadas**: Separação clara de responsabilidades (Controller, Service, Repository)
 
-Nossa missão é oferecer uma ferramenta robusta para o **gerenciamento inteligente de estoque**, permitindo que estabelecimentos:
-*   📉 **Reduzam o desperdício** controlando validades.
-*   💰 **Economizem recursos** evitando compras desnecessárias.
-*   ⚡ **Otimizem a operação** com dados precisos sobre o inventário.
+## 🏗️ Arquitetura
 
----
-
-## ✨ Funcionalidades
-
-### 🏷️ Gestão de Produtos
-*   **Categorização**: Organize alimentos em categorias personalizáveis.
-*   **Cadastro Completo**: Gerencie produtos com detalhes e unidades de medida.
-
-### 📦 Controle de Estoque (Lotes)
-*   **Rastreabilidade**: Controle total sobre lotes de entrada.
-*   **Validade**: Monitoramento de datas de vencimento para evitar perdas.
-*   **Consumo Inteligente**: Baixa de estoque organizada por lotes.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-O projeto foi construído com uma stack moderna e robusta:
-
-| Categoria | Tecnologia | Descrição |
-|-----------|------------|-----------|
-| **Linguagem** | **Java 21** | Recursos modernos e alta performance. |
-| **Framework** | **Spring Boot 3.5.3** | Desenvolvimento ágil e convenção sobre configuração. |
-| **Dados** | **Spring Data JPA** | Abstração para persistência de dados. |
-| **Banco (Dev)** | **H2 Database** | Banco em memória para testes rápidos e sem configuração. |
-| **Banco (Prod)** | **PostgreSQL** | Banco relacional robusto para produção. |
-| **Migração** | **Flyway** | Versionamento e evolução do esquema do banco. |
-| **Docs** | **SpringDoc (Swagger)** | Documentação automática e interativa da API. |
-| **Utils** | **Lombok** | Redução de código repetitivo (boilerplate). |
-
----
-
-## 🚀 Começando
-
-Siga os passos abaixo para rodar o projeto em sua máquina local.
-
-### Pré-requisitos
-
-Certifique-se de ter instalado:
-1.  **[Java JDK 21](https://www.oracle.com/java/technologies/downloads/#java21)**
-2.  **[Maven](https://maven.apache.org/download.cgi)**
-3.  **Git**
-
-### Instalação
-
-1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/andreyrsy/kitchen-flow.git
-    cd kitchen-flow
-    ```
-
-2.  **Compile o projeto:**
-    ```bash
-    mvn clean install
-    ```
-
-### Executando a Aplicação
-
-Você pode rodar a aplicação de duas formas:
-
-#### 🟢 Opção 1: Modo Desenvolvimento (H2) - *Recomendado*
-Ideal para testes rápidos. Não requer instalação de banco de dados externo.
-
-```bash
-mvn spring-boot:run
+### Estrutura do Projeto
 ```
-*O banco H2 iniciará automaticamente em memória.*
-
-#### 🔵 Opção 2: Modo Produção (PostgreSQL)
-Para persistência real de dados.
-
-1.  Crie um banco de dados chamado `db_kitchen` no seu PostgreSQL.
-2.  (Opcional) Configure usuário/senha em `src/main/resources/application-postgres.properties`.
-3.  Execute com o perfil `postgres`:
-
-```bash
-mvn spring-boot:run "-Dspring-boot.run.profiles=postgres"
+src/main/java/dev/andreyrsy/kitchen/flow/
+├── config/          # Configurações (Swagger, etc)
+├── controller/      # Controllers REST
+├── dto/             # Data Transfer Objects (Request/Response)
+├── exception/       # Tratamento global de exceções
+├── mapper/          # Mappers para conversão Entity <-> DTO
+├── model/           # Entidades JPA
+├── repository/      # Repositórios JPA
+├── service/         # Lógica de negócio
+└── KitchenFlowApplication.java
 ```
 
----
+### Fluxo de Operação
+1. **Cadastro**: Definição de Categorias e Produtos
+2. **Entrada**: Registro de Lotes com quantidade e validade
+3. **Estoque**: Produtos ficam disponíveis no inventário
+4. **Consumo**: Baixa de itens (sistema prioriza lotes com vencimento mais próximo)
+5. **Monitoramento**: Acompanhamento de validades e níveis de estoque
 
-## 📖 Documentação da API
+## 🛠️ Tecnologias
 
-A API possui documentação interativa via Swagger UI.
-Após iniciar a aplicação, acesse:
+- **Java 21** - Linguagem principal
+- **Spring Boot 3.5.3** - Framework base
+- **Spring Data JPA** - Persistência
+- **Spring Web** - API REST
+- **Flyway** - Migração de Banco de Dados
+- **SpringDoc OpenAPI** - Documentação (Swagger)
+- **H2 Database** - Banco em memória (Dev)
+- **PostgreSQL** - Banco de dados (Prod)
+- **Lombok** - Redução de boilerplate
+- **Maven** - Gerenciamento de dependências
 
-👉 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+## 🚦 Endpoints
 
-### Principais Endpoints
+### Categorias
+```http
+# Criar categoria
+POST /api/v1/categorias
+Content-Type: application/json
 
-| Recurso | Método | Endpoint | Descrição |
-|---------|--------|----------|-----------|
-| **Categorias** | `POST` | `/api/v1/categorias` | Criar nova categoria |
-| | `GET` | `/api/v1/categorias` | Listar todas |
-| **Produtos** | `POST` | `/api/v1/produtos` | Cadastrar produto |
-| | `GET` | `/api/v1/produtos` | Listar produtos |
-| **Lotes** | `POST` | `/api/v1/lotes` | Registrar entrada de lote |
-| | `POST` | `/api/v1/lotes/{id}/consumos` | Consumir item do estoque |
+# Listar categorias
+GET /api/v1/categorias
+```
 
----
+### Produtos
+```http
+# Criar produto
+POST /api/v1/produtos
+Content-Type: application/json
 
-## 💡 Exemplos de Uso
+# Listar produtos
+GET /api/v1/produtos
+```
 
-Abaixo, alguns exemplos de payloads para testar a API (via Postman ou Swagger).
+### Estoque e Lotes
+```http
+# Registrar entrada de lote
+POST /api/v1/lotes
+Content-Type: application/json
+
+# Consumir item do estoque
+POST /api/v1/lotes/{id}/consumos
+Content-Type: application/json
+```
+
+## 📋 Configuração
+
+### Variáveis de Ambiente (Opcional para Prod)
+```bash
+# Banco de Dados (Profile: postgres)
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/db_kitchen
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=root
+```
+
+### Profiles
+- **default**: Desenvolvimento com H2 em memória (Zero Config)
+- **postgres**: Produção com PostgreSQL e persistência em disco
+
+## � Execução
+
+### Desenvolvimento (H2)
+```bash
+# Clonar repositório
+git clone https://github.com/andreyrsy/kitchen-flow.git
+cd kitchen-flow
+
+# Executar com Maven (Profile default)
+./mvnw spring-boot:run
+```
+
+### Produção (PostgreSQL)
+```bash
+# 1. Subir banco de dados
+docker run --name db_kitchen -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres
+
+# 2. Executar aplicação
+./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
+```
+
+## � Monitoramento e Docs
+
+### Swagger UI (Documentação)
+```
+URL: http://localhost:8080/swagger-ui.html
+```
+
+### Console H2 (Apenas Profile Default)
+```
+URL: http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:mem:db_kitchen
+User: sa
+Password: (vazio)
+```
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes
+./mvnw test
+```
+
+## � Exemplo de Uso
 
 ### 1. Criar Categoria
-**POST** `/api/v1/categorias`
-```json
-{
-  "nome": "Hortifruti"
-}
+```bash
+curl -X POST http://localhost:8080/api/v1/categorias \
+  -H "Content-Type: application/json" \
+  -d '{"nome": "Hortifruti"}'
 ```
 
 ### 2. Criar Produto
-**POST** `/api/v1/produtos`
-```json
-{
-  "nome": "Tomate Italiano",
-  "unidadeMedida": "kg",
-  "categoriaId": 1
-}
+```bash
+curl -X POST http://localhost:8080/api/v1/produtos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "Tomate Italiano",
+    "unidadeMedida": "kg",
+    "categoriaId": 1
+  }'
 ```
 
-### 3. Registrar Lote (Entrada)
-**POST** `/api/v1/lotes`
-```json
-{
-  "quantidade": 100,
-  "dataValidade": "2024-12-31",
-  "dataEntrada": "2024-11-24",
-  "produtoId": 1
-}
+### 3. Registrar Lote
+```bash
+curl -X POST http://localhost:8080/api/v1/lotes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "quantidade": 100,
+    "dataValidade": "2024-12-31",
+    "dataEntrada": "2024-11-24",
+    "produtoId": 1
+  }'
 ```
-
----
-
-## 🔮 Roadmap
-
-- [x] Documentação Swagger/OpenAPI
-- [ ] Testes unitários e de integração
-- [ ] Segurança (Spring Security + JWT)
-- [ ] Cache (Redis)
-- [ ] Paginação e Filtros avançados
-- [ ] Notificações de vencimento
-- [ ] Dockerização completa
-
----
 
 ## 🤝 Contribuição
 
-Contribuições são bem-vindas!
-1.  Faça um Fork do projeto
-2.  Crie uma Branch para sua Feature (`git checkout -b feature/MinhaFeature`)
-3.  Faça o Commit (`git commit -m 'Add some feature'`)
-4.  Push para a Branch (`git push origin feature/MinhaFeature`)
-5.  Abra um Pull Request
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
----
+## � Licença
 
-## 👨‍💻 Autor
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-<div align="center">
+## 📞 Suporte
 
-**Andreyrsy**
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/andreyrsy)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/andreyrsy)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:andreyrsy@gmail.com)
-
-</div>
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Para suporte e dúvidas:
+- 📧 Email: andreyrsy@gmail.com
+- 📱 GitHub Issues: [Criar Issue](https://github.com/andreyrsy/kitchen-flow/issues)
