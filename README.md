@@ -9,7 +9,7 @@
 
 Kitchen Flow é um sistema robusto para gerenciamento inteligente de estoque em restaurantes, desenvolvido com Spring Boot, focado na redução de desperdício através do controle preciso de validade e lotes de produtos.
 
-## � Funcionalidades
+## 🚀 Funcionalidades
 
 ### Core Features
 - ✅ **Gestão de Produtos**: Cadastro completo com unidades de medida e categorização
