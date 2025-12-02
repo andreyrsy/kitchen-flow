@@ -5,7 +5,7 @@ import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoDuplicadoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoNaoEncontradoException;
-import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
+import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
@@ -20,13 +20,13 @@ import java.util.List;
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final CategoriaRepository categoriaRepository;
-    private final ProdutoMapper mapper;
+    private final KitchenMapper kitchenMapper;
 
 
-    public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository, ProdutoMapper mapper) {
+    public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository, KitchenMapper kitchenMapper) {
         this.produtoRepository = produtoRepository;
         this.categoriaRepository = categoriaRepository;
-        this.mapper = mapper;
+        this.kitchenMapper = kitchenMapper;
     }
 
     public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
@@ -39,13 +39,12 @@ public class ProdutoService {
             }
 
             Categoria categoriaSelecionada = categoriaRepository.findById(dtoRequest.getCategoriaId()).orElseThrow(() -> new CategoriaNaoEncontradaException(dtoRequest.getCategoriaId()));
-            Produto entity = mapper.toEntity(dtoRequest);
-            entity.setCategoria(categoriaSelecionada);
+            Produto entity = kitchenMapper.toProdutoEntity(dtoRequest);
 
+            entity.setCategoria(categoriaSelecionada);
             Produto produtoSalvo = produtoRepository.save(entity);
 
-            ProdutoResponseDto responseDto = mapper.toDto(produtoSalvo);
-
+            ProdutoResponseDto responseDto = kitchenMapper.toProdutoResponseDto(produtoSalvo);
             log.info("Produto processado nome={}", dtoRequest.getNome());
             return responseDto;
         } catch (Exception ex) {
@@ -58,7 +57,7 @@ public class ProdutoService {
         log.info("Buscando todos os produtos do banco de dados");
         List<Produto> produtosList = produtoRepository.findAll();
         try {
-            List<ProdutoResponseDto> produtos = mapper.toDtoList(produtosList);
+            List<ProdutoResponseDto> produtos = kitchenMapper.toProdutoDtoList(produtosList);
             log.info("Encontrados {} produtos", produtos.size());
             return produtos;
         } catch (Exception ex) {

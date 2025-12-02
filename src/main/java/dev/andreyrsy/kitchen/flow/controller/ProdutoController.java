@@ -2,9 +2,8 @@ package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
-import dev.andreyrsy.kitchen.flow.mapper.ProdutoMapper;
+import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.model.Produto;
-import dev.andreyrsy.kitchen.flow.repository.ProdutoRepository;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,11 +18,11 @@ import java.util.List;
 @Tag(name = "Produto", description = "Endpoints para gerenciamento dos produtos")
 public class ProdutoController {
     private final ProdutoService produtoService;
-    private final ProdutoMapper mapper;
+    private final KitchenMapper kitchenMapper;
 
-    public ProdutoController(ProdutoService produtoService, ProdutoRepository produtoRepository, ProdutoMapper mapper) {
+    public ProdutoController(ProdutoService produtoService, KitchenMapper kitchenMapper) {
         this.produtoService = produtoService;
-        this.mapper = mapper;
+        this.kitchenMapper = kitchenMapper;
     }
 
     @GetMapping
@@ -35,7 +34,7 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable(name = "id") Long id) {
         Produto produtoSelecionado = produtoService.findById(id);
-        ProdutoResponseDto toResponseDto = mapper.toDto(produtoSelecionado);
+        ProdutoResponseDto toResponseDto = kitchenMapper.toProdutoResponseDto(produtoSelecionado);
         return ResponseEntity.ok().body(toResponseDto);
     }
 
