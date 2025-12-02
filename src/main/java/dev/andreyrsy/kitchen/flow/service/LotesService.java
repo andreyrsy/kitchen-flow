@@ -6,6 +6,7 @@ import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.DataInvalidaException;
 import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.QuantidadeInsuficienteException;
+import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
@@ -23,11 +24,13 @@ import java.util.stream.Collectors;
 public class LotesService {
     private final LotesRepository lotesRepository;
     private final ProdutoRepository produtoRepository;
+    private final KitchenMapper kitchenMapper;
     private final LotesMapper mapper;
 
-    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, LotesMapper mapper) {
+    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, KitchenMapper kitchenMapper, LotesMapper mapper) {
         this.lotesRepository = lotesRepository;
         this.produtoRepository = produtoRepository;
+        this.kitchenMapper = kitchenMapper;
         this.mapper = mapper;
     }
 
@@ -46,12 +49,14 @@ public class LotesService {
                 throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
             }
 
-            Lotes toEntity = mapper.toEntity(dto);
+            Lotes toEntity = kitchenMapper.toLotesEntity(dto);
             toEntity.setProduto(produtoSelecionado);
             lotesRepository.saveAndFlush(toEntity);
             log.info("Lote salvo no banco id={}", toEntity.getId());
 
-            LotesResponseDto toResponseDto = mapper.toDto(toEntity, produtoSelecionado);
+
+            LotesResponseDto toResponseDto = kitchenMapper.toLotesResponseDto(toEntity, produtoSelecionado);
+
 
             log.info("Lote criado com sucesso id={} produto={}", toResponseDto.getId(), produtoSelecionado.getNome());
             return toResponseDto;
@@ -68,7 +73,7 @@ public class LotesService {
         List<Lotes> findAll = lotesRepository.findAll();
 
         List<LotesResponseDto> toResposneDto = findAll.stream()
-                .map(lote -> mapper.toDto(lote, lote.getProduto()))
+                .map(lote -> kitchenMapper.toLotesResponseDto(lote, lote.getProduto()))
                 .collect(Collectors.toList());
         log.info("Encontrados {} lotes", toResposneDto.size());
 

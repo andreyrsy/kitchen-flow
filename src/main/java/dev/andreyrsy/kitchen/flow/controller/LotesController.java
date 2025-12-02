@@ -4,6 +4,7 @@ import dev.andreyrsy.kitchen.flow.dto.ConsumoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
@@ -21,10 +22,12 @@ import java.util.List;
 public class LotesController {
     private final LotesService lotesService;
     private final LotesMapper mapper;
+    private final KitchenMapper kitchenMapper;
 
-    public LotesController(LotesService lotesService, LotesMapper mapper) {
+    public LotesController(LotesService lotesService, LotesMapper mapper, KitchenMapper kitchenMapper) {
         this.lotesService = lotesService;
         this.mapper = mapper;
+        this.kitchenMapper = kitchenMapper;
     }
 
     @GetMapping
@@ -36,7 +39,8 @@ public class LotesController {
     @GetMapping("/{id}")
     public ResponseEntity<LotesResponseDto> buscarLotePorId(@Valid @PathVariable(name = "id") Long id) {
         Lotes loteSelecionado = lotesService.findById(id);
-        LotesResponseDto toResponseDto = mapper.toDto(loteSelecionado, loteSelecionado.getProduto());
+        LotesResponseDto toResponseDto = kitchenMapper.toLotesResponseDto(loteSelecionado, loteSelecionado.getProduto());
+
         return ResponseEntity.ok().body(toResponseDto);
     }
 

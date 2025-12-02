@@ -21,7 +21,6 @@ public class LotesMapper {
 
     public LotesResponseDto toDto(Lotes lotes, Produto produtoSelecionado) {
         LotesResponseDto loteResponse = new LotesResponseDto();
-
         CategoriaResponseDto categoriaResponseDto = new CategoriaResponseDto();
         categoriaResponseDto.setId(produtoSelecionado.getCategoria().getId());
         categoriaResponseDto.setNome(produtoSelecionado.getCategoria().getNome());
