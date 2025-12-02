@@ -7,7 +7,6 @@ import dev.andreyrsy.kitchen.flow.exception.business.DataInvalidaException;
 import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.QuantidadeInsuficienteException;
 import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
-import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
@@ -25,13 +24,11 @@ public class LotesService {
     private final LotesRepository lotesRepository;
     private final ProdutoRepository produtoRepository;
     private final KitchenMapper kitchenMapper;
-    private final LotesMapper mapper;
 
-    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, KitchenMapper kitchenMapper, LotesMapper mapper) {
+    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, KitchenMapper kitchenMapper) {
         this.lotesRepository = lotesRepository;
         this.produtoRepository = produtoRepository;
         this.kitchenMapper = kitchenMapper;
-        this.mapper = mapper;
     }
 
     public LotesResponseDto salvarLote(LotesRequestDto dto) throws Exception {

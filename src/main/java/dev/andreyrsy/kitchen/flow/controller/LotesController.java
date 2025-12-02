@@ -5,7 +5,6 @@ import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
-import dev.andreyrsy.kitchen.flow.mapper.LotesMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,12 +20,10 @@ import java.util.List;
 @Tag(name = "Lotes", description = "Endpoints para gerenciamento de lotes e consumo de estoque")
 public class LotesController {
     private final LotesService lotesService;
-    private final LotesMapper mapper;
     private final KitchenMapper kitchenMapper;
 
-    public LotesController(LotesService lotesService, LotesMapper mapper, KitchenMapper kitchenMapper) {
+    public LotesController(LotesService lotesService, KitchenMapper kitchenMapper) {
         this.lotesService = lotesService;
-        this.mapper = mapper;
         this.kitchenMapper = kitchenMapper;
     }
 
