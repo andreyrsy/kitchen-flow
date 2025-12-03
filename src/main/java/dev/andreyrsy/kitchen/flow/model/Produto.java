@@ -25,11 +25,11 @@ public class Produto {
 
     @NotBlank(message = "Unidade de medida é obrigatória")
     @Size(min = 1, max = 20, message = "Unidade deve ter entre 1 e 20 caracteres")
-    @Column(name = "unidade_medida", nullable = false)
+    @Column(name = "unidadeMedida", nullable = false)
     private String unidadeMedida;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "categoriaId")
     private Categoria categoria;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
