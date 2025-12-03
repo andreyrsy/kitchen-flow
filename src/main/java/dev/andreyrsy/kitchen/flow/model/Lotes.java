@@ -19,16 +19,16 @@ public class Lotes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer quantidade;
-    @JsonProperty("data_entrada")
+    @JsonProperty("dataEntrada")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    @Column(name = "data_entrada")
-    private LocalDate data_entrada;
-    @JsonProperty("data_validade")
+    @Column(name = "dataEntrada")
+    private LocalDate dataEntrada;
+    @JsonProperty("dataValidade")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    @Column(name = "data_validade")
-    private LocalDate data_validade;
+    @Column(name = "dataValidade")
+    private LocalDate dataValidade;
 
     @ManyToOne
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produtoId")
     private Produto produto;
 }

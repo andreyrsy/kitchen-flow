@@ -35,9 +35,7 @@ public class LotesService {
         log.info("Criando lote produtoId={} quantidade={} dataEntrada={} dataValidade={}",
                 dto.getProdutoId(), dto.getQuantidade(), dto.getDataEntrada(), dto.getDataValidade());
 
-        Produto produtoSelecionado = produtoRepository.findById(dto.getProdutoId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Produto com o id " + dto.getProdutoId() + " não encontrado"));
+        Produto produtoSelecionado = produtoRepository.findById(dto.getProdutoId()).orElseThrow(() -> new EntityNotFoundException("Produto com o id " + dto.getProdutoId() + " não encontrado"));
 
         try {
             if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
