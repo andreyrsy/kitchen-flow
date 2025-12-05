@@ -193,8 +193,8 @@ psql -U postgres -c "CREATE DATABASE db_kitchen;"
 | Variável                     | Descrição             | Onde Configurar                    |
 | ---------------------------- | --------------------- | ---------------------------------- |
 | `spring.datasource.url`      | URL de conexão JDBC   | `application.properties`           |
-| `spring.datasource.username` | Usuário do banco      | Variável de ambiente `DB_USERNAME` |
-| `spring.datasource.password` | Senha do banco        | Variável de ambiente `DB_PASSWORD` |
+| `spring.datasource.username` | Usuário do banco      |  `DB_USERNAME`                     |
+| `spring.datasource.password` | Senha do banco        | `DB_PASSWORD`                      |
 | `spring.h2.console.enabled`  | Habilitar console H2  | `application.properties`           |
 | `spring.jackson.date-format` | Formato de datas JSON | `application.properties`           |
 | `spring.jackson.time-zone`   | Timezone              | `application.properties`           |
@@ -205,9 +205,9 @@ Ativar com: `-Dspring.profiles.active=postgres`
 
 | Variável                     | Descrição                 | Onde Configurar                     |
 | ---------------------------- | ------------------------- | ----------------------------------- |
-| `spring.datasource.url`      | URL de conexão PostgreSQL | Variável de ambiente `DATABASE_URL` |
-| `spring.datasource.username` | Usuário PostgreSQL        | Variável de ambiente `DB_USERNAME`  |
-| `spring.datasource.password` | Senha PostgreSQL          | Variável de ambiente `DB_PASSWORD`  |
+| `spring.datasource.url`      | URL de conexão PostgreSQL |  `DATABASE_URL`                     |
+| `spring.datasource.username` | Usuário PostgreSQL        |  `DB_USERNAME`                      |
+| `spring.datasource.password` | Senha PostgreSQL          |  `DB_PASSWORD`                      |
 
 > **⚠️ IMPORTANTE**: Configure as credenciais via variáveis de ambiente. **Nunca** commite senhas no código!
 
