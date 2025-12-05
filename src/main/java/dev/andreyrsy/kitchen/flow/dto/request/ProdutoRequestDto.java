@@ -1,4 +1,4 @@
-package dev.andreyrsy.kitchen.flow.dto;
+package dev.andreyrsy.kitchen.flow.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

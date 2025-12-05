@@ -1,7 +1,7 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
-import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.ProdutoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;

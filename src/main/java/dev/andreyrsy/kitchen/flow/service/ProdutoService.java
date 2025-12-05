@@ -1,7 +1,7 @@
 package dev.andreyrsy.kitchen.flow.service;
 
-import dev.andreyrsy.kitchen.flow.dto.ProdutoRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.ProdutoResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.ProdutoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoDuplicadoException;
 import dev.andreyrsy.kitchen.flow.exception.business.ProdutoNaoEncontradoException;

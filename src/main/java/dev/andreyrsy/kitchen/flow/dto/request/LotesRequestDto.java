@@ -1,4 +1,4 @@
-package dev.andreyrsy.kitchen.flow.dto;
+package dev.andreyrsy.kitchen.flow.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;

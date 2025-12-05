@@ -1,7 +1,7 @@
 package dev.andreyrsy.kitchen.flow.service;
 
-import dev.andreyrsy.kitchen.flow.dto.CategoriaRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.CategoriaResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.CategoriaRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;

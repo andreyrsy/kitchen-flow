@@ -1,4 +1,4 @@
-package dev.andreyrsy.kitchen.flow.dto;
+package dev.andreyrsy.kitchen.flow.dto.response;
 import lombok.Data;
 
 @Data
