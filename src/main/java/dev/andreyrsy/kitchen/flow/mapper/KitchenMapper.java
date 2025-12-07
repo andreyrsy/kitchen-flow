@@ -1,6 +1,11 @@
 package dev.andreyrsy.kitchen.flow.mapper;
 
-import dev.andreyrsy.kitchen.flow.dto.*;
+import dev.andreyrsy.kitchen.flow.dto.request.CategoriaRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.request.LotesRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.request.ProdutoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.CategoriaResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.response.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.response.ProdutoResponseDto;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;

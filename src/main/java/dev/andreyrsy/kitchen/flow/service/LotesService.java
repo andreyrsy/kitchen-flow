@@ -1,8 +1,8 @@
 package dev.andreyrsy.kitchen.flow.service;
 
-import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
-import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.response.ConsumoResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.LotesRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.DataInvalidaException;
 import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.QuantidadeInsuficienteException;

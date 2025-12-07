@@ -1,9 +1,9 @@
 package dev.andreyrsy.kitchen.flow.controller;
 
-import dev.andreyrsy.kitchen.flow.dto.ConsumoRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.ConsumoResponseDto;
-import dev.andreyrsy.kitchen.flow.dto.LotesRequestDto;
-import dev.andreyrsy.kitchen.flow.dto.LotesResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.ConsumoRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.ConsumoResponseDto;
+import dev.andreyrsy.kitchen.flow.dto.request.LotesRequestDto;
+import dev.andreyrsy.kitchen.flow.dto.response.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
@@ -47,7 +47,7 @@ public class LotesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
     }
 
-    @PostMapping("/{id}/consumir")
+    @PostMapping("/consumir/{id}")
     public ResponseEntity<ConsumoResponseDto> usarProdutoDoLote(@PathVariable(name = "id") Long id, @RequestBody @Valid ConsumoRequestDto dto) throws Exception {
         ConsumoResponseDto toConsumoResponseDto = lotesService.utilizarProduto(id, dto.getQuantidade());
         return ResponseEntity.status(HttpStatus.CREATED).body(toConsumoResponseDto);
