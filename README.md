@@ -92,7 +92,7 @@ O sistema usa **JWT (JSON Web Token)** para proteger as rotas com arquitetura **
 ### Fluxo de Autenticação
 
 ```
-┌────────────┐    POST /auth/login    ┌────────────┐
+┌────────────┐    POST /auth/login   ┌────────────┐
 │   Client   │ ────────────────────► │   Server   │
 │            │ ◄──────────────────── │            │
 └──────┴─────┘    { token: "..." }   └────────────┘
