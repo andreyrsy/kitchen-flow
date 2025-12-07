@@ -91,15 +91,19 @@ O projeto segue uma arquitetura em camadas (Layered Architecture) com separaçã
 
 ```
 src/main/java/dev/andreyrsy/kitchen/flow/
-├── config/                    # Configurações (Security, Swagger, MapStruct)
-│   ├── SecurityConfig.java
+├── config/                    # Configurações (Security, Swagger, MapStruct, JWT)
+│   ├── SecurityConfig.java   # Regras de autorização por endpoint
+│   ├── SecurityFilter.java   # Filtro de validação do token JWT
+│   ├── TokenConfig.java      # Geração e validação de tokens JWT
 │   ├── SwaggerConfig.java
 │   └── MapStructConfig.java
 ├── controller/                # REST Controllers
+│   ├── AuthController.java   # Endpoints de autenticação (login/register)
 │   ├── CategoriaController.java
 │   ├── ProdutoController.java
 │   └── LotesController.java
 ├── dto/                       # Data Transfer Objects
+│   ├── auth/                  # DTOs de autenticação
 │   ├── request/               # DTOs de entrada
 │   └── response/              # DTOs de saída
 ├── exception/                 # Exceções personalizadas
@@ -356,22 +360,163 @@ src/main/resources/db/migration/
 
 ---
 
-## 🔐 Segurança
+## 🔐 Segurança e Autenticação
 
-O projeto implementa **Spring Security** com as seguintes configurações:
+O projeto implementa **Spring Security** com autenticação **JWT (JSON Web Token)** para proteger os endpoints da API. A arquitetura segue o padrão **stateless**, ideal para APIs RESTful.
 
-- **CSRF**: Desabilitado (API stateless)
-- **Sessão**: Stateless (`SessionCreationPolicy.STATELESS`)
-- **Autenticação**: Preparado para implementação JWT/OAuth2
+### Por que implementamos autenticação e autorização?
 
-### Roles de Usuário
+Em um ambiente de cozinha profissional, diferentes colaboradores possuem diferentes níveis de responsabilidade:
 
-| Role    | Permissões                           |
-| ------- | ------------------------------------ |
-| `ADMIN` | Acesso completo + gestão de usuários |
-| `USER`  | Operações básicas de CRUD            |
+| Cargo           | Role    | Responsabilidades                                                        |
+| --------------- | ------- | ------------------------------------------------------------------------ |
+| **Gerente**     | `ADMIN` | Controla a entrada de lotes no estoque, valida mercadorias recebidas     |
+| **Funcionário** | `USER`  | Cadastra categorias e produtos, registra consumo do estoque no dia-a-dia |
 
-> **📝 Nota**: A implementação de autenticação JWT está em desenvolvimento.
+> **💡 Contexto de Negócio**: Apenas o gerente pode criar/alterar lotes porque ele é responsável por conferir as mercadorias que chegam dos fornecedores, verificar quantidades e datas de validade. Os funcionários podem cadastrar novos produtos e categorias conforme necessário, mas não têm acesso à gestão de entrada de estoque.
+
+---
+
+### Arquitetura de Segurança
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           FLUXO DE AUTENTICAÇÃO JWT                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  1. Login                           2. Requisição Autenticada               │
+│  ┌──────────┐                       ┌──────────┐                           │
+│  │  Client  │ ── POST /auth/login ──►│  Server  │                           │
+│  │          │◄── { token: "..." } ── │          │                           │
+│  └──────────┘                       └──────────┘                           │
+│       │                                   ▲                                 │
+│       │                                   │                                 │
+│       │  3. Usa token nas requisições    │                                 │
+│       │     Authorization: Bearer <token> │                                 │
+│       └───────────────────────────────────┘                                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Componentes de Segurança
+
+| Componente         | Arquivo               | Responsabilidade                              |
+| ------------------ | --------------------- | --------------------------------------------- |
+| **SecurityConfig** | `SecurityConfig.java` | Configuração das regras de autorização        |
+| **SecurityFilter** | `SecurityFilter.java` | Intercepta requisições e valida o token JWT   |
+| **TokenConfig**    | `TokenConfig.java`    | Geração e validação de tokens JWT (auth0-jwt) |
+| **AuthController** | `AuthController.java` | Endpoints de login e registro de usuários     |
+
+### Configurações de Segurança
+
+- **CSRF**: Desabilitado (API stateless não usa cookies de sessão)
+- **Sessão**: `SessionCreationPolicy.STATELESS` (sem estado no servidor)
+- **Algoritmo JWT**: HMAC256
+- **Expiração do Token**: 2 horas
+- **Password Encoder**: BCrypt
+
+---
+
+### Matriz de Permissões por Endpoint
+
+| Endpoint                      | Método   | `ADMIN` (Gerente) | `USER` (Funcionário) | Público |
+| ----------------------------- | -------- | :---------------: | :------------------: | :-----: |
+| `/auth/login`                 | `POST`   |                   |                      |   ✅    |
+| `/auth/register`              | `POST`   |                   |                      |   ✅    |
+| `/api/v1/categorias`          | `GET`    |        ✅         |          ✅          |         |
+| `/api/v1/categorias`          | `POST`   |        ✅         |          ✅          |         |
+| `/api/v1/categorias/{id}`     | `DELETE` |        ✅         |          ✅          |         |
+| `/api/v1/produtos`            | `GET`    |        ✅         |          ✅          |         |
+| `/api/v1/produtos`            | `POST`   |        ✅         |          ✅          |         |
+| `/api/v1/produtos/{id}`       | `DELETE` |        ✅         |          ✅          |         |
+| `/api/v1/lotes`               | `GET`    |        ✅         |          ✅          |         |
+| `/api/v1/lotes`               | `POST`   |        ✅         |          ❌          |         |
+| `/api/v1/lotes/{id}`          | `DELETE` |        ✅         |          ✅          |         |
+| `/api/v1/lotes/consumir/{id}` | `POST`   |        ✅         |          ✅          |         |
+
+> **🔒 Regra Principal**: Apenas usuários com role `ADMIN` podem criar novos lotes (`POST /api/v1/lotes`), pois representam a entrada de mercadorias no estoque — responsabilidade exclusiva do gerente.
+
+---
+
+### Como Utilizar a Autenticação
+
+#### 1️⃣ Registrar um Novo Usuário
+
+```bash
+# Registrar um funcionário (USER)
+curl -X POST http://localhost:8080/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login": "funcionario01",
+    "password": "senha123",
+    "role": "USER"
+  }'
+
+# Registrar um gerente (ADMIN)
+curl -X POST http://localhost:8080/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login": "gerente01",
+    "password": "senha123",
+    "role": "ADMIN"
+  }'
+```
+
+#### 2️⃣ Fazer Login e Obter Token
+
+```bash
+curl -X POST http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login": "gerente01",
+    "password": "senha123"
+  }'
+```
+
+**Resposta:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### 3️⃣ Usar o Token nas Requisições
+
+```bash
+# Criar um lote (requer ADMIN)
+curl -X POST http://localhost:8080/api/v1/lotes \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
+  -d '{
+    "quantidade": 50,
+    "dataEntrada": "07-12-2024",
+    "dataValidade": "07-03-2025",
+    "produtoId": 1
+  }'
+```
+
+#### 4️⃣ Exemplo de Erro de Autorização
+
+Se um funcionário (`USER`) tentar criar um lote:
+
+```bash
+# Retorna HTTP 403 Forbidden
+curl -X POST http://localhost:8080/api/v1/lotes \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token_de_funcionario>" \
+  -d '{"quantidade": 10, "produtoId": 1, ...}'
+```
+
+---
+
+### Variáveis de Ambiente de Segurança
+
+| Variável                    | Descrição              | Obrigatório |
+| --------------------------- | ---------------------- | :---------: |
+| `api.security.token.secret` | Chave secreta para JWT |     ✅      |
+
+> **⚠️ IMPORTANTE**: A chave secreta (`secret`) deve ser configurada via variáveis de ambiente e **nunca** commitada no código-fonte. Use um valor forte com pelo menos 32 caracteres.
 
 ---
 
@@ -415,7 +560,7 @@ git push origin feature/minha-feature
 
 ## 🗺️ Roadmap
 
-- [ ] Implementação completa de autenticação JWT
+- [x] ~~Implementação completa de autenticação JWT~~ ✅
 - [ ] Alertas de produtos próximos da validade
 - [ ] Relatórios de consumo e desperdício
 - [ ] Integração com sistemas de PDV
