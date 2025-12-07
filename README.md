@@ -510,6 +510,47 @@ curl -X POST http://localhost:8080/api/v1/lotes \
 
 ---
 
+### 🌐 Autenticação via Swagger UI
+
+Você também pode testar a API diretamente pelo **Swagger UI** com autenticação integrada:
+
+#### Passo 1: Acessar o Swagger
+
+Acesse: `http://localhost:8080/swagger-ui.html`
+
+#### Passo 2: Registrar um usuário
+
+1. Expanda a seção **auth-controller**
+2. Execute `POST /auth/register` com o corpo:
+
+```json
+{
+  "login": "gerente01",
+  "password": "senha123",
+  "role": "ADMIN"
+}
+```
+
+#### Passo 3: Fazer login e obter o token
+
+1. Execute `POST /auth/login` com suas credenciais
+2. Copie o `token` da resposta
+
+#### Passo 4: Autorizar o Swagger
+
+1. Clique no botão **🔓 Authorize** no topo da página
+2. No campo de valor, insira:
+
+```
+Bearer <seu_token_aqui>
+```
+
+3. Clique em **Authorize** e depois em **Close**
+
+> **✅ Pronto!** Agora todas as requisições feitas pelo Swagger incluirão automaticamente o header `Authorization` com seu token JWT.
+
+---
+
 ### Variáveis de Ambiente de Segurança
 
 | Variável                    | Descrição              | Obrigatório |
