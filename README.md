@@ -14,19 +14,22 @@
 
 ---
 
-## 💡 Por que este projeto existe?
+## 💡 O Problema
 
-Imagine uma cozinha de restaurante movimentada: dezenas de ingredientes chegando diariamente, cada um com sua data de validade, e uma equipe que precisa saber exatamente o que usar primeiro para evitar desperdício.
+Observei um problema recorrente dentro de um restaurante: **ingredientes venciam no estoque sem que ninguém percebesse**. O controle era feito em planilhas desatualizadas ou simplesmente "de cabeça". O resultado? Desperdício de alimentos, prejuízo financeiro e, em alguns casos, risco sanitário.
 
-**Kitchen Flow** nasceu para resolver esse problema real.
+Pesquisando, descobri que esse não é um caso isolado. Segundo dados do setor de alimentos, restaurantes de pequeno e médio porte perdem em média **10-15% do estoque** por falhas no controle de validade.
 
-Muitos restaurantes ainda controlam seus estoques em planilhas ou, pior, de memória. Isso gera:
+### A Solução
 
-- 🗑️ **Desperdício** — ingredientes vencem esquecidos no fundo da geladeira
-- ⚠️ **Riscos sanitários** — produtos vencidos podem parar em pratos
-- 💸 **Prejuízo financeiro** — dinheiro jogado fora literalmente
+O **Kitchen Flow** foi criado para resolver esse problema real. É uma API RESTful que permite:
 
-Com o Kitchen Flow, o gerente registra cada lote que chega (com quantidade e validade), e a equipe consulta o sistema para saber o que usar primeiro. Simples assim.
+- **Rastrear lotes** com data de entrada e validade
+- **Separar responsabilidades** — gerentes controlam entrada, funcionários registram consumo
+- **Garantir segurança** — autenticação JWT com níveis de acesso
+- **Consultar estoque** de forma rápida e organizada
+
+O objetivo é simples: **nenhum ingrediente deve vencer esquecido na prateleira**.
 
 ---
 
