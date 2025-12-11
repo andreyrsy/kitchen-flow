@@ -6,7 +6,7 @@ import dev.andreyrsy.kitchen.flow.dto.response.LotesResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.DataInvalidaException;
 import dev.andreyrsy.kitchen.flow.exception.business.LoteNaoEncontradoException;
 import dev.andreyrsy.kitchen.flow.exception.business.QuantidadeInsuficienteException;
-import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
+import dev.andreyrsy.kitchen.flow.mapper.ProjectMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.repository.LotesRepository;
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 public class LotesService {
     private final LotesRepository lotesRepository;
     private final ProdutoRepository produtoRepository;
-    private final KitchenMapper kitchenMapper;
+    private final ProjectMapper projectMapper;
 
-    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, KitchenMapper kitchenMapper) {
+    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, ProjectMapper projectMapper) {
         this.lotesRepository = lotesRepository;
         this.produtoRepository = produtoRepository;
-        this.kitchenMapper = kitchenMapper;
+        this.projectMapper = projectMapper;
     }
 
     public LotesResponseDto salvarLote(LotesRequestDto dto) throws Exception {
@@ -44,13 +44,13 @@ public class LotesService {
                 throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
             }
 
-            Lotes toEntity = kitchenMapper.toLotesEntity(dto);
+            Lotes toEntity = projectMapper.toLotesEntity(dto);
             toEntity.setProduto(produtoSelecionado);
             lotesRepository.saveAndFlush(toEntity);
             log.info("Lote salvo no banco id={}", toEntity.getId());
 
 
-            LotesResponseDto toResponseDto = kitchenMapper.toLotesResponseDto(toEntity, produtoSelecionado);
+            LotesResponseDto toResponseDto = projectMapper.toLotesResponseDto(toEntity, produtoSelecionado);
 
 
             log.info("Lote criado com sucesso id={} produto={}", toResponseDto.getId(), produtoSelecionado.getNome());
@@ -68,7 +68,7 @@ public class LotesService {
         List<Lotes> findAll = lotesRepository.findAll();
 
         List<LotesResponseDto> toResposneDto = findAll.stream()
-                .map(lote -> kitchenMapper.toLotesResponseDto(lote, lote.getProduto()))
+                .map(lote -> projectMapper.toLotesResponseDto(lote, lote.getProduto()))
                 .collect(Collectors.toList());
         log.info("Encontrados {} lotes", toResposneDto.size());
 

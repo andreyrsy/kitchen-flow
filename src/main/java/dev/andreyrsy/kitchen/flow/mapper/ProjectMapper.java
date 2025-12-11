@@ -15,7 +15,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface KitchenMapper {
+public interface ProjectMapper {
 
     Categoria toCategoriaEntity(CategoriaRequestDto categoriaDto);
     CategoriaResponseDto toCategoriaResponseDto(Categoria categoria);

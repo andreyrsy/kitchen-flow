@@ -2,7 +2,7 @@ package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.request.CategoriaRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.response.CategoriaResponseDto;
-import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
+import dev.andreyrsy.kitchen.flow.mapper.ProjectMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.service.CategoriaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,11 +18,11 @@ import java.util.List;
 @Tag(name = "Categorias", description = "Endpoints para gerenciamento de categorias")
 public class CategoriaController {
     private final CategoriaService categoriaService;
-    private final KitchenMapper kitchenMapper;
+    private final ProjectMapper projectMapper;
 
-    public CategoriaController(CategoriaService categoriaService, KitchenMapper kitchenMapper) {
+    public CategoriaController(CategoriaService categoriaService, ProjectMapper projectMapper) {
         this.categoriaService = categoriaService;
-        this.kitchenMapper = kitchenMapper;
+        this.projectMapper = projectMapper;
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ public class CategoriaController {
     @GetMapping("{id}")
     public ResponseEntity<CategoriaResponseDto> buscarCategoriaPorId(@Valid @PathVariable(name = "id") Long id) {
         Categoria categoria = categoriaService.findById(id);
-        CategoriaResponseDto toResponseDto = kitchenMapper.toCategoriaResponseDto(categoria);
+        CategoriaResponseDto toResponseDto = projectMapper.toCategoriaResponseDto(categoria);
         return ResponseEntity.ok().body(toResponseDto);
     }
 

@@ -3,16 +3,16 @@ package dev.andreyrsy.kitchen.flow.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
 @Table(name = "categoria")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
