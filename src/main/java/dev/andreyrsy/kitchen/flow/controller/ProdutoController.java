@@ -32,20 +32,20 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@Valid @PathVariable(name = "id") Long id) {
         Produto produtoSelecionado = produtoService.findById(id);
         ProdutoResponseDto toResponseDto = kitchenMapper.toProdutoResponseDto(produtoSelecionado);
         return ResponseEntity.ok().body(toResponseDto);
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoResponseDto> adicionarProduto(@RequestBody @Valid ProdutoRequestDto dto) {
+    public ResponseEntity<ProdutoResponseDto> adicionarProduto(@Valid @RequestBody ProdutoRequestDto dto) {
         ProdutoResponseDto toResponseDto = produtoService.criarProduto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deletar(@Valid @PathVariable("id") Long id) {
         produtoService.deletarProduto(id);
         return ResponseEntity.ok().body("Produto de ID=" + id + " removido com sucesso");
     }

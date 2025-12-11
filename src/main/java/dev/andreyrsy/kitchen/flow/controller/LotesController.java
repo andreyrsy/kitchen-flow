@@ -48,13 +48,13 @@ public class LotesController {
     }
 
     @PostMapping("/consumir/{id}")
-    public ResponseEntity<ConsumoResponseDto> usarProdutoDoLote(@PathVariable(name = "id") Long id, @RequestBody @Valid ConsumoRequestDto dto) throws Exception {
+    public ResponseEntity<ConsumoResponseDto> usarProdutoDoLote(@Valid @PathVariable(name = "id") Long id, @RequestBody @Valid ConsumoRequestDto dto) throws Exception {
         ConsumoResponseDto toConsumoResponseDto = lotesService.utilizarProduto(id, dto.getQuantidade());
         return ResponseEntity.status(HttpStatus.CREATED).body(toConsumoResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletarLotePorId(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<String> deletarLotePorId(@Valid @PathVariable(name = "id") Long id) {
         lotesService.deleteById(id);
         return ResponseEntity.ok().body("Lote de ID=" + id + " removido com sucesso");
     }
