@@ -3,7 +3,7 @@ package dev.andreyrsy.kitchen.flow.service;
 import dev.andreyrsy.kitchen.flow.dto.request.CategoriaRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.response.CategoriaResponseDto;
 import dev.andreyrsy.kitchen.flow.exception.business.CategoriaNaoEncontradaException;
-import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
+import dev.andreyrsy.kitchen.flow.mapper.ProjectMapper;
 import dev.andreyrsy.kitchen.flow.model.Categoria;
 import dev.andreyrsy.kitchen.flow.repository.CategoriaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +16,11 @@ import java.util.List;
 @Slf4j
 public class CategoriaService {
     private final CategoriaRepository categoriaRepository;
-    private final KitchenMapper kitchenMapper;
+    private final ProjectMapper projectMapper;
 
-    public CategoriaService(CategoriaRepository categoriaRepository,KitchenMapper kitchenMapper) {
+    public CategoriaService(CategoriaRepository categoriaRepository, ProjectMapper projectMapper) {
         this.categoriaRepository = categoriaRepository;
-        this.kitchenMapper = kitchenMapper;
+        this.projectMapper = projectMapper;
     }
 
     public CategoriaResponseDto criarCategoria(CategoriaRequestDto dto) {
@@ -31,10 +31,10 @@ public class CategoriaService {
             throw new RuntimeException("Categoria com o nome [" + dto.getNome() + "] já existe!");
         }
 
-        Categoria categoria = kitchenMapper.toCategoriaEntity(dto);
+        Categoria categoria = projectMapper.toCategoriaEntity(dto);
         categoriaRepository.save(categoria);
 
-        CategoriaResponseDto responseDto = kitchenMapper.toCategoriaResponseDto(categoria);
+        CategoriaResponseDto responseDto = projectMapper.toCategoriaResponseDto(categoria);
 
         log.info("Categoria criada com sucesso id={} nome={}", responseDto.getId(), responseDto.getNome());
         return responseDto;
@@ -46,7 +46,7 @@ public class CategoriaService {
         List<CategoriaResponseDto> dtos = new ArrayList<>();
 
         for (Categoria categoria : categoriaRepository.findAll()) {
-            CategoriaResponseDto dto = kitchenMapper.toCategoriaResponseDto(categoria);
+            CategoriaResponseDto dto = projectMapper.toCategoriaResponseDto(categoria);
             dtos.add(dto);
         }
         log.info("Encontradas {} categorias", dtos.size());

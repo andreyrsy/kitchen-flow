@@ -2,7 +2,7 @@ package dev.andreyrsy.kitchen.flow.controller;
 
 import dev.andreyrsy.kitchen.flow.dto.request.ProdutoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.response.ProdutoResponseDto;
-import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
+import dev.andreyrsy.kitchen.flow.mapper.ProjectMapper;
 import dev.andreyrsy.kitchen.flow.model.Produto;
 import dev.andreyrsy.kitchen.flow.service.ProdutoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,11 +18,11 @@ import java.util.List;
 @Tag(name = "Produto", description = "Endpoints para gerenciamento dos produtos")
 public class ProdutoController {
     private final ProdutoService produtoService;
-    private final KitchenMapper kitchenMapper;
+    private final ProjectMapper projectMapper;
 
-    public ProdutoController(ProdutoService produtoService, KitchenMapper kitchenMapper) {
+    public ProdutoController(ProdutoService produtoService, ProjectMapper projectMapper) {
         this.produtoService = produtoService;
-        this.kitchenMapper = kitchenMapper;
+        this.projectMapper = projectMapper;
     }
 
     @GetMapping
@@ -34,7 +34,7 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@Valid @PathVariable(name = "id") Long id) {
         Produto produtoSelecionado = produtoService.findById(id);
-        ProdutoResponseDto toResponseDto = kitchenMapper.toProdutoResponseDto(produtoSelecionado);
+        ProdutoResponseDto toResponseDto = projectMapper.toProdutoResponseDto(produtoSelecionado);
         return ResponseEntity.ok().body(toResponseDto);
     }
 

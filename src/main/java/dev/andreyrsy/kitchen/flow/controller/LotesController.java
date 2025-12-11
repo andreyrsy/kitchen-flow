@@ -4,7 +4,7 @@ import dev.andreyrsy.kitchen.flow.dto.request.ConsumoRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.response.ConsumoResponseDto;
 import dev.andreyrsy.kitchen.flow.dto.request.LotesRequestDto;
 import dev.andreyrsy.kitchen.flow.dto.response.LotesResponseDto;
-import dev.andreyrsy.kitchen.flow.mapper.KitchenMapper;
+import dev.andreyrsy.kitchen.flow.mapper.ProjectMapper;
 import dev.andreyrsy.kitchen.flow.model.Lotes;
 import dev.andreyrsy.kitchen.flow.service.LotesService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,11 +20,11 @@ import java.util.List;
 @Tag(name = "Lotes", description = "Endpoints para gerenciamento de lotes e consumo de estoque")
 public class LotesController {
     private final LotesService lotesService;
-    private final KitchenMapper kitchenMapper;
+    private final ProjectMapper projectMapper;
 
-    public LotesController(LotesService lotesService, KitchenMapper kitchenMapper) {
+    public LotesController(LotesService lotesService, ProjectMapper projectMapper) {
         this.lotesService = lotesService;
-        this.kitchenMapper = kitchenMapper;
+        this.projectMapper = projectMapper;
     }
 
     @GetMapping
@@ -36,7 +36,7 @@ public class LotesController {
     @GetMapping("/{id}")
     public ResponseEntity<LotesResponseDto> buscarLotePorId(@Valid @PathVariable(name = "id") Long id) {
         Lotes loteSelecionado = lotesService.findById(id);
-        LotesResponseDto toResponseDto = kitchenMapper.toLotesResponseDto(loteSelecionado, loteSelecionado.getProduto());
+        LotesResponseDto toResponseDto = projectMapper.toLotesResponseDto(loteSelecionado, loteSelecionado.getProduto());
 
         return ResponseEntity.ok().body(toResponseDto);
     }
