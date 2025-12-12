@@ -50,32 +50,34 @@ O objetivo é simples: **nenhum ingrediente deve vencer esquecido na prateleira*
 
 ## 🚀 Como Executar
 
-O projeto possui **dois perfis** de execução:
+O projeto usa **PostgreSQL por padrão**. Também é possível usar H2 para testes rápidos.
 
-| Perfil     | Banco      | Uso recomendado |
-| ---------- | ---------- | --------------- |
-| `default`  | H2         | Desenvolvimento |
-| `postgres` | PostgreSQL | **Produção**    |
+| Perfil    | Banco          | Descrição                   |
+| --------- | -------------- | --------------------------- |
+| `default` | **PostgreSQL** | Padrão (produção/dev)       |
+| `h2`      | H2             | Testes rápidos (em memória) |
 
-### Opção 1: Desenvolvimento (H2)
-
-```bash
-git clone https://github.com/andreyrsy/orderly.git
-cd orderly
-./mvnw spring-boot:run
-```
-
-> Banco em memória — os dados são perdidos ao reiniciar.
-
-### Opção 2: Produção (PostgreSQL) ✅ Recomendado
+### Opção 1: PostgreSQL (Padrão) ✅
 
 ```bash
 # 1. Crie o banco de dados
 psql -U postgres -c "CREATE DATABASE db_orderly;"
 
-# 2. Execute com o perfil postgres
-./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
+# 2. Clone e execute
+git clone https://github.com/andreyrsy/orderly.git
+cd orderly
+./mvnw spring-boot:run
 ```
+
+> O projeto já inicia com PostgreSQL automaticamente.
+
+### Opção 2: H2 (Testes Rápidos)
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
+```
+
+> Banco em memória — os dados são perdidos ao reiniciar.
 
 ### Acessos
 
