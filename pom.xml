@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.andreyrsy</groupId>
-    <artifactId>kitchen-flow</artifactId>
+    <artifactId>orderly</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kitchen-flow</name>
+    <name>orderly</name>
     <description>Sistema de gestão de validade e estoque para restaurantes</description>
     <url/>
     <licenses>

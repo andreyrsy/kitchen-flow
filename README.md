@@ -1,4 +1,4 @@
-# 🍳 Kitchen Flow
+# 🗂️ Orderly
 
 <div align="center">
 
@@ -22,7 +22,7 @@ Pesquisando, descobri que esse não é um caso isolado. Segundo dados do setor d
 
 ### A Solução
 
-O **Kitchen Flow** foi criado para resolver esse problema real. É uma API RESTful que permite:
+O **Orderly** foi criado para resolver esse problema real. É uma API RESTful que permite:
 
 - **Rastrear lotes** com data de entrada e validade
 - **Separar responsabilidades** — gerentes controlam entrada, funcionários registram consumo
@@ -60,8 +60,8 @@ O projeto possui **dois perfis** de execução:
 ### Opção 1: Desenvolvimento (H2)
 
 ```bash
-git clone https://github.com/andreyrsy/kitchen-flow.git
-cd kitchen-flow
+git clone https://github.com/andreyrsy/orderly.git
+cd orderly
 ./mvnw spring-boot:run
 ```
 
@@ -71,7 +71,7 @@ cd kitchen-flow
 
 ```bash
 # 1. Crie o banco de dados
-psql -U postgres -c "CREATE DATABASE db_kitchen;"
+psql -U postgres -c "CREATE DATABASE db_orderly;"
 
 # 2. Execute com o perfil postgres
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
@@ -225,7 +225,7 @@ Cada **categoria** agrupa **produtos** (ex: "Carnes" → "Filé Mignon"). Cada *
 ## 📁 Estrutura do Projeto
 
 ```
-src/main/java/dev/andreyrsy/kitchen/flow/
+src/main/java/dev/andreyrsy/orderly/
 ├── config/        # Segurança, Swagger, JWT
 ├── controller/    # Endpoints REST
 ├── dto/           # Objetos de transferência
