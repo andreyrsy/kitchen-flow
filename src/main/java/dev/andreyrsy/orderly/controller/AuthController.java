@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDto data) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDto data) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),
                 data.password());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDto data) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterDto data) {
         if (this.userRepository.findByLogin(data.login()) != null) {
             return ResponseEntity.badRequest().build();
         }

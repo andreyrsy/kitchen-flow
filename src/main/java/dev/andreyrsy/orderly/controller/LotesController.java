@@ -35,9 +35,9 @@ public class LotesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LotesResponseDto> buscarLotePorId(@Valid @PathVariable(name = "id") Long id) {
-        Lotes loteSelecionado = lotesService.findById(id);
-        LotesResponseDto toResponseDto = projectMapper.toLotesResponseDto(loteSelecionado,
-                loteSelecionado.getProduto());
+        Lotes lotesSelecionado = lotesService.findById(id);
+        LotesResponseDto toResponseDto = projectMapper.toLotesResponseDto(lotesSelecionado,
+                lotesSelecionado.getProduto());
 
         return ResponseEntity.ok().body(toResponseDto);
     }
@@ -58,6 +58,6 @@ public class LotesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarLotePorId(@Valid @PathVariable(name = "id") Long id) {
         lotesService.deleteById(id);
-        return ResponseEntity.ok().body("Lote de ID=" + id + " removido com sucesso");
+        return ResponseEntity.noContent().build();
     }
 }
