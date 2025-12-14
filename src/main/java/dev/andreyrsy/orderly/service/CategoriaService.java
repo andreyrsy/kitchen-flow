@@ -4,6 +4,7 @@ import dev.andreyrsy.orderly.dto.request.CategoriaRequestDto;
 import dev.andreyrsy.orderly.dto.response.CategoriaResponseDto;
 import dev.andreyrsy.orderly.exception.business.CategoriaDuplicadaException;
 import dev.andreyrsy.orderly.exception.business.CategoriaNaoEncontradaException;
+import dev.andreyrsy.orderly.exception.business.CategoriaPossuiProdutosException;
 import dev.andreyrsy.orderly.mapper.ProjectMapper;
 import dev.andreyrsy.orderly.model.Categoria;
 import dev.andreyrsy.orderly.repository.CategoriaRepository;
@@ -73,8 +74,9 @@ public class CategoriaService {
 
         if (categoria.getProduto() != null && !categoria.getProduto().isEmpty()) {
             log.error("Tentativa de deletar categoria com produtos associados id={}", id);
-            throw new RuntimeException("Não é possível deletar categoria que possui produtos associados.");
+            throw new CategoriaPossuiProdutosException(id);
         }
+        
         categoriaRepository.deleteById(id);
         log.info("Categoria deletada com sucesso id={}", id);
     }

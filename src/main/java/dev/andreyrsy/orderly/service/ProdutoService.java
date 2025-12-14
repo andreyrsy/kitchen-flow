@@ -25,7 +25,7 @@ public class ProdutoService {
     private final ProjectMapper projectMapper;
 
     public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository,
-            ProjectMapper projectMapper) {
+                          ProjectMapper projectMapper) {
         this.produtoRepository = produtoRepository;
         this.categoriaRepository = categoriaRepository;
         this.projectMapper = projectMapper;
@@ -33,28 +33,21 @@ public class ProdutoService {
 
     @Transactional
     public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
-        log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), dtoRequest.getCategoriaId());
+        log.info("Criando produto nome={} ", dtoRequest.getNome());
 
-        try {
-            if (produtoRepository.existsByNome(dtoRequest.getNome())) {
-                log.error("Tentativa de criar produto duplicado nome={}", dtoRequest.getNome());
-                throw new ProdutoDuplicadoException(dtoRequest.getNome());
-            }
-
-            Categoria categoriaSelecionada = categoriaRepository.findById(dtoRequest.getCategoriaId())
-                    .orElseThrow(() -> new CategoriaNaoEncontradaException(dtoRequest.getCategoriaId()));
-            Produto entity = projectMapper.toProdutoEntity(dtoRequest);
-
-            entity.setCategoria(categoriaSelecionada);
-            Produto produtoSalvo = produtoRepository.save(entity);
-
-            ProdutoResponseDto responseDto = projectMapper.toProdutoResponseDto(produtoSalvo);
-            log.info("Produto processado nome={}", dtoRequest.getNome());
-            return responseDto;
-        } catch (Exception ex) {
-            log.error("Falha ao criar produto com nome: {}", dtoRequest.getNome());
-            throw new ProdutoInvalidoException(dtoRequest.getNome());
+        if (produtoRepository.existsByNome(dtoRequest.getNome())) {
+            log.error("Tentativa de criar produto duplicado nome={}", dtoRequest.getNome());
+            throw new ProdutoDuplicadoException(dtoRequest.getNome());
         }
+
+        Categoria categoriaSelecionada = categoriaRepository.findById(dtoRequest.getCategoriaId()).orElseThrow(() -> new CategoriaNaoEncontradaException(dtoRequest.getCategoriaId()));
+
+        Produto entity = projectMapper.toProdutoEntity(dtoRequest);
+        entity.setCategoria(categoriaSelecionada);
+        Produto saved = produtoRepository.save(entity);
+
+        log.info("Produto criado nome={}", saved.getNome());
+        return projectMapper.toProdutoResponseDto(saved);
     }
 
     public List<ProdutoResponseDto> listarProdutos() {

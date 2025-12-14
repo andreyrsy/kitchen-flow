@@ -3,10 +3,7 @@ package dev.andreyrsy.orderly.service;
 import dev.andreyrsy.orderly.dto.response.ConsumoResponseDto;
 import dev.andreyrsy.orderly.dto.request.LotesRequestDto;
 import dev.andreyrsy.orderly.dto.response.LotesResponseDto;
-import dev.andreyrsy.orderly.exception.business.DataInvalidaException;
-import dev.andreyrsy.orderly.exception.business.LoteInvalidoException;
-import dev.andreyrsy.orderly.exception.business.LoteNaoEncontradoException;
-import dev.andreyrsy.orderly.exception.business.QuantidadeInsuficienteException;
+import dev.andreyrsy.orderly.exception.business.*;
 import dev.andreyrsy.orderly.mapper.ProjectMapper;
 import dev.andreyrsy.orderly.model.Lotes;
 import dev.andreyrsy.orderly.model.Produto;
@@ -34,45 +31,32 @@ public class LotesService {
     }
 
     @Transactional
-    public LotesResponseDto salvarLote(LotesRequestDto dto) throws Exception {
-        log.info("Criando lote produtoId={} quantidade={} dataEntrada={} dataValidade={}",
-                dto.getProdutoId(), dto.getQuantidade(), dto.getDataEntrada(), dto.getDataValidade());
+    public LotesResponseDto salvarLote(LotesRequestDto dto) {
+        log.info("Criando lote proudotId={}", dto.getProdutoId());
 
-        Produto produtoSelecionado = produtoRepository.findById(dto.getProdutoId()).orElseThrow(
-                () -> new EntityNotFoundException("Produto com o id " + dto.getProdutoId() + " não encontrado"));
+        Produto produto = produtoRepository.findById(dto.getProdutoId()).orElseThrow(
+                () -> new ProdutoNaoEncontradoException(dto.getProdutoId()));
 
-        try {
-            if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
-                log.error("Data de validade inválida dataValidade={} dataEntrada={}", dto.getDataValidade(),
-                        dto.getDataEntrada());
-                throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
-            }
-
-            Lotes toEntity = projectMapper.toLotesEntity(dto);
-            toEntity.setProduto(produtoSelecionado);
-            lotesRepository.saveAndFlush(toEntity);
-            log.info("Lotes salvo no banco id={}", toEntity.getId());
-
-            LotesResponseDto toResponseDto = projectMapper.toLotesResponseDto(toEntity, produtoSelecionado);
-
-            log.info("Lotes criado com sucesso id={} produto={}", toResponseDto.getId(), produtoSelecionado.getNome());
-            return toResponseDto;
-
-        } catch (Exception ex) {
-            log.error("Falha ao criar lote produtoId={} quantidade={}", dto.getProdutoId(), dto.getQuantidade(), ex);
-            throw new LoteInvalidoException(produtoSelecionado.getNome());
+        if (dto.getDataValidade().isBefore(dto.getDataEntrada())) {
+            throw new DataInvalidaException("Data de validade não pode ser anterior à data de entrada!");
         }
+
+        Lotes entity = projectMapper.toLotesEntity(dto);
+        entity.setProduto(produto);
+        lotesRepository.saveAndFlush(entity);
+
+        log.info("Lotes criado id={}", entity.getId());
+        return projectMapper.toLotesResponseDto(entity, produto);
     }
 
     public List<LotesResponseDto> listarTodosLotes() {
-
         log.info("Listando todos os lotes");
         List<Lotes> findAll = lotesRepository.findAll();
 
         List<LotesResponseDto> toResposneDto = findAll.stream()
                 .map(lote -> projectMapper.toLotesResponseDto(lote, lote.getProduto()))
                 .collect(Collectors.toList());
-        log.info("Encontrados {} lotes", toResposneDto.size());
+        log.info("{} lotes encontrados", toResposneDto.size());
 
         return toResposneDto;
     }
@@ -80,8 +64,7 @@ public class LotesService {
     public Lotes findById(Long id) {
         log.info("Buscando lotes por id={}", id);
         Lotes lotes = lotesRepository.findById(id).orElseThrow(() -> new LoteNaoEncontradoException(id));
-        log.info("Lotes encontrado id={} produto={} quantidade={}",
-                lotes.getId(), lotes.getProduto().getNome(), lotes.getQuantidade());
+        log.info("Lote encontrado id={}", lotes.getId());
         return lotes;
     }
 
@@ -99,7 +82,6 @@ public class LotesService {
         }
         lotesRepository.saveAndFlush(lotesId);
         ConsumoResponseDto novoConsumo = new ConsumoResponseDto();
-
         novoConsumo.setLoteId(lotesId.getId());
         novoConsumo.setQuantidade(lotesId.getQuantidade());
 
@@ -117,6 +99,5 @@ public class LotesService {
             log.error("Falha ao deletar lote id={}!", id, ex);
             throw new LoteNaoEncontradoException(id);
         }
-        log.info("Lotes deletado com sucesso id={}", id);
     }
 }
