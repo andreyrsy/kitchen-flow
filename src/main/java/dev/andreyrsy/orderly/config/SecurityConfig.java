@@ -17,9 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final SecurityFilter securityFilter;
 
-    @Autowired
-    SecurityFilter securityFilter;
+    public SecurityConfig(SecurityFilter securityFilter){
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/lotes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/lotes").hasRole("ADMIN")
                         .anyRequest().authenticated())

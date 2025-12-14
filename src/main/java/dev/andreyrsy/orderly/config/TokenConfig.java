@@ -23,7 +23,7 @@ public class TokenConfig {
             String token = JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getLogin())
-                    .withExpiresAt(generateExpiationDate())
+                    .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
@@ -44,7 +44,7 @@ public class TokenConfig {
         }
     }
 
-    private Instant generateExpiationDate() {
+    private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
