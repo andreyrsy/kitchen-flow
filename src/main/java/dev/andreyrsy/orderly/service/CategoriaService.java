@@ -7,6 +7,7 @@ import dev.andreyrsy.orderly.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.orderly.mapper.ProjectMapper;
 import dev.andreyrsy.orderly.model.Categoria;
 import dev.andreyrsy.orderly.repository.CategoriaRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class CategoriaService {
         this.projectMapper = projectMapper;
     }
 
+    @Transactional
     public CategoriaResponseDto criarCategoria(CategoriaRequestDto dto) {
         log.info("Criando nova categoria nome={}", dto.getNome());
 
@@ -63,6 +65,7 @@ public class CategoriaService {
         return categoriaId;
     }
 
+    @Transactional
     public void deletarPorId(Long id) {
         log.info("Iniciando deleção da categoria id={}", id);
         Categoria categoria = categoriaRepository.findById(id)

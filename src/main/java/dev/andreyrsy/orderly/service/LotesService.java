@@ -13,6 +13,7 @@ import dev.andreyrsy.orderly.model.Produto;
 import dev.andreyrsy.orderly.repository.LotesRepository;
 import dev.andreyrsy.orderly.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,13 @@ public class LotesService {
     private final ProdutoRepository produtoRepository;
     private final ProjectMapper projectMapper;
 
-    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository,
-            ProjectMapper projectMapper) {
+    public LotesService(LotesRepository lotesRepository, ProdutoRepository produtoRepository, ProjectMapper projectMapper) {
         this.lotesRepository = lotesRepository;
         this.produtoRepository = produtoRepository;
         this.projectMapper = projectMapper;
     }
 
+    @Transactional
     public LotesResponseDto salvarLote(LotesRequestDto dto) throws Exception {
         log.info("Criando lote produtoId={} quantidade={} dataEntrada={} dataValidade={}",
                 dto.getProdutoId(), dto.getQuantidade(), dto.getDataEntrada(), dto.getDataValidade());
@@ -84,6 +85,7 @@ public class LotesService {
         return lotes;
     }
 
+    @Transactional
     public ConsumoResponseDto utilizarProduto(Long id, Integer quantidadeSolicitada) {
         log.info("Iniciando consumo do lote id={} quantidadeSolicitada={}", id, quantidadeSolicitada);
         Lotes lotesId = lotesRepository.findById(id).orElseThrow(() -> new LoteNaoEncontradoException(id));
@@ -105,6 +107,7 @@ public class LotesService {
         return novoConsumo;
     }
 
+    @Transactional
     public void deleteById(Long id) {
         log.info("Iniciando deleção do lote id={}", id);
         try {

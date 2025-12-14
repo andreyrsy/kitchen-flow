@@ -11,6 +11,7 @@ import dev.andreyrsy.orderly.model.Categoria;
 import dev.andreyrsy.orderly.model.Produto;
 import dev.andreyrsy.orderly.repository.CategoriaRepository;
 import dev.andreyrsy.orderly.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class ProdutoService {
         this.projectMapper = projectMapper;
     }
 
+    @Transactional
     public ProdutoResponseDto criarProduto(ProdutoRequestDto dtoRequest) {
         log.info("Criando produto nome={} categoriaId={}", dtoRequest.getNome(), dtoRequest.getCategoriaId());
 
@@ -78,6 +80,7 @@ public class ProdutoService {
         return produto;
     }
 
+    @Transactional
     public void deletarProduto(Long id) {
         log.info("Iniciando deleção do lote id={}", id);
         try {
