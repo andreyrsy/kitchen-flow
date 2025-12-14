@@ -193,9 +193,9 @@ curl -X GET http://localhost:8080/api/v1/produtos \
 | Método   | Rota                          | Acesso           | Descrição        |
 | -------- | ----------------------------- | ---------------- | ---------------- |
 | `GET`    | `/api/v1/lotes`               | Todos            | Listar lotes     |
-| `POST`   | `/api/v1/lotes`               | **Apenas ADMIN** | Criar lote       |
+| `POST`   | `/api/v1/lotes`               | **Apenas ADMIN** | Criar lotes       |
 | `POST`   | `/api/v1/lotes/consumir/{id}` | Todos            | Consumir estoque |
-| `DELETE` | `/api/v1/lotes/{id}`          | **Apenas ADMIN** | Remover lote     |
+| `DELETE` | `/api/v1/lotes/{id}`          | **Apenas ADMIN** | Remover lotes     |
 
 ---
 
