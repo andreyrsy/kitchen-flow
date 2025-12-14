@@ -2,6 +2,7 @@ package dev.andreyrsy.orderly.service;
 
 import dev.andreyrsy.orderly.dto.request.CategoriaRequestDto;
 import dev.andreyrsy.orderly.dto.response.CategoriaResponseDto;
+import dev.andreyrsy.orderly.exception.business.CategoriaDuplicadaException;
 import dev.andreyrsy.orderly.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.orderly.mapper.ProjectMapper;
 import dev.andreyrsy.orderly.model.Categoria;
@@ -28,7 +29,7 @@ public class CategoriaService {
 
         if (categoriaRepository.existsByNome(dto.getNome())) {
             log.error("Erro ao criar categoria novamente. nome={}", dto.getNome());
-            throw new RuntimeException("Categoria com o nome [" + dto.getNome() + "] já existe!");
+            throw new CategoriaDuplicadaException(dto.getNome());
         }
 
         Categoria categoria = projectMapper.toCategoriaEntity(dto);

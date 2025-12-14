@@ -4,6 +4,7 @@ import dev.andreyrsy.orderly.dto.request.ProdutoRequestDto;
 import dev.andreyrsy.orderly.dto.response.ProdutoResponseDto;
 import dev.andreyrsy.orderly.exception.business.CategoriaNaoEncontradaException;
 import dev.andreyrsy.orderly.exception.business.ProdutoDuplicadoException;
+import dev.andreyrsy.orderly.exception.business.ProdutoInvalidoException;
 import dev.andreyrsy.orderly.exception.business.ProdutoNaoEncontradoException;
 import dev.andreyrsy.orderly.mapper.ProjectMapper;
 import dev.andreyrsy.orderly.model.Categoria;
@@ -50,7 +51,7 @@ public class ProdutoService {
             return responseDto;
         } catch (Exception ex) {
             log.error("Falha ao criar produto com nome: {}", dtoRequest.getNome());
-            throw new RuntimeException("Falha ao criar produto", ex);
+            throw new ProdutoInvalidoException(dtoRequest.getNome());
         }
     }
 
@@ -81,11 +82,11 @@ public class ProdutoService {
         log.info("Iniciando deleção do lote id={}", id);
         try {
             produtoRepository.deleteById(id);
-            log.info("Lote apagado com sucesso id={}", id);
+            log.info("Lotes apagado com sucesso id={}", id);
         } catch (Exception ex) {
             log.error("Falha ao deletar lote id={}!", id, ex);
             throw new ProdutoNaoEncontradoException(id);
         }
-        log.info("Lote deletado com sucesso id={}", id);
+        log.info("Lotes deletado com sucesso id={}", id);
     }
 }
