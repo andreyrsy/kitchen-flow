@@ -57,7 +57,7 @@ O projeto usa **PostgreSQL por padrão**. Também é possível usar H2 para test
 | `default` | **PostgreSQL** | Padrão (produção/dev)       |
 | `h2`      | H2             | Testes rápidos (em memória) |
 
-### Opção 1: PostgreSQL (Padrão) ✅
+### Opção 1: PostgreSQL (Padrão) Localmente
 
 ```bash
 # 1. Crie o banco de dados
@@ -71,7 +71,7 @@ cd orderly
 
 > O projeto já inicia com PostgreSQL automaticamente.
 
-### Opção 2: H2 (Testes Rápidos)
+### Opção 2: H2 (Testes Rápidos) Localmente
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
@@ -87,6 +87,100 @@ cd orderly
 | **Swagger** | `http://localhost:8080/swagger-ui.html` |
 
 > **Windows?** Use `mvnw.cmd` ao invés de `./mvnw`
+
+---
+
+## ☁️ Deploy na AWS (Produção)
+
+O projeto está configurado para rodar na **AWS** com o perfil `prod`.
+
+### Arquitetura na Nuvem
+
+| Componente         | Serviço AWS        | Descrição                    |
+| ------------------ | ------------------ | ---------------------------- |
+| **Aplicação**      | EC2 (Amazon Linux) | Instância executando o JAR   |
+| **Banco de Dados** | RDS PostgreSQL     | Banco gerenciado pela AWS    |
+| **Rede**           | Security Groups    | Controle de acesso às portas |
+
+### Perfis Disponíveis
+
+| Perfil    | Uso                   | Banco            |
+| --------- | --------------------- | ---------------- |
+| `default` | Desenvolvimento local | PostgreSQL local |
+| `h2`      | Testes rápidos        | H2 (memória)     |
+| `prod`    | **Produção na AWS**   | RDS PostgreSQL   |
+
+### Configuração do Ambiente de Produção
+
+**1. Arquivo `.env` na EC2** (`/opt/orderly/.env`):
+
+```properties
+RDS_HOSTNAME=endpoint.rds.amazonaws.com
+RDS_PORT=5432
+RDS_DB_NAME=db_orderly
+RDS_USERNAME=postgres
+RDS_PASSWORD=senha
+JWT_SECRET=chave_jwt
+```
+
+**2. Serviço Systemd** (`/etc/systemd/system/orderly.service`):
+
+```ini
+[Unit]
+Description=Orderly API
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/orderly
+EnvironmentFile=/opt/orderly/.env
+ExecStart=/usr/bin/java -jar -Dspring.profiles.active=prod /opt/orderly/orderly-0.0.1-SNAPSHOT.jar
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**3. Comandos úteis:**
+
+```bash
+# Iniciar/parar/reiniciar o serviço
+sudo systemctl start orderly
+sudo systemctl stop orderly
+sudo systemctl restart orderly
+
+# Ver status e logs
+sudo systemctl status orderly
+sudo journalctl -u orderly -f
+```
+
+### Security Groups (Portas)
+
+Para acessar a aplicação externamente, libere as portas no Security Group da EC2:
+
+| Porta | Protocolo | Origem    | Descrição                |
+| ----- | --------- | --------- | ------------------------ |
+| 22    | TCP       | Seu IP    | SSH (acesso à instância) |
+| 8080  | TCP       | 0.0.0.0/0 | API REST e Swagger       |
+
+> ⚠️ **Importante:** O Security Group do RDS deve permitir conexões na porta **5432** vindas do Security Group da EC2.
+
+### Acessos em Produção
+
+| Recurso          | URL                                        |
+| ---------------- | ------------------------------------------ |
+| **Health Check** | `http://<IP_PUBLICO>:8080/actuator/health` |
+| **Swagger**      | `http://<IP_PUBLICO>:8080/swagger-ui.html` |
+| **API**          | `http://<IP_PUBLICO>:8080/api/v1`          |
+
+### Verificar se está rodando
+
+```bash
+# Na EC2
+curl http://localhost:8080/actuator/health
+# Resposta esperada: {"status":"UP"}
+```
 
 ---
 
@@ -193,9 +287,9 @@ curl -X GET http://localhost:8080/api/v1/produtos \
 | Método   | Rota                          | Acesso           | Descrição        |
 | -------- | ----------------------------- | ---------------- | ---------------- |
 | `GET`    | `/api/v1/lotes`               | Todos            | Listar lotes     |
-| `POST`   | `/api/v1/lotes`               | **Apenas ADMIN** | Criar lotes       |
+| `POST`   | `/api/v1/lotes`               | **Apenas ADMIN** | Criar lotes      |
 | `POST`   | `/api/v1/lotes/consumir/{id}` | Todos            | Consumir estoque |
-| `DELETE` | `/api/v1/lotes/{id}`          | **Apenas ADMIN** | Remover lotes     |
+| `DELETE` | `/api/v1/lotes/{id}`          | **Apenas ADMIN** | Remover lotes    |
 
 ---
 
@@ -243,6 +337,7 @@ src/main/java/dev/andreyrsy/orderly/
 ## 🗺️ Próximos Passos
 
 - [x] Autenticação JWT
+- [x] Deploy na AWS (EC2 + RDS PostgreSQL)
 - [ ] Alertas de produtos próximos da validade
 - [ ] Relatórios de consumo
 - [ ] Containerização com Docker
